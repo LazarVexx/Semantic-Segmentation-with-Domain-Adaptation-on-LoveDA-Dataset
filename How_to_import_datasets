@@ -1,0 +1,49 @@
+# import Train.zip
+import os
+import zipfile
+
+# URL for the dataset
+url = "https://zenodo.org/records/5706578/files/Train.zip?download=1"
+
+# Download the file using wget
+!wget -O /content/Train.zip "$url"
+
+# Define the extraction path
+extract_path = '/content/datasets/Train/'
+
+# Create the extraction directory if it doesn't exist
+os.makedirs(extract_path, exist_ok=True)
+
+# Extract the ZIP file
+with zipfile.ZipFile('/content/Train.zip', 'r') as zip_ref:
+    zip_ref.extractall(extract_path)
+
+# List the contents of the extracted folder
+extracted_files = os.listdir(extract_path)
+print("Extracted files:", extracted_files)
+
+
+
+#import Val.zip
+import os
+import zipfile
+
+# URL for the dataset
+url = "https://zenodo.org/records/5706578/files/Val.zip?download=1"
+
+# Download the file using wget
+!wget -O /content/Val.zip "$url"
+
+# Define the extraction path
+extract_path = '/content/datasets/Val/'
+
+# Create the extraction directory if it doesn't exist
+os.makedirs(extract_path, exist_ok=True)
+
+# Extract the ZIP file
+with zipfile.ZipFile('/content/Val.zip', 'r') as zip_ref:
+    zip_ref.extractall(extract_path)
+
+# List the contents of the extracted folder
+extracted_files = os.listdir(extract_path)
+print("Extracted files:", extracted_files)

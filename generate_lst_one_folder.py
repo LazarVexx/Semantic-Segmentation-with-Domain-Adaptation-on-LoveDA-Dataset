@@ -30,6 +30,6 @@ def genera_lista_file(folder_path, output_file):
                 f.write(f"{relative_path.replace(os.sep, '/')}\n")
 
 # Esempio di utilizzo
-folder = 'PIDNet/data/loveDa/Test/Rural/images_png'  # Sostituisci con il tuo percorso
+folder = 'PIDNet/data/loveDa/Test/Urban/images_png'  # Sostituisci con il tuo percorso
 output = 'PIDNet/data/list/loveda/test.lst'         # Nome del file di output
 genera_lista_file(folder, output)

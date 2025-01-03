@@ -45,7 +45,7 @@ class Loveda(BaseDataset):
                               3: 3, 4: 4, 
                               5: 5, 6: 6 , 7:7}
         
-        self.class_weights = torch.FloatTensor([0,0.1,0.1,0.1,0.1,0.1,0.1,0.1]).cuda()
+        self.class_weights = torch.FloatTensor([0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]).cuda()
         
         self.bd_dilate_size = bd_dilate_size
     

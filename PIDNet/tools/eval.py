@@ -24,6 +24,34 @@ from configs import update_config
 from utils.function import testval, test
 from utils.utils import create_logger
 
+import torch.cuda.synchronize as synchronize
+from thop import profile
+import time
+
+def count_params_flops(model, input_size=(1, 3, 1024, 1024)):
+    dummy_input = torch.randn(input_size).cuda()
+    flops, params = profile(model, inputs=(dummy_input,))
+    return flops, params
+
+def measure_latency(model, input_size=(1, 3, 1024, 1024), iterations=100):
+    model.eval()
+    dummy_input = torch.randn(input_size).cuda()
+    
+    # Warm-up
+    for _ in range(10):
+        _ = model(dummy_input)
+    
+    synchronize()
+    start_time = time.time()
+    
+    for _ in range(iterations):
+        _ = model(dummy_input)
+    
+    synchronize()
+    end_time = time.time()
+    latency = (end_time - start_time) / iterations * 1000  # ms
+    return latency
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Train segmentation network')
     
@@ -78,6 +106,23 @@ def main():
     model.load_state_dict(model_dict)
 
     model = model.cuda()
+
+    # Calcolo FLOPs e parametri
+    flops, params = count_params_flops(model, 
+                                     input_size=(1, 3, 
+                                               config.TEST.IMAGE_SIZE[1],
+                                               config.TEST.IMAGE_SIZE[0]))
+    
+    # Calcolo latenza
+    latency = measure_latency(model, 
+                            input_size=(1, 3,
+                                      config.TEST.IMAGE_SIZE[1], 
+                                      config.TEST.IMAGE_SIZE[0]))
+    
+    logger.info(f'Model Statistics:')
+    logger.info(f'FLOPs: {flops/1e9:.2f}G')
+    logger.info(f'Parameters: {params/1e6:.2f}M')
+    logger.info(f'Latency: {latency:.2f}ms')
 
     # prepare data
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])

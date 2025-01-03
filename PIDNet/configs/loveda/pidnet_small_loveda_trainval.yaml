@@ -9,11 +9,11 @@ WORKERS: 6
 PRINT_FREQ: 10
 
 DATASET:
-  DATASET: cityscapes
+  DATASET: loveda
   ROOT: data/
-  TEST_SET: 'list/cityscapes/val.lst'
-  TRAIN_SET: 'list/cityscapes/trainval.lst'
-  NUM_CLASSES: 19
+  TEST_SET: 'list/loveda/val.lst'
+  TRAIN_SET: 'list/loveda/trainval.lst'
+  NUM_CLASSES: 7
 MODEL:
   NAME: pidnet_small
   NUM_OUTPUTS: 2
@@ -32,7 +32,7 @@ TRAIN:
   BATCH_SIZE_PER_GPU: 6
   SHUFFLE: true
   BEGIN_EPOCH: 0
-  END_EPOCH: 484
+  END_EPOCH: 20
   RESUME: false
   OPTIMIZER: sgd
   LR: 0.01
@@ -45,7 +45,7 @@ TRAIN:
   SCALE_FACTOR: 16
 TEST:
   IMAGE_SIZE:
-  - 2048
+  - 1024
   - 1024
   BASE_SIZE: 2048
   BATCH_SIZE_PER_GPU: 6

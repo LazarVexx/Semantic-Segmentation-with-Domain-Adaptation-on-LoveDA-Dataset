@@ -9,10 +9,10 @@ WORKERS: 6
 PRINT_FREQ: 10
 
 DATASET:
-  DATASET: loveda
+  DATASET: loveDa
   ROOT: data/
-  TEST_SET: 'list/loveda/val.lst'
-  TRAIN_SET: 'list/loveda/train.lst'
+  TEST_SET: 'list/loveDa/val.lst'
+  TRAIN_SET: 'list/loveDa/train.lst'
   NUM_CLASSES: 7
 MODEL:
   NAME: pidnet_small

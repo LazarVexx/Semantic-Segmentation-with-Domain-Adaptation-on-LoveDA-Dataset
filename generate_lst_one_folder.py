@@ -13,6 +13,9 @@ def genera_lista_file(folder_path, output_file):
     if not os.path.isdir(folder_path):
         raise ValueError(f"Il percorso {folder_path} non è una directory valida.")
 
+    # Ottieni la parte comune del percorso da rimuovere
+    common_prefix = os.path.join('PIDNet', 'data', 'loveDa')
+
     # Apri il file di output in modalità scrittura
     with open(output_file, 'w') as f:
         # Itera su tutti i file nella directory
@@ -21,8 +24,10 @@ def genera_lista_file(folder_path, output_file):
             full_path = os.path.join(folder_path, file_name)
             # Verifica se è un file (esclude le sottodirectory)
             if os.path.isfile(full_path):
+                # Rimuovi la parte comune dal percorso
+                relative_path = os.path.relpath(full_path, common_prefix)
                 # Scrivi il percorso relativo nel file di output
-                f.write(f"{folder_path}/{file_name}\n")
+                f.write(f"{relative_path.replace(os.sep, '/')}\n")
 
 # Esempio di utilizzo
 folder = 'PIDNet/data/loveDa/Test/Rural/images_png'  # Sostituisci con il tuo percorso

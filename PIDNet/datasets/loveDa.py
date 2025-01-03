@@ -40,10 +40,11 @@ class Loveda(BaseDataset):
 
         self.files = self.read_files()
 
-        self.label_mapping = {0: ignore_label, 
+        self.label_mapping = {7:7,
                               1: 1, 2: 2, 
                               3: 3, 4: 4, 
-                              5: 5, 6: 6}
+                              5: 5, 6: 6 }
+        
         self.class_weights = torch.FloatTensor([1,1,1,1,1,1,1]).cuda()
         
         self.bd_dilate_size = bd_dilate_size
@@ -77,12 +78,13 @@ class Loveda(BaseDataset):
         else:
             for k, v in self.label_mapping.items():
                 label[temp == k] = v
+        
         return label
 
     def __getitem__(self, index):
         item = self.files[index]
         name = item["name"]
-        image = cv2.imread(os.path.join(self.root,'cityscapes',item["img"]),
+        image = cv2.imread(os.path.join(self.root,'loveDa',item["img"]),
                            cv2.IMREAD_COLOR)
         size = image.shape
 
@@ -92,9 +94,13 @@ class Loveda(BaseDataset):
 
             return image.copy(), np.array(size), name
 
-        label = cv2.imread(os.path.join(self.root,'cityscapes',item["label"]),
+        label = cv2.imread(os.path.join(self.root,'loveDa',item["label"]),
                            cv2.IMREAD_GRAYSCALE)
         label = self.convert_label(label)
+        
+        valid_values = list(self.label_mapping.keys())
+        if label[np.isin(label, valid_values)] :
+            print(name)
 
         image, label, edge = self.gen_sample(image, label, 
                                 self.multi_scale, self.flip, edge_size=self.bd_dilate_size)

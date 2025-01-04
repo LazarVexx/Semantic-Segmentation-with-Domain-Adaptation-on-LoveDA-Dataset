@@ -199,13 +199,16 @@ def main():
                 adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
             else:
                 scheduler.step()
+            current_lr = optimizer.param_groups[0]['lr']
+        else:
+            current_lr = config.TRAIN.LR
 
         current_trainloader = trainloader
         if current_trainloader.sampler is not None and hasattr(current_trainloader.sampler, 'set_epoch'):
             current_trainloader.sampler.set_epoch(epoch)
 
         train(config, epoch, config.TRAIN.END_EPOCH, 
-                  epoch_iters, config.TRAIN.LR, num_iters,
+                  epoch_iters, current_lr, num_iters,
                   trainloader, optimizer, model, writer_dict)
 
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):

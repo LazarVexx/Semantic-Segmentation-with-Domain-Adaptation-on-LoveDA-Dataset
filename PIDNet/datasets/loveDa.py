@@ -40,12 +40,12 @@ class Loveda(BaseDataset):
 
         self.files = self.read_files()
 
-        self.label_mapping = {0:ignore_label,
+        self.label_mapping = {0: ignore_label,
                               1: 1, 2: 2, 
                               3: 3, 4: 4, 
                               5: 5, 6: 6 , 7:7}
         
-        self.class_weights = torch.FloatTensor([0,0.1,0.1,0.1,0.1,0.1,0.1,0.1]).cuda()
+        self.class_weights = torch.FloatTensor([0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]).cuda()
         
         self.bd_dilate_size = bd_dilate_size
     
@@ -71,28 +71,14 @@ class Loveda(BaseDataset):
         return files
 
     def convert_label(self, label, inverse=False):
-        # Copia temporanea del label originale
         temp = label.copy()
-        
-        # Determinare la mappatura da usare (diretta o inversa)
         if inverse:
-            mapping = {v: k for k, v in self.label_mapping.items()}
+            for v, k in self.label_mapping.items():
+                label[temp == k] = v
         else:
-            mapping = self.label_mapping
-        
-        # Valori validi nella mappatura
-        valid_values = set(mapping.keys())
-        
-        # Inizializzare il risultato con 0 (valore predefinito per valori non mappati)
-        label.fill(0)
-        
-        # Applicare la mappatura
-        for k, v in mapping.items():
-            # Aggiorna solo i valori che corrispondono ai valori chiave validi
-            label[temp == k] = v
+            for k, v in self.label_mapping.items():
+                label[temp == k] = v
         return label
-
-
 
 
     def __getitem__(self, index):

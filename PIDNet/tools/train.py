@@ -16,6 +16,7 @@ import torch.nn as nn
 import torch.backends.cudnn as cudnn
 import torch.optim
 from tensorboardX import SummaryWriter
+import torch.optim as optim
 
 import _init_paths
 import models
@@ -146,6 +147,9 @@ def main():
                                 weight_decay=config.TRAIN.WD,
                                 nesterov=config.TRAIN.NESTEROV,
                                 )
+    elif config.TRAIN.OPTIMIZER == 'adam':
+        optimizer = optim.Adam(model.parameters(), lr=config.TRAIN.LR, 
+                           weight_decay=config.TRAIN.WD)  
     else:
         raise ValueError('Only Support SGD optimizer')
 
@@ -211,7 +215,7 @@ def main():
 
     writer_dict['writer'].close()
     end = timeit.default_timer()
-    logger.info('Hours: %d' % np.int((end-start)/3600))
+    logger.info('Hours: %d' % int((end-start)/3600))
     logger.info('Done')
 
 if __name__ == '__main__':

@@ -62,7 +62,6 @@ class OhemCrossEntropy(nn.Module):
 
     def _ohem_forward(self, score, target, **kwargs):
         
-        print("score size" , score.size())
         pred = F.softmax(score, dim=1)
         pixel_losses = self.criterion(score, target).contiguous().view(-1)
         mask = target.contiguous().view(-1) != self.ignore_label

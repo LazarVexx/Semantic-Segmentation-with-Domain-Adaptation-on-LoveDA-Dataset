@@ -187,14 +187,14 @@ def main():
     warmup_epochs = 5  # Number of warm-up epochs
     base_lr = config.TRAIN.LR
     
-    if config.LR_SCHEDULER:
+    if config.TRAIN.SCHEDULER:
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
             optimizer, T_max=(config.TRAIN.END_EPOCH - warmup_epochs), eta_min=1e-6
         )
         
     for epoch in range(last_epoch, real_end):
         
-        if config.LR_SCHEDULER:
+        if config.TRAIN.SCHEDULER:
             if epoch < warmup_epochs:
                 adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
             else:

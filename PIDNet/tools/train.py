@@ -46,6 +46,14 @@ def parse_args():
 
     return args
 
+# Function to adjust the learning rate during the warm-up phase
+def adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr):
+    """Linear warm-up."""
+    lr = base_lr * (epoch + 1) / warmup_epochs
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+    print(f"Warm-up Epoch {epoch + 1}: Learning Rate = {lr}")
+
 
 def main():
     args = parse_args()
@@ -175,7 +183,22 @@ def main():
     num_iters = config.TRAIN.END_EPOCH * epoch_iters
     real_end = 120+1 if 'camvid' in config.DATASET.TRAIN_SET else end_epoch
     
+    
+    warmup_epochs = 5  # Number of warm-up epochs
+    base_lr = config.TRAIN.LR
+    
+    if config.LR_SCHEDULER:
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            optimizer, T_max=(config.TRAIN.END_EPOCH - warmup_epochs), eta_min=1e-6
+        )
+        
     for epoch in range(last_epoch, real_end):
+        
+        if config.LR_SCHEDULER:
+            if epoch < warmup_epochs:
+                adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
+            else:
+                scheduler.step()
 
         current_trainloader = trainloader
         if current_trainloader.sampler is not None and hasattr(current_trainloader.sampler, 'set_epoch'):
@@ -207,8 +230,6 @@ def main():
                     valid_loss, mean_IoU, best_mIoU)
         logging.info(msg)
         logging.info(IoU_array)
-
-
 
     torch.save(model.module.state_dict(),
             os.path.join(final_output_dir, 'final_state.pt'))

@@ -17,7 +17,7 @@ DATASET:
 MODEL:
   NAME: pidnet_small
   NUM_OUTPUTS: 2
-  PRETRAINED: "pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar"
+  PRETRAINED: "AML2024/PIDNet/pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar"
 LOSS:
   USE_OHEM: true
   OHEMTHRES: 0.7

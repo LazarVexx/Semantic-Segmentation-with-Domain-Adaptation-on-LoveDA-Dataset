@@ -9,11 +9,16 @@ WORKERS: 6
 PRINT_FREQ: 10
 
 DATASET:
-  DATASET: loveDa
+  SOURCE_DATASET: loveDa-Urban    # Source dataset is LoveDa-Urban
+  TARGET_DATASET: loveDa-Rural    # Target dataset is LoveDa-Rural
   ROOT: data/
-  TEST_SET: 'list/loveDa/val.lst'
-  TRAIN_SET: 'list/loveDa/train.lst'
+  SOURCE_TEST_SET: 'list/loveDa-Urban/val.lst'  # Path to source dataset validation set
+  SOURCE_TRAIN_SET: 'list/loveDa-Urban/train.lst'  # Path to source dataset train set
   NUM_CLASSES: 8
+  TARGET_TRAIN_SET: 'list/loveDa-Rural/train.lst'  # Path to target dataset train set
+  TARGET_TEST_SET: 'list/loveDa-Rural/val.lst'    # Path to target dataset validation set
+  
+
 MODEL:
   NAME: pidnet_small
   NUM_OUTPUTS: 2

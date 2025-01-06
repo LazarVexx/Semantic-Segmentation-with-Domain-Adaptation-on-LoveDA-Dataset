@@ -46,7 +46,7 @@ def genera_lista_file_due_cartelle(folder1, folder2, output_file):
                 f.write(f"{relative_path1}\t{relative_path2}\n")
 
 # Esempio di utilizzo
-folder1 = 'PIDNet/data/loveDa/Train/Urban/images_png'  # Sostituisci con il percorso della prima cartella
-folder2 = 'PIDNet/data/loveDa/Train/Urban/masks_png'  # Sostituisci con il percorso della seconda cartella
-output = 'PIDNet/data/list/loveda/train.lst'  # Nome del file di output
+folder1 = 'PIDNet/data/loveDa/Train/Rural/images_png'  # Sostituisci con il percorso della prima cartella
+folder2 = 'PIDNet/data/loveDa/Train/Rural/masks_png'  # Sostituisci con il percorso della seconda cartella
+output = 'PIDNet/data/list/loveDa-Rural/Train.lst'  # Nome del file di output
 genera_lista_file_due_cartelle(folder1, folder2, output)

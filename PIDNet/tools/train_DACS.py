@@ -141,51 +141,86 @@ def main():
         drop_last=True
     )
 
-    optimizer = optim.Adam(model.parameters(), lr=config.TRAIN.LR, weight_decay=config.TRAIN.WD)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=config.TRAIN.END_EPOCH, eta_min=1e-6)
+    # optimizer
+    if config.TRAIN.OPTIMIZER == 'sgd':
+        params_dict = dict(model.named_parameters())
+        params = [{'params': list(params_dict.values()), 'lr': config.TRAIN.LR}]
 
-    # Training Loop
+        optimizer = torch.optim.SGD(params,
+                                lr=config.TRAIN.LR,
+                                momentum=config.TRAIN.MOMENTUM,
+                                weight_decay=config.TRAIN.WD,
+                                nesterov=config.TRAIN.NESTEROV,
+                                )
+    elif config.TRAIN.OPTIMIZER == 'adam':
+        optimizer = optim.Adam(model.parameters(), lr=config.TRAIN.LR, 
+                           weight_decay=config.TRAIN.WD)  
+    else:
+        raise ValueError('Only Support SGD optimizer')
+    
+    warmup_epochs = 5  # Number of warm-up epochs
+    base_lr = config.TRAIN.LR
+    
+    if config.TRAIN.SCHEDULER:
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            optimizer, T_max=(config.TRAIN.END_EPOCH - warmup_epochs), eta_min=1e-6
+        )
+    
+     # Training loop modifications in the main script
     for epoch in range(config.TRAIN.BEGIN_EPOCH, config.TRAIN.END_EPOCH):
-        model.train()
-        for source_data, target_data in zip(source_trainloader, target_trainloader):
-            source_imgs, source_labels = source_data
-            target_imgs, _ = target_data
+        model.train()  # Set model to training mode
 
-            # Generate pseudo-labels
-            pseudo_labels, confidence_mask = generate_pseudo_labels(model, target_imgs)
-            target_imgs = target_imgs[confidence_mask]
-            pseudo_labels = pseudo_labels[confidence_mask]
+        # Warm-up phase for learning rate adjustment
+        if epoch < warmup_epochs:
+            adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
 
-            # Combine source and target data
-            combined_imgs = torch.cat((source_imgs, target_imgs), dim=0)
-            
+        # Train on source and target domains
+        train_metrics = train(
+            config=config,
+            epoch=epoch,
+            num_epochs=config.TRAIN.END_EPOCH,
+            source_loader=source_trainloader,
+            target_loader=target_trainloader,
+            optimizer=optimizer,
+            model=model,
+            writer_dict=writer_dict,
+            augmentations=strong_augmentations
+        )
 
-            # Apply augmentations
-            combined_imgs = torch.stack([strong_augmentations(img) for img in combined_imgs])
-
-            # Forward pass
-            preds = model(combined_imgs)
-
-            # Loss calculation
-            source_loss = CrossEntropy()(preds[:len(source_imgs)], source_labels)
-            target_loss = CrossEntropy()(preds[len(source_imgs):], pseudo_labels)
-            loss = source_loss + 0.5 * target_loss
-
-            # Backward pass
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
+        # Log training metrics
+        logging.info(f"Epoch {epoch + 1}/{config.TRAIN.END_EPOCH} - "
+                    f"Source Loss: {train_metrics['source_loss']:.4f}, "
+                    f"Target Loss: {train_metrics['target_loss']:.4f}")
 
         # Step scheduler
-        scheduler.step()
+        if epoch >= warmup_epochs:
+            scheduler.step()
 
-        # Validation
+        # Validation and saving checkpoints
         if epoch % config.PRINT_FREQ == 0 or epoch == config.TRAIN.END_EPOCH - 1:
-            validate(config, target_trainloader, model, writer_dict)
+            model.eval()
+            mean_IoU, IoU_array, pixel_acc, mean_acc = validate(config, target_trainloader, model, writer_dict)
 
-    torch.save(model.module.state_dict(), os.path.join(final_output_dir, 'final_state.pt'))
-    writer_dict['writer'].close()
+            # Log validation metrics
+            msg = f"Epoch [{epoch}], Loss: {train_metrics['total_loss']:.3f}, MeanIU: {mean_IoU:.4f}, "
+            f"Pixel_Acc: {pixel_acc:.4f}, Mean_Acc: {mean_acc:.4f}"
+            logging.info(msg)
+            logging.info(f"IoU per class: {IoU_array}")
+
+            # Save checkpoint and best model
+            is_best = mean_IoU > best_mIoU
+            if is_best:
+                best_mIoU = mean_IoU
+                torch.save(model.module.state_dict(), os.path.join(final_output_dir, 'best.pt'))
+
+            torch.save({
+                'epoch': epoch + 1,
+                'best_mIoU': best_mIoU,
+                'state_dict': model.module.state_dict(),
+                'optimizer': optimizer.state_dict(),
+            }, os.path.join(final_output_dir, 'checkpoint.pth.tar'))
 
 
+        
 if __name__ == '__main__':
     main()

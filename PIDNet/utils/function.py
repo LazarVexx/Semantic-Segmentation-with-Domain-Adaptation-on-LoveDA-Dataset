@@ -203,7 +203,7 @@ def test(config, test_dataset, testloader, model,
                 if not os.path.exists(sv_path):
                     os.mkdir(sv_path)
                 test_dataset.save_pred(pred, sv_path, name)
-def train(config, epoch, num_epoch, 
+def train_adv(config, epoch, num_epoch, 
           epoch_iters, base_lr, num_iters,
           trainloader, targetloader, 
           optimizer, optimizer_D1, optimizer_D2, 

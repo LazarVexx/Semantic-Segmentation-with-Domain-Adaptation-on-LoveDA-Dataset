@@ -24,7 +24,7 @@ import datasets
 from configs import config
 from configs import update_config
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
-from utils.function import train, validate
+from utils.function import train, validate , train_adv
 from utils.utils import create_logger, FullModel
 
 
@@ -89,6 +89,16 @@ def main():
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
     model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
 
+    # init D
+    if config.TRAIN.ADVERSARIAL:
+        model_D1 = model.FCDiscriminator(num_classes=config.DATASET.NUM_CLASSES)
+        model_D2 = model.FCDiscriminator(num_classes=config.DATASET.NUM_CLASSES)
+
+        model_D1.train()
+        model_D1.cuda()
+
+        model_D2.train()
+        model_D2.cuda()
  
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
@@ -111,6 +121,26 @@ def main():
         num_workers=config.WORKERS,
         pin_memory=False,
         drop_last=True)
+    
+    if config.TRAIN.ADVERSARIAL:
+        target_dataset = eval('datasets.'+config.DATASET.DATASET)(
+                            root=config.DATASET.ROOT,
+                            list_path=config.DATASET.TARGET_SET,
+                            num_classes=config.DATASET.NUM_CLASSES,
+                            multi_scale=config.TRAIN.MULTI_SCALE,
+                            flip=config.TRAIN.FLIP,
+                            ignore_label=config.TRAIN.IGNORE_LABEL,
+                            base_size=config.TRAIN.BASE_SIZE,
+                            crop_size=crop_size,
+                            scale_factor=config.TRAIN.SCALE_FACTOR)
+
+        targetloader = torch.utils.data.DataLoader(
+            target_dataset,
+            batch_size=batch_size,
+            shuffle=config.TRAIN.SHUFFLE,
+            num_workers=config.WORKERS,
+            pin_memory=False,
+            drop_last=True)
 
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
@@ -163,6 +193,13 @@ def main():
     else:
         raise ValueError('Only Support SGD optimizer')
     
+    if config.TRAIN.ADVERSARIAL:
+        optimizer_D1 = optim.Adam(model_D1.parameters(), lr=config.TRAIN.LR_D1, betas=(0.9, 0.99))
+        optimizer_D1.zero_grad()
+
+        optimizer_D2 = optim.Adam(model_D2.parameters(), lr=config.TRAIN.LR_D2, betas=(0.9, 0.99))
+        optimizer_D2.zero_grad()
+    
 
     epoch_iters = int(train_dataset.__len__() / config.TRAIN.BATCH_SIZE_PER_GPU / len(gpus))
         
@@ -210,8 +247,14 @@ def main():
         if current_trainloader.sampler is not None and hasattr(current_trainloader.sampler, 'set_epoch'):
             current_trainloader.sampler.set_epoch(epoch)
 
-         
-        train(config, epoch, config.TRAIN.END_EPOCH, 
+        if config.TRAIN.ADVERSARIAL:
+            train(config, epoch, config.TRAIN.END_EPOCH, 
+                  epoch_iters, current_lr, num_iters,
+                  trainloader,targetloader, 
+                  optimizer,optimizer_D1,optimizer_D2, model,model_D1,model_D2, 
+                  writer_dict)
+        else: 
+            train_adv(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, current_lr, num_iters,
                   trainloader, optimizer, model, writer_dict)
         

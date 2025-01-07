@@ -53,8 +53,9 @@ class Loveda(BaseDataset):
             A.HorizontalFlip(p=0.5),
             A.GaussianBlur(blur_limit=(3, 7), p=0.5),
             A.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, p=0.5),
-            A.Multiply(mul_limit=(0.8, 1.2), p=0.5)
+            A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5)
         ])
+
 
         self.bd_dilate_size = bd_dilate_size
     
@@ -106,11 +107,12 @@ class Loveda(BaseDataset):
         label = cv2.imread(os.path.join(self.root,'loveDa',item["label"]),
                            cv2.IMREAD_GRAYSCALE)
         
-        # Applicazione delle augmentation
-        if self.transform & config.TRAIN.AUG == True:
+       # Applicazione delle augmentation
+        if config.TRAIN.AUG:  # Controlla se le augmentazioni sono abilitate
             transformed = self.transform(image=image, mask=label)
             image = transformed['image']
             label = transformed['mask']
+
 
         label = self.convert_label(label)
 

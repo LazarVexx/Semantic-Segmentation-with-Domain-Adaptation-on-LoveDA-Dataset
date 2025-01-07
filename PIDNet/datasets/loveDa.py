@@ -10,6 +10,8 @@ from PIL import Image
 
 import torch
 from .base_dataset import BaseDataset
+import albumentations as A
+from configs import config
 
 class Loveda(BaseDataset):
     def __init__(self, 
@@ -47,6 +49,13 @@ class Loveda(BaseDataset):
         
         self.class_weights = torch.FloatTensor([0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]).cuda()
         
+        self.transform = A.Compose([
+            A.HorizontalFlip(p=0.5),
+            A.GaussianBlur(blur_limit=(3, 7), p=0.5),
+            A.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, p=0.5),
+            A.Multiply(mul_limit=(0.8, 1.2), p=0.5)
+        ])
+
         self.bd_dilate_size = bd_dilate_size
     
     def read_files(self):
@@ -96,6 +105,13 @@ class Loveda(BaseDataset):
 
         label = cv2.imread(os.path.join(self.root,'loveDa',item["label"]),
                            cv2.IMREAD_GRAYSCALE)
+        
+        # Applicazione delle augmentation
+        if self.transform & config.TRAIN.AUG == True:
+            transformed = self.transform(image=image, mask=label)
+            image = transformed['image']
+            label = transformed['mask']
+
         label = self.convert_label(label)
 
         image, label, edge = self.gen_sample(image, label, 

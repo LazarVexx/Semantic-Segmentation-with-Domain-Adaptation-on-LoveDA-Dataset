@@ -5,6 +5,7 @@ Github repository used for the Advanced Machine Learning Project 2024.
 # Useful Link
 - Dataset informations: https://github.com/Junjue-Wang/LoveDA
 - PidNet model: https://github.com/XuJiacong/PIDNet
+- DeepLabV2_ResNet101: https://github.com/rulixiang/deeplab-pytorch
 
 # DeadLine
 - 02/01/2025 - 04/01/2025: Fine 2.0

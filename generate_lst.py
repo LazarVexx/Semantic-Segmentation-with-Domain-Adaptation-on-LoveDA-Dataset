@@ -48,5 +48,5 @@ def genera_lista_file_due_cartelle(folder1, folder2, output_file):
 # Esempio di utilizzo
 folder1 = 'PIDNet/data/loveDa/Train/Rural/images_png'  # Sostituisci con il percorso della prima cartella
 folder2 = 'PIDNet/data/loveDa/Train/Rural/masks_png'  # Sostituisci con il percorso della seconda cartella
-output = 'PIDNet/data/list/loveDa-Rural/Train.lst'  # Nome del file di output
+output = 'PIDNet/data/list/loveDa/target.lst'  # Nome del file di output
 genera_lista_file_due_cartelle(folder1, folder2, output)

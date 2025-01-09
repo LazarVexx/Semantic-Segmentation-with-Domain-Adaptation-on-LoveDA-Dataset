@@ -21,6 +21,7 @@ import torch.optim as optim
 import _init_paths
 import models
 import datasets
+from models.model_utils import Discriminator
 from configs import config
 from configs import update_config
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
@@ -91,8 +92,8 @@ def main():
 
     # init D
     if config.TRAIN.ADVERSARIAL:
-        model_D1 = model.FCDiscriminator(num_classes=config.DATASET.NUM_CLASSES)
-        model_D2 = model.FCDiscriminator(num_classes=config.DATASET.NUM_CLASSES)
+        model_D1 = Discriminator(num_classes=config.DATASET.NUM_CLASSES)
+        model_D2 = Discriminator(num_classes=config.DATASET.NUM_CLASSES)
 
         model_D1.train()
         model_D1.cuda()
@@ -248,13 +249,13 @@ def main():
             current_trainloader.sampler.set_epoch(epoch)
 
         if config.TRAIN.ADVERSARIAL:
-            train(config, epoch, config.TRAIN.END_EPOCH, 
+            train_adv(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, current_lr, num_iters,
                   trainloader,targetloader, 
                   optimizer,optimizer_D1,optimizer_D2, model,model_D1,model_D2, 
                   writer_dict)
         else: 
-            train_adv(config, epoch, config.TRAIN.END_EPOCH, 
+            train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, current_lr, num_iters,
                   trainloader, optimizer, model, writer_dict)
         

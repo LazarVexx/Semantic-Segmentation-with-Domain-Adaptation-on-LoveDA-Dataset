@@ -273,8 +273,10 @@ def train_adv(config, epoch, num_epoch,
         acct = acct.mean()
 
         # Discriminator predictions on target
-        D_out1 = model_D1(F.softmax(outputst[0]))
-        D_out2 = model_D2(F.softmax(outputst[1]))
+        D_out1 = model_D1(F.softmax(outputst[0], dim=1))
+
+        D_out2 = model_D2(F.softmax(outputst[1], dim=1))
+
         
         loss_adv_target1 = bce_loss(D_out1, 
             torch.FloatTensor(D_out1.data.size()).fill_(source_label).cuda())
@@ -297,8 +299,8 @@ def train_adv(config, epoch, num_epoch,
         pred1 = outputs[0].detach()
         pred2 = outputs[1].detach()
 
-        D_out1 = model_D1(F.softmax(pred1))
-        D_out2 = model_D2(F.softmax(pred2))
+        D_out1 = model_D1(F.softmax(pred1, dim=1))
+        D_out2 = model_D2(F.softmax(pred2, dim=1))
 
         loss_D1 = bce_loss(D_out1,
                           torch.FloatTensor(D_out1.data.size()).fill_(source_label).cuda())
@@ -318,8 +320,8 @@ def train_adv(config, epoch, num_epoch,
         pred_target1 = outputst[0].detach()
         pred_target2 = outputst[1].detach()
 
-        D_out1 = model_D1(F.softmax(pred_target1))
-        D_out2 = model_D2(F.softmax(pred_target2))
+        D_out1 = model_D1(F.softmax(pred_target1, dim=1))
+        D_out2 = model_D2(F.softmax(pred_target2, dim=1))
 
         loss_D1 = bce_loss(D_out1,
                           torch.FloatTensor(D_out1.data.size()).fill_(target_label).cuda())

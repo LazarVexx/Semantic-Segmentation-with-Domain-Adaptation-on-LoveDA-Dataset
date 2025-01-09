@@ -31,5 +31,5 @@ def genera_lista_file(folder_path, output_file):
 
 # Esempio di utilizzo
 folder = 'PIDNet/data/loveDa/Test/Rural/images_png'  # Sostituisci con il tuo percorso
-output = 'PIDNet/data/list/loveDa_data_aug/target.lst'         # Nome del file di output
+output = 'PIDNet/data/list/loveDa/target.lst'         # Nome del file di output
 genera_lista_file(folder, output)

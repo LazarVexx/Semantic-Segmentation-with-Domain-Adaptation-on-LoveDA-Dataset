@@ -178,13 +178,14 @@ def main():
         train_metrics = train(
             config=config,
             epoch=epoch,
-            num_epochs=config.TRAIN.END_EPOCH,
-            source_loader=source_trainloader,
-            target_loader=target_trainloader,
+            num_epoch=config.TRAIN.END_EPOCH,
+            epoch_iters=len(source_trainloader),
+            base_lr=base_lr,
+            num_iters=config.TRAIN.NUM_ITER,
+            trainloader=source_trainloader,
             optimizer=optimizer,
             model=model,
-            writer_dict=writer_dict,
-            augmentations=strong_augmentations
+            writer_dict=writer_dict
         )
 
         # Log training metrics

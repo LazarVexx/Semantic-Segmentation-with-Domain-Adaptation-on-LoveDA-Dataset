@@ -114,12 +114,36 @@ class Loveda(BaseDataset):
             label = transformed['mask']
 
 
+        # If AUG_RETAIN is enabled, return both the original and augmented versions of the image
+        if config.TRAIN.AUG_RETAIN:  # If retention of original and augmented images is enabled
+            # Apply transformations to get the augmented image
+            transformed = self.transform(image=image, mask=label)
+            augmented_image = transformed['image']
+            augmented_label = transformed['mask']
+
+            # We return both the original and augmented image here
+            original_image, original_label, edge = self.gen_sample(image, label, 
+                                                                self.multi_scale, self.flip, edge_size=self.bd_dilate_size)
+            augmented_image, augmented_label, _ = self.gen_sample(augmented_image, augmented_label, 
+                                                                self.multi_scale, self.flip, edge_size=self.bd_dilate_size)
+
+            # Return both original and augmented data
+            return original_image.copy(), original_label.copy(), edge.copy(), np.array(size), name, \
+                augmented_image.copy(), augmented_label.copy(), edge.copy(), np.array(size), name
+
+
         label = self.convert_label(label)
 
         image, label, edge = self.gen_sample(image, label, 
                                 self.multi_scale, self.flip, edge_size=self.bd_dilate_size)
 
         return image.copy(), label.copy(), edge.copy(), np.array(size), name
+        
+
+        
+
+
+
 
     
     def single_scale_inference(self, config, model, image):

@@ -90,8 +90,8 @@ def main():
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
 
-    train_dataset = eval('datasets.' + config.DATASET.DATASET)(
-        root=config.DATASET.ROOT,
+    train_dataset = eval('datasets.' + config.DATASET.DATASET)( 
+        root=config.DATASET.ROOT, 
         list_path=config.DATASET.TRAIN_SET,
         num_classes=config.DATASET.NUM_CLASSES,
         multi_scale=config.TRAIN.MULTI_SCALE,
@@ -110,8 +110,8 @@ def main():
         drop_last=True)
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
-    test_dataset = eval('datasets.' + config.DATASET.DATASET)(
-        root=config.DATASET.ROOT,
+    test_dataset = eval('datasets.' + config.DATASET.DATASET)( 
+        root=config.DATASET.ROOT, 
         list_path=config.DATASET.TEST_SET,
         num_classes=config.DATASET.NUM_CLASSES,
         multi_scale=False,
@@ -177,12 +177,15 @@ def main():
             valid_loss, mean_IoU, IoU_array = validate(
                 config, testloader, model, writer_dict)
 
-            if mean_IoU > best_mIoU:
-                best_mIoU = mean_IoU
+            # Fix: Compute the average of mean_IoU
+            avg_mean_IoU = np.mean(mean_IoU)
+
+            if avg_mean_IoU > best_mIoU:
+                best_mIoU = avg_mean_IoU
                 torch.save(model.state_dict(),
                            os.path.join(final_output_dir, 'best_model.pth'))
 
-            logger.info(f'Epoch {epoch + 1}: Loss={valid_loss}, Mean IoU={mean_IoU}')
+            logger.info(f'Epoch {epoch + 1}: Loss={valid_loss}, Mean IoU={avg_mean_IoU}')
 
         checkpoint_path = os.path.join(final_output_dir, 'checkpoint.pth.tar')
         torch.save({'epoch': epoch + 1,

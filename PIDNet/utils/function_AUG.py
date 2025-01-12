@@ -130,11 +130,25 @@ def validate(config, testloader, model, writer_dict):
     nums = config.MODEL.NUM_OUTPUTS
     confusion_matrix = np.zeros(
         (config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES, nums))
-    
+
     with torch.no_grad():
         for idx, batch in enumerate(testloader):
-            # Unpack batch and move tensors to GPU
-            image, label, bd_gts, _, _ = batch
+            # Print the batch to inspect its structure
+            print(f"Batch {idx}: {len(batch)} elements")
+            #print(batch)
+
+            # Unpack batch based on its size
+            if len(batch) == 5:
+                image, label, bd_gts, _, _ = batch
+            elif len(batch) == 6:
+                image, label, bd_gts, _, _, name = batch
+            elif len(batch) == 10:  # If batch has 10 elements
+                # Adjust this based on the actual content of your batch
+                image, label, bd_gts, _, _, name, *extra_elements = batch
+                # You can now inspect extra_elements if needed
+            else:
+                raise ValueError(f"Unexpected batch size: {len(batch)}")
+
             size = label.size()
             image = image.cuda(non_blocking=True)
             label = label.long().cuda(non_blocking=True)
@@ -145,7 +159,7 @@ def validate(config, testloader, model, writer_dict):
 
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
-            
+
             for i, x in enumerate(pred):
                 # Upsample prediction to match label size
                 x = F.interpolate(
@@ -201,6 +215,7 @@ def validate(config, testloader, model, writer_dict):
 
     # Return validation metrics
     return ave_loss.average(), mean_IoUs, IoU_arrays
+
 
 
 def testval(config, test_dataset, testloader, model,

@@ -300,7 +300,8 @@ def train_adv(config, epoch, num_epoch,
         pred2 = outputs[1].detach()
 
         D_out1 = model_D1(F.softmax(pred1, dim=1))
-        D_out2 = model_D2(F.softmax(pred2, dim=1))
+        D_out2 = model_D2(F.softmax(pred2, dim=1)
+                          )
 
         loss_D1 = bce_loss(D_out1,
                           torch.FloatTensor(D_out1.data.size()).fill_(source_label).cuda())

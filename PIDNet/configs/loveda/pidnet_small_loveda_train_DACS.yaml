@@ -9,11 +9,11 @@ WORKERS: 0
 PRINT_FREQ: 10
 
 DATASET:
-  SOURCE_DATASET: loveDa-Urban    # Source dataset is LoveDa-Urban
-  TARGET_DATASET: loveDa-Rural    # Target dataset is LoveDa-Rural
+  SOURCE_DATASET: loveDa    # Source dataset is LoveDa-Urban
+  TARGET_DATASET: loveDa    # Target dataset is LoveDa-Rural
   ROOT: data/
-  SOURCE_TEST_SET: 'list/loveDa-Urban/val.lst'  # Path to source dataset validation set
-  SOURCE_TRAIN_SET: 'list/loveDa-Urban/train.lst'  # Path to source dataset train set
+  SOURCE_TEST_SET: 'list/loveDA-Urban/val.lst'  # Path to source dataset validation set
+  SOURCE_TRAIN_SET: 'list/loveDA-Urban/train.lst'  # Path to source dataset train set
   NUM_CLASSES: 8
   TARGET_TRAIN_SET: 'list/loveDa-Rural/train.lst'  # Path to target dataset train set
   TARGET_TEST_SET: 'list/loveDa-Rural/val.lst'    # Path to target dataset validation set
@@ -31,15 +31,15 @@ LOSS:
   SB_WEIGHTS: 1.0
 TRAIN:
   IMAGE_SIZE:
-  - 512
-  - 512
+  - 1024
+  - 1024
   BASE_SIZE: 2048
   BATCH_SIZE_PER_GPU: 12
   SHUFFLE: true
   BEGIN_EPOCH: 0
   END_EPOCH: 20
   RESUME: false
-  OPTIMIZER: sgd
+  OPTIMIZER: adam
   LR: 0.01
   WD: 0.0005
   SCHEDULER: false
@@ -49,6 +49,17 @@ TRAIN:
   MULTI_SCALE: true
   IGNORE_LABEL: 255
   SCALE_FACTOR: 16
+  AUG: False
+  AUG_RETAIN: false
+  EVAL_INTERVAL: 1
+
+  ADVERSARIAL: false
+  LR_D1: 0.0001
+  LR_D2: 0.0001
+  GAN: 'Vanilla'
+  LAMBDA_ADVT1: 0.001
+  LAMBDA_ADVT2: 0.001
+
 TEST:
   IMAGE_SIZE:
   - 1024

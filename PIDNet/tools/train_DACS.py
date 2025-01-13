@@ -23,8 +23,8 @@ import datasets
 from configs import config
 from configs import update_config
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
-from utils.function import train, validate
-from utils.utils import create_logger, FullModel
+from utils.function_DACS import train, validate, generate_pseudo_labels
+from utils.utils import create_logger, adjust_learning_rate, FullModel
 
 
 def parse_args():
@@ -37,27 +37,6 @@ def parse_args():
     args = parser.parse_args()
     update_config(config, args)
     return args
-
-
-# Function to generate pseudo-labels
-def generate_pseudo_labels(model, target_images, confidence_threshold=0.8):
-    """Generate pseudo-labels for target domain images."""
-    with torch.no_grad():
-        logits = model(target_images)
-        probs = torch.softmax(logits, dim=1)
-        pseudo_labels = torch.argmax(probs, dim=1)
-        confidence_mask = probs.max(dim=1).values > confidence_threshold
-        return pseudo_labels, confidence_mask
-
-
-# Function to adjust the learning rate during the warm-up phase
-def adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr):
-    """Linear warm-up."""
-    lr = base_lr * (epoch + 1) / warmup_epochs
-    for param_group in optimizer.param_groups:
-        param_group['lr'] = lr
-    print(f"Warm-up Epoch {epoch + 1}: Learning Rate = {lr}")
-
 
 # Strong augmentations for DACS
 strong_augmentations = transforms.Compose([
@@ -134,7 +113,7 @@ def main():
 
     target_trainloader = torch.utils.data.DataLoader(
         target_train_dataset,
-        batch_size=config.TRAIN.TARGET_BATCH_SIZE * len(gpus),
+        batch_size=config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus),
         shuffle=config.TRAIN.SHUFFLE,
         num_workers=config.WORKERS,
         pin_memory=False,
@@ -160,7 +139,9 @@ def main():
     
     warmup_epochs = 5  # Number of warm-up epochs
     base_lr = config.TRAIN.LR
-    
+    epoch_iters = int(source_train_dataset.__len__() / config.TRAIN.BATCH_SIZE_PER_GPU / len(gpus))
+    num_iters = config.TRAIN.END_EPOCH * epoch_iters
+
     if config.TRAIN.SCHEDULER:
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
             optimizer, T_max=(config.TRAIN.END_EPOCH - warmup_epochs), eta_min=1e-6
@@ -179,13 +160,15 @@ def main():
             config=config,
             epoch=epoch,
             num_epoch=config.TRAIN.END_EPOCH,
-            epoch_iters=len(source_trainloader),
+            epoch_iters=epoch_iters,
             base_lr=base_lr,
-            num_iters=config.TRAIN.NUM_ITER,
-            trainloader=source_trainloader,
+            num_iters=num_iters,
+            source_loader=source_trainloader,
+            target_loader=target_trainloader,
             optimizer=optimizer,
             model=model,
-            writer_dict=writer_dict
+            writer_dict=writer_dict,
+            augmentations=strong_augmentations
         )
 
         # Log training metrics

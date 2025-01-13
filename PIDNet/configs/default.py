@@ -51,6 +51,14 @@ _C.DATASET.EXTRA_TRAIN_SET = ''
 _C.DATASET.TEST_SET = 'list/cityscapes/val.lst'
 _C.DATASET.TARGET_SET = 'list/cityscapes/val.lst'
 
+_C.DATASET.SOURCE_DATASET = 'loveDA-Urban'
+_C.DATASET.TARGET_DATASET = 'loveDA-Rural'
+_C.DATASET.SOURCE_TRAIN_SET = 'list/loveDA-Urban/train.lst'
+_C.DATASET.SOURCE_TEST_SET = 'list/loveDA-Urban/val.lst'
+_C.DATASET.TARGET_TRAIN_SET = 'list/loveDA-Rural/train.lst'
+_C.DATASET.TARGET_TEST_SET = 'list/loveDA-Rural/val.lst'
+
+
 # training
 _C.TRAIN = CN()
 _C.TRAIN.IMAGE_SIZE = [1024, 1024]  # width * height
@@ -99,6 +107,7 @@ _C.TEST.FLIP_TEST = False
 _C.TEST.MULTI_SCALE = False
 
 _C.TEST.OUTPUT_INDEX = -1
+
 
 
 def update_config(cfg, args):

@@ -83,8 +83,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         imgnet = 'imagenet' in config.MODEL.PRETRAINED
         with torch.no_grad():
             target_logits = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
-            pseudo_labels = torch.argmax(target_logits, dim=1)
-            confidence_mask = torch.max(F.softmax(target_logits, dim=1), dim=1).values > config.TRAIN.CONFIDENCE_THRESHOLD
+            pseudo_labels = torch.argmax(target_logits[1], dim=1)
+            confidence_mask = torch.max(F.softmax(target_logits[1], dim=1), dim=1).values > config.TRAIN.CONFIDENCE_THRESHOLD
             pseudo_labels = pseudo_labels[confidence_mask]
             confident_images = target_images[confidence_mask]
 

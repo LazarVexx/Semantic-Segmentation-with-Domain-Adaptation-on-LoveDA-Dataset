@@ -97,9 +97,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         batch_time.update(time.time() - tic)
         tic = time.time()
 
-        # Adjust learning rate
-        lr = adjust_learning_rate(optimizer, base_lr, num_iters, i_iter + cur_iters)
-
+        # Skip redundant learning rate adjustment here
         if i_iter % config.PRINT_FREQ == 0:
             msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
                   'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}, BCE loss: {:.6f}' .format(
@@ -120,6 +118,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     }
     
     return train_metrics
+
 
 
 

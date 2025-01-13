@@ -164,34 +164,38 @@ def main():
             optimizer, T_max=(config.TRAIN.END_EPOCH - warmup_epochs), eta_min=1e-6)
 
     for epoch in range(last_epoch, config.TRAIN.END_EPOCH):
-        if epoch < warmup_epochs:
-            adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
-        elif config.TRAIN.SCHEDULER:
-            scheduler.step()
+      if epoch < warmup_epochs:
+          adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
+      elif config.TRAIN.SCHEDULER:
+          scheduler.step()  # Step the scheduler after each epoch
 
-        train(config, epoch, config.TRAIN.END_EPOCH, epoch_iters,
-              optimizer.param_groups[0]['lr'], len(trainloader),
-              trainloader, optimizer, model, writer_dict)
+      # Train for the current epoch
+      train(config, epoch, config.TRAIN.END_EPOCH, epoch_iters,
+            optimizer.param_groups[0]['lr'], len(trainloader),
+            trainloader, optimizer, model, writer_dict)
 
-        if epoch % config.TRAIN.EVAL_INTERVAL == 0 or epoch == config.TRAIN.END_EPOCH - 1:
-            valid_loss, mean_IoU, IoU_array = validate(
-                config, testloader, model, writer_dict)
+      # Perform validation periodically
+      if epoch > 0 and (epoch % config.TRAIN.EVAL_INTERVAL == 0 or epoch == config.TRAIN.END_EPOCH - 1):
+          valid_loss, mean_IoU, IoU_array = validate(
+              config, testloader, model, writer_dict)
 
-            # Fix: Compute the average of mean_IoU
-            avg_mean_IoU = np.mean(mean_IoU)
+          # Calculate average mean IoU
+          avg_mean_IoU = np.mean(mean_IoU)
 
-            if avg_mean_IoU > best_mIoU:
-                best_mIoU = avg_mean_IoU
-                torch.save(model.state_dict(),
-                           os.path.join(final_output_dir, 'best_model.pth'))
+          if avg_mean_IoU > best_mIoU:
+              best_mIoU = avg_mean_IoU
+              torch.save(model.state_dict(),
+                        os.path.join(final_output_dir, 'best_model.pth'))
 
-            logger.info(f'Epoch {epoch + 1}: Loss={valid_loss}, Mean IoU={avg_mean_IoU}')
+          logger.info(f'Epoch {epoch + 1}: Loss={valid_loss}, Mean IoU={avg_mean_IoU}')
 
-        checkpoint_path = os.path.join(final_output_dir, 'checkpoint.pth.tar')
-        torch.save({'epoch': epoch + 1,
-                    'best_mIoU': best_mIoU,
-                    'state_dict': model.state_dict(),
-                    'optimizer': optimizer.state_dict()}, checkpoint_path)
+      # Save checkpoint
+      checkpoint_path = os.path.join(final_output_dir, 'checkpoint.pth.tar')
+      torch.save({'epoch': epoch + 1,
+                  'best_mIoU': best_mIoU,
+                  'state_dict': model.state_dict(),
+                  'optimizer': optimizer.state_dict()}, checkpoint_path)
+
 
     writer_dict['writer'].close()
     logger.info('Training completed')

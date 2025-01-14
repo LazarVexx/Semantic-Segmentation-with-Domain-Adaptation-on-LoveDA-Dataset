@@ -49,6 +49,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
           num_iters, source_loader, target_loader, optimizer, model, writer_dict, augmentations):
     model.train()
 
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     batch_time = AverageMeter()
     ave_loss = AverageMeter()
     ave_acc = AverageMeter()
@@ -64,17 +65,24 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
     for i_iter, (source_data, target_data) in enumerate(zip(source_loader, target_loader), 0):
         # --- Load source domain data ---
+
         source_images = source_data[0]
         source_labels = source_data[1]
         source_bd_gts = source_data[2]
+
+        print(source_labels)
         source_images, source_labels, source_bd_gts = source_images.cuda(), source_labels.long().cuda(), source_bd_gts.float().cuda()
+
+        # --- Compute source loss ---
+        source_logits = model(source_images, source_labels, source_bd_gts)
+        source_loss, _, source_acc, _ = source_logits  
+        source_loss_total += source_loss.item()
 
         # --- Load target domain data ---
         target_images = target_data[0] # Ignore target labels
         target_labels = target_data[1]
         target_bd_gts = target_data[2]
         target_images, target_labels, target_bd_gts = target_images.cuda(), target_labels.long().cuda(), target_bd_gts.float().cuda()
-        
 
         # --- Apply augmentations to target domain ---
         #augmented_target_images = augmentations(target_images)
@@ -82,20 +90,15 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Generate pseudo-labels for target domain ---
         imgnet = 'imagenet' in config.MODEL.PRETRAINED
         with torch.no_grad():
-            target_logits = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
-            pseudo_labels = torch.argmax(target_logits[1], dim=1)
-            confidence_mask = torch.max(F.softmax(target_logits[1], dim=1), dim=1).values > config.TRAIN.CONFIDENCE_THRESHOLD
-            pseudo_labels = pseudo_labels[confidence_mask]
-            confident_images = target_images[confidence_mask]
-
-        # --- Compute source loss ---
-        source_logits = model(source_images, source_labels, source_bd_gts)
-        source_loss, _, source_acc, _ = source_logits  
-        source_loss_total += source_loss.item()
+            model_target = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet).to(device)
+            target_logits = model_target(target_images)
+            upsampled_logits = torch.nn.functional.interpolate(target_logits[1], size=(1024, 1024), mode='bilinear', align_corners=False)
+            print(upsampled_logits.shape)
+            pseudo_labels = torch.argmax(upsampled_logits, dim=1)      
         
         # --- Compute target loss (only for confident pseudo-labels) ---
-        if confident_images.size(0) > 0:  # Ensure valid pseudo-labels exist
-            confident_logits = model(confident_images, pseudo_labels, target_bd_gts[confidence_mask])
+        if target_images.size(0) > 0:  # Ensure valid pseudo-labels exist
+            confident_logits = model(target_images, pseudo_labels, target_bd_gts)
             target_loss, _, target_acc, _ = confident_logits 
         else:
             target_loss = torch.tensor(0.0, requires_grad=True).cuda()
@@ -103,16 +106,21 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         target_loss_total += target_loss.item()
 
         # --- Apply MixUp augmentation between source and target images ---
-        mixed_images, mixed_labels = mixup_fn(source_images, source_labels, confident_images, pseudo_labels)
-        mixed_bd_gts = compute_bd_gt_mixup(source_bd_gts, target_bd_gts[confidence_mask])
+        mixed_images, mixed_labels = mixup_fn(source_images, source_labels, target_images, pseudo_labels)
+        mixed_bd_gts = compute_bd_gt_mixup(source_bd_gts, target_bd_gts)
+        mixed_images, mixed_labels, mixed_bd_gts = mixed_images.cuda(), mixed_labels.long().cuda(), mixed_bd_gts.float().cuda()
         mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
         mixup_loss, _, mixup_acc, _ = mixed_logits  # Assuming model returns (loss, _, accuracy, loss_list)
 
         # --- Compute total loss ---
+        source_loss_weight = 0.5
+        target_loss_weight = 0.5
+        mixup_loss_weight = 0.5
+
         total_batch_loss = (
-            config.TRAIN.SOURCE_LOSS_WEIGHT * source_loss +
-            config.TRAIN.TARGET_LOSS_WEIGHT * target_loss +
-            config.TRAIN.MIXUP_LOSS_WEIGHT * mixup_loss
+            source_loss_weight * source_loss +
+            target_loss_weight * target_loss +
+            mixup_loss_weight * mixup_loss
         )
 
         # --- Measure average accuracy ---

@@ -70,7 +70,6 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         source_labels = source_data[1]
         source_bd_gts = source_data[2]
 
-        print(source_labels)
         source_images, source_labels, source_bd_gts = source_images.cuda(), source_labels.long().cuda(), source_bd_gts.float().cuda()
 
         # --- Compute source loss ---
@@ -93,7 +92,6 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
             model_target = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet).to(device)
             target_logits = model_target(target_images)
             upsampled_logits = torch.nn.functional.interpolate(target_logits[1], size=(1024, 1024), mode='bilinear', align_corners=False)
-            print(upsampled_logits.shape)
             pseudo_labels = torch.argmax(upsampled_logits, dim=1)      
         
         # --- Compute target loss (only for confident pseudo-labels) ---
@@ -110,7 +108,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         mixed_bd_gts = compute_bd_gt_mixup(source_bd_gts, target_bd_gts)
         mixed_images, mixed_labels, mixed_bd_gts = mixed_images.cuda(), mixed_labels.long().cuda(), mixed_bd_gts.float().cuda()
         mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
-        mixup_loss, _, mixup_acc, _ = mixed_logits  # Assuming model returns (loss, _, accuracy, loss_list)
+        mixup_loss, _, mixup_acc, _ = mixed_logits  
 
         # --- Compute total loss ---
         source_loss_weight = 0.5

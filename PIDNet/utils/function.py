@@ -35,15 +35,18 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     cur_iters = epoch*epoch_iters
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
+    
+
 
     for i_iter, batch in enumerate(trainloader, 0):
         images, labels, bd_gts, _, _ = batch
         images = images.cuda()
         labels = labels.long().cuda()
         bd_gts = bd_gts.float().cuda()
+        model.cuda()
         
 
-        losses, _, acc, loss_list = model(images, labels, bd_gts)
+        losses, _, acc, loss_list,flops,num_params = model(images, labels, bd_gts)
         loss = losses.mean()
         acc  = acc.mean()
 
@@ -60,18 +63,19 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         ave_acc.update(acc.item())
         avg_sem_loss.update(loss_list[0].mean().item())
         avg_bce_loss.update(loss_list[1].mean().item())
-
+        
         lr = adjust_learning_rate(optimizer,
                                   base_lr,
                                   num_iters,
                                   i_iter+cur_iters)
+        
 
         if i_iter % config.PRINT_FREQ == 0:
             msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
-                  'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}, BCE loss: {:.6f}, SB loss: {:.6f}' .format(
+                  'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}, BCE loss: {:.6f}, SB loss: {:.6f}, NumParams: {:.6f} M, FLOPs: {:.6f} GFLOPS' .format(
                       epoch, num_epoch, i_iter, epoch_iters,
                       batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(),
-                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(),ave_loss.average()-avg_sem_loss.average()-avg_bce_loss.average())
+                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(),ave_loss.average()-avg_sem_loss.average()-avg_bce_loss.average(),num_params,flops/1e9)
             logging.info(msg)
 
     writer.add_scalar('train_loss', ave_loss.average(), global_steps)
@@ -258,7 +262,7 @@ def train_adv(config, epoch, num_epoch,
         labels = labels.long().cuda()
         bd_gts = bd_gts.float().cuda()
         
-        losses, outputs, acc, loss_list = model(images, labels, bd_gts)
+        losses, outputs, acc, loss_list,_,_ = model(images, labels, bd_gts)
         loss_seg1 = losses.mean()
         acc = acc.mean()
 
@@ -268,7 +272,7 @@ def train_adv(config, epoch, num_epoch,
         labelst = labelst.long().cuda()
         bd_gtst = bd_gtst.float().cuda()
 
-        loss_tensort, outputst, acct, loss_listt = model(imagest, labelst, bd_gtst)
+        loss_tensort, outputst, acct, loss_listt,_,_ = model(imagest, labelst, bd_gtst)
         losst = loss_tensort.mean()
         acct = acct.mean()
 
@@ -300,8 +304,7 @@ def train_adv(config, epoch, num_epoch,
         pred2 = outputs[1].detach()
 
         D_out1 = model_D1(F.softmax(pred1, dim=1))
-        D_out2 = model_D2(F.softmax(pred2, dim=1)
-                          )
+        D_out2 = model_D2(F.softmax(pred2, dim=1))
 
         loss_D1 = bce_loss(D_out1,
                           torch.FloatTensor(D_out1.data.size()).fill_(source_label).cuda())

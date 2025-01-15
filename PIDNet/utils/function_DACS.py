@@ -18,22 +18,13 @@ from utils.utils import get_confusion_matrix
 from utils.utils import adjust_learning_rate
 from utils.criterion import CrossEntropy, OhemCrossEntropy
 
-def mixup_fn(images1, labels1, images2, labels2, alpha=0.4):
+def mixup_fn(images1, labels1, images2, labels2, gts1, gts2, alpha=0.5):
     lambda_val = torch.distributions.Beta(alpha, alpha).sample().item()
     mixed_images = lambda_val * images1 + (1 - lambda_val) * images2
     mixed_labels = lambda_val * labels1 + (1 - lambda_val) * labels2
-    return mixed_images, mixed_labels
+    mixed_gts = lambda_val * gts1 + (1 - lambda_val) * gts2
+    return mixed_images, mixed_labels, mixed_gts
 
-def compute_bd_gt_mixup(source_bd_gt, target_bd_gt, alpha=0.5):
-    """
-    Mixes boundary ground truths for source and target domains using linear interpolation.
-    
-    :param source_bd_gt: Boundary ground truth for source domain (H, W)
-    :param target_bd_gt: Boundary ground truth for target domain (H, W)
-    :param alpha: MixUp ratio (0.5 by default)
-    :return: Mixed boundary ground truth (H, W)
-    """
-    return alpha * source_bd_gt + (1 - alpha) * target_bd_gt
 
 # Function to generate pseudo-labels
 def generate_pseudo_labels(model, target_images, confidence_threshold=0.8):
@@ -48,6 +39,8 @@ def generate_pseudo_labels(model, target_images, confidence_threshold=0.8):
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr,
           num_iters, source_loader, target_loader, optimizer, model, writer_dict, augmentations):
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
     model.train()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -61,7 +54,10 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
-    model_target = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet).to(device)
+    model_target = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
+    
+    model = model.to(device)
+    model_target = model_target.to(device)
 
     source_loss_total = 0
     target_loss_total = 0
@@ -92,12 +88,11 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Generate pseudo-labels for target domain ---
         
         with torch.no_grad():
-            
             target_logits = model_target(target_images)
             upsampled_logits = torch.nn.functional.interpolate(target_logits[1], size=(config.TRAIN.IMAGE_SIZE[0],config.TRAIN.IMAGE_SIZE[1]), mode='bilinear', align_corners=False)
-            pseudo_labels = torch.argmax(upsampled_logits, dim=1)
-
-        pseudo_labels = pseudo_labels.long().cuda()   
+            pseudo_labels = torch.argmax(upsampled_logits, dim=1)      
+            
+        pseudo_labels = pseudo_labels.long().cuda()
 
         # --- Compute target loss (only for confident pseudo-labels) ---
         if target_images.size(0) > 0:  # Ensure valid pseudo-labels exist
@@ -109,11 +104,15 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         target_loss_total += target_loss.item()
 
         # --- Apply MixUp augmentation between source and target images ---
-        mixed_images, mixed_labels = mixup_fn(source_images, source_labels, target_images, pseudo_labels)
-        mixed_bd_gts = compute_bd_gt_mixup(source_bd_gts, target_bd_gts)
+        mixed_images, mixed_labels, mixed_bd_gts = mixup_fn(source_images, source_labels, target_images, pseudo_labels)
         mixed_images, mixed_labels, mixed_bd_gts = mixed_images.cuda(), mixed_labels.long().cuda(), mixed_bd_gts.float().cuda()
         mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
-        mixup_loss, _, mixup_acc, _,_,_ = mixed_logits  
+        mixup_loss, _, mixup_acc, _, flops,params = mixed_logits  
+        
+        # --- Backpropagation and optimization ---
+        model.zero_grad()
+        total_batch_loss.backward()
+        optimizer.step()
 
         # --- Compute total loss ---
         source_loss_weight = 0.5
@@ -145,16 +144,13 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Log training progress ---
         if i_iter % config.PRINT_FREQ == 0:
             msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
-                  'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Source Loss: {:.6f}, Target Loss: {:.6f}, MixUp Loss: {:.6f}' .format(
+                  'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Source Loss: {:.6f}, Target Loss: {:.6f}, MixUp Loss: {:.6f}, Flop: {:.6f}, Params: {:.6f}' .format(
                       epoch, num_epoch, i_iter, epoch_iters,
                       batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(),
-                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(), mixup_loss.item())
+                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(), mixup_loss.item(), flops, params)
             logging.info(msg)
 
-        # --- Backpropagation and optimization ---
-        optimizer.zero_grad()
-        total_batch_loss.backward()
-        optimizer.step()
+
 
     # --- Update Tensorboard ---
     writer.add_scalar('train_loss', ave_loss.average(), global_steps)
@@ -190,9 +186,9 @@ def validate(config, testloader, model, writer_dict):
             # Unpack batch and move tensors to GPU
             image, label, bd_gts, _, _ = batch
             size = label.size()
-            image = image.cuda(non_blocking=True)
-            label = label.long().cuda(non_blocking=True)
-            bd_gts = bd_gts.float().cuda(non_blocking=True)
+            image = image.cuda()
+            label = label.long().cuda()
+            bd_gts = bd_gts.float().cuda()
 
             # Forward pass
             losses, pred, _, _, _, _ = model(image, label, bd_gts)
@@ -215,6 +211,8 @@ def validate(config, testloader, model, writer_dict):
                     config.DATASET.NUM_CLASSES,
                     config.TRAIN.IGNORE_LABEL
                 )
+                if idx % 10 == 0:
+                    print(idx)
                 
                 # Calculate pixel accuracy and per-class accuracy
                 total_correct_pixels += (x.argmax(1) == label).sum().item()
@@ -225,11 +223,8 @@ def validate(config, testloader, model, writer_dict):
                     total_class_correct[c] += ((x.argmax(1) == label) & (label == c)).sum().item()
 
             # Compute loss and update the average
-            loss = losses.mean().item()
-            ave_loss.update(loss)
-
-            if idx % 10 == 0 or idx == len(testloader) - 1:
-                logging.info(f'Validation Progress: {idx + 1}/{len(testloader)} batches processed.')
+            loss = losses.mean()
+            ave_loss.update(loss.item())
 
     # Compute IoU metrics for each output
 
@@ -239,8 +234,8 @@ def validate(config, testloader, model, writer_dict):
         tp = np.diag(confusion_matrix[..., i])
         IoU_array = tp / np.maximum(1.0, pos + res - tp)
         mean_IoU = IoU_array.mean()
-        logging.info(f'Output {i}: IoU per class: {IoU_array}, Mean IoU: {mean_IoU}')
-
+        logging.info('{} {} {}'.format(i, IoU_array, mean_IoU))
+        
     # Calculate Pixel Accuracy and Mean Accuracy
     pixel_acc = total_correct_pixels / total_pixels
     mean_acc = (total_class_correct / np.maximum(1.0, total_class_pixels)).mean()
@@ -251,6 +246,8 @@ def validate(config, testloader, model, writer_dict):
     writer.add_scalar('valid_loss', ave_loss.average(), global_steps)
     writer.add_scalar('valid_pixel_acc', pixel_acc, global_steps)
     writer.add_scalar('valid_mean_acc', mean_acc, global_steps)
+    writer.add_scalar('valid_mIoU', mean_IoU, global_steps)
+    writer_dict['valid_global_steps'] = global_steps + 1
 
     # Return validation metrics
     return mean_IoU, IoU_array, pixel_acc, mean_acc

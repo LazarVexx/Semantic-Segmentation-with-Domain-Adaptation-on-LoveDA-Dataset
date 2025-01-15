@@ -5,7 +5,8 @@
 import logging
 import os
 import time
-
+from configs import config
+from configs import update_config
 import numpy as np
 from tqdm import tqdm
 import models
@@ -59,6 +60,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     cur_iters = epoch * epoch_iters
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
+    imgnet = 'imagenet' in config.MODEL.PRETRAINED
+    model_target = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet).to(device)
 
     source_loss_total = 0
     target_loss_total = 0
@@ -87,13 +90,13 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         #augmented_target_images = augmentations(target_images)
 
         # --- Generate pseudo-labels for target domain ---
-        imgnet = 'imagenet' in config.MODEL.PRETRAINED
-        with torch.no_grad():
-            model_target = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet).to(device)
-            target_logits = model_target(target_images)
-            upsampled_logits = torch.nn.functional.interpolate(target_logits[1], size=(1024, 1024), mode='bilinear', align_corners=False)
-            pseudo_labels = torch.argmax(upsampled_logits, dim=1)      
         
+        with torch.no_grad():
+            
+            target_logits = model_target(target_images)
+            upsampled_logits = torch.nn.functional.interpolate(target_logits[1], size=(config.TRAIN.IMAGE_SIZE[0],config.TRAIN.IMAGE_SIZE[1]), mode='bilinear', align_corners=False)
+            pseudo_labels = torch.argmax(upsampled_logits, dim=1)      
+
         # --- Compute target loss (only for confident pseudo-labels) ---
         if target_images.size(0) > 0:  # Ensure valid pseudo-labels exist
             confident_logits = model(target_images, pseudo_labels, target_bd_gts)
@@ -175,6 +178,11 @@ def validate(config, testloader, model, writer_dict):
     confusion_matrix = np.zeros(
         (config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES, nums))
     
+    total_correct_pixels = 0
+    total_pixels = 0
+    total_class_correct = np.zeros(config.DATASET.NUM_CLASSES)
+    total_class_pixels = np.zeros(config.DATASET.NUM_CLASSES)
+    
     with torch.no_grad():
         for idx, batch in enumerate(testloader):
             # Unpack batch and move tensors to GPU
@@ -185,7 +193,7 @@ def validate(config, testloader, model, writer_dict):
             bd_gts = bd_gts.float().cuda(non_blocking=True)
 
             # Forward pass
-            losses, pred, pseudo_label, confidence_mask = model(image, label, bd_gts)
+            losses, pred, _, _ = model(image, label, bd_gts)
 
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
@@ -205,7 +213,15 @@ def validate(config, testloader, model, writer_dict):
                     config.DATASET.NUM_CLASSES,
                     config.TRAIN.IGNORE_LABEL
                 )
-            
+                
+                # Calculate pixel accuracy and per-class accuracy
+                total_correct_pixels += (x.argmax(1) == label).sum().item()
+                total_pixels += label.numel()
+                
+                for c in range(config.DATASET.NUM_CLASSES):
+                    total_class_pixels[c] += (label == c).sum().item()
+                    total_class_correct[c] += ((x.argmax(1) == label) & (label == c)).sum().item()
+
             # Compute loss and update the average
             loss = losses.mean().item()
             ave_loss.update(loss)
@@ -214,37 +230,29 @@ def validate(config, testloader, model, writer_dict):
                 logging.info(f'Validation Progress: {idx + 1}/{len(testloader)} batches processed.')
 
     # Compute IoU metrics for each output
-    IoU_arrays = []
-    mean_IoUs = []
+
     for i in range(nums):
         pos = confusion_matrix[..., i].sum(1)
         res = confusion_matrix[..., i].sum(0)
         tp = np.diag(confusion_matrix[..., i])
         IoU_array = tp / np.maximum(1.0, pos + res - tp)
         mean_IoU = IoU_array.mean()
-
-        IoU_arrays.append(IoU_array)
-        mean_IoUs.append(mean_IoU)
-
         logging.info(f'Output {i}: IoU per class: {IoU_array}, Mean IoU: {mean_IoU}')
+
+    # Calculate Pixel Accuracy and Mean Accuracy
+    pixel_acc = total_correct_pixels / total_pixels
+    mean_acc = (total_class_correct / np.maximum(1.0, total_class_pixels)).mean()
 
     # Log validation results to TensorBoard
     writer = writer_dict['writer']
     global_steps = writer_dict['valid_global_steps']
     writer.add_scalar('valid_loss', ave_loss.average(), global_steps)
-
-    for i, mean_IoU in enumerate(mean_IoUs):
-        writer.add_scalar(f'valid_mIoU_output_{i}', mean_IoU, global_steps)
-        writer.add_scalars(
-            f'valid_IoU_output_{i}',
-            {f'class_{c}': IoU for c, IoU in enumerate(IoU_arrays[i])},
-            global_steps
-        )
-
-    writer_dict['valid_global_steps'] = global_steps + 1
+    writer.add_scalar('valid_pixel_acc', pixel_acc, global_steps)
+    writer.add_scalar('valid_mean_acc', mean_acc, global_steps)
 
     # Return validation metrics
-    return ave_loss.average(), mean_IoUs, IoU_arrays
+    return mean_IoU, IoU_array, pixel_acc, mean_acc
+
 
 
 def testval(config, test_dataset, testloader, model,

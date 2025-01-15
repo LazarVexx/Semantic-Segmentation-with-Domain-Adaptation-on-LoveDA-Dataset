@@ -182,7 +182,6 @@ def main():
 
         # Validation and saving checkpoints
         if epoch % config.PRINT_FREQ == 0 or epoch == config.TRAIN.END_EPOCH - 1:
-            model.eval()
             mean_IoU, IoU_array, pixel_acc, mean_acc = validate(config, target_trainloader, model, writer_dict)
 
             # Log validation metrics

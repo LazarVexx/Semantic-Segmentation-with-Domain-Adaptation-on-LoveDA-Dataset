@@ -139,29 +139,22 @@ class DiceLoss(nn.Module):
         self.ignore_label = ignore_label
 
     def forward(self, preds, targets):
-        # Apply softmax if predictions have more than one class
-        if preds.shape[1] > 1:
-            preds = F.softmax(preds, dim=1)
-        
-        num_classes = preds.shape[1]
-        # Create one-hot encoded targets
-        targets_one_hot = F.one_hot(targets, num_classes=num_classes).permute(0, 3, 1, 2).float()
-
-        # Create a mask to ignore specified label
-        ignore_mask = (targets != self.ignore_label).unsqueeze(1)  # Shape: (N, 1, H, W)
-        
-        # Apply the ignore mask to predictions and targets
-        preds = preds * ignore_mask
-        targets_one_hot = targets_one_hot * ignore_mask
-
-        # Compute Dice coefficient excluding ignore_label
-        intersection = torch.sum(preds * targets_one_hot, dim=(2, 3))
-        union = torch.sum(preds, dim=(2, 3)) + torch.sum(targets_one_hot, dim=(2, 3))
-        dice_score = (2.0 * intersection + self.eps) / (union + self.eps)
-
-        # Average the dice score over all non-ignored pixels
-        loss = 1.0 - dice_score.mean()
-        return loss
+      # process each tensor individually
+      if isinstance(preds, list):
+          preds = torch.cat(preds, dim=1)  # Combine list into a single tensor along channel dimension
+      
+      # Proceed with the existing logic
+      if preds.shape[1] > 1:
+          preds = F.softmax(preds, dim=1)
+      num_classes = preds.shape[1]
+      targets_one_hot = F.one_hot(targets, num_classes=num_classes).permute(0, 3, 1, 2).float()
+      preds = preds[:, 1:]
+      targets_one_hot = targets_one_hot[:, 1:]
+      intersection = torch.sum(preds * targets_one_hot, dim=(2, 3))
+      union = torch.sum(preds, dim=(2, 3)) + torch.sum(targets_one_hot, dim=(2, 3))
+      dice_score = (2.0 * intersection + self.eps) / (union + self.eps)
+      loss = 1.0 - dice_score.mean()
+      return loss
 
     
 if __name__ == '__main__':

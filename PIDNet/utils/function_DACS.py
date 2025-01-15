@@ -108,7 +108,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         mixed_bd_gts = compute_bd_gt_mixup(source_bd_gts, target_bd_gts)
         mixed_images, mixed_labels, mixed_bd_gts = mixed_images.cuda(), mixed_labels.long().cuda(), mixed_bd_gts.float().cuda()
         mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
-        mixup_loss, _, mixup_acc, _ = mixed_logits  
+        mixup_loss, _, mixup_acc, _,_,_ = mixed_logits  
 
         # --- Compute total loss ---
         source_loss_weight = 0.5

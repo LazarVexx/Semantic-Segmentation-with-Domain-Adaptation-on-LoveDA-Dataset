@@ -42,8 +42,12 @@ class FullModel(nn.Module):
   def forward(self, inputs, labels, bd_gt, *args, **kwargs):
     
     outputs = self.model(inputs, *args, **kwargs)
+    inputs.cuda()
+    labels.cuda()
+    bd_gt.cuda()
+    
     with suppress_stdout():
-        flops, params = 0,0#profile(self.model, inputs=(inputs,))
+        flops, params = profile(self.model, inputs=(inputs,))
     
     h, w = labels.size(1), labels.size(2)
     ph, pw = outputs[0].size(2), outputs[0].size(3)

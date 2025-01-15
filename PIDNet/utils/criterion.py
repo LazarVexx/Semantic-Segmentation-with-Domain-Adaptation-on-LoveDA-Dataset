@@ -130,13 +130,67 @@ class BondaryLoss(nn.Module):
         
         return loss
     
-if __name__ == '__main__':
-    a = torch.zeros(2,64,64)
-    a[:,5,:] = 1
-    pre = torch.randn(2,1,16,16)
+
     
-    Loss_fc = BondaryLoss()
-    loss = Loss_fc(pre, a.to(torch.uint8))
+class DiceLoss(nn.Module):
+    def __init__(self, eps=1e-6, ignore_label=-1):
+        super(DiceLoss, self).__init__()
+        self.eps = eps
+        self.ignore_label = ignore_label
+
+    def forward(self, preds, targets):
+        # Apply softmax if predictions have more than one class
+        if preds.shape[1] > 1:
+            preds = F.softmax(preds, dim=1)
+        
+        num_classes = preds.shape[1]
+        # Create one-hot encoded targets
+        targets_one_hot = F.one_hot(targets, num_classes=num_classes).permute(0, 3, 1, 2).float()
+
+        # Create a mask to ignore specified label
+        ignore_mask = (targets != self.ignore_label).unsqueeze(1)  # Shape: (N, 1, H, W)
+        
+        # Apply the ignore mask to predictions and targets
+        preds = preds * ignore_mask
+        targets_one_hot = targets_one_hot * ignore_mask
+
+        # Compute Dice coefficient excluding ignore_label
+        intersection = torch.sum(preds * targets_one_hot, dim=(2, 3))
+        union = torch.sum(preds, dim=(2, 3)) + torch.sum(targets_one_hot, dim=(2, 3))
+        dice_score = (2.0 * intersection + self.eps) / (union + self.eps)
+
+        # Average the dice score over all non-ignored pixels
+        loss = 1.0 - dice_score.mean()
+        return loss
+
+    
+if __name__ == '__main__':
+    # Import required modules
+    import torch
+    import torch.nn.functional as F
+    
+
+    # Initialize dummy inputs
+    batch_size, num_classes, height, width = 4, 5, 16, 16
+
+
+    # Predictions and targets for DiceLoss
+    dice_preds = torch.randn(batch_size, num_classes, height, width, requires_grad=True)
+    dice_targets = torch.randint(0, num_classes, (batch_size, height, width))
+
+    # Initialize the losses
+    dice_loss_with_ignore_label = DiceLoss(ignore_label=0)
+
+    
+    
+
+    try:
+        dice_loss_with_ignore_label_value = dice_loss_with_ignore_label(dice_preds, dice_targets)
+        print(f"Dice Loss With Ignore Label: {dice_loss_with_ignore_label_value.item()}")
+    except Exception as e:
+        print(f"Dice Loss With Ignore Label failed: {e}")
+
+
 
         
         

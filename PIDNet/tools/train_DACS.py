@@ -139,15 +139,21 @@ def main():
     
     warmup_epochs = 5  # Number of warm-up epochs
     base_lr = config.TRAIN.LR
+    
+    start = timeit.default_timer()
     epoch_iters = int(source_train_dataset.__len__() / config.TRAIN.BATCH_SIZE_PER_GPU / len(gpus))
     num_iters = config.TRAIN.END_EPOCH * epoch_iters
-
+    end_epoch = config.TRAIN.END_EPOCH
+    real_end = 120+1 if 'camvid' in config.DATASET.TRAIN_SET else end_epoch
+    
     if config.TRAIN.SCHEDULER:
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
             optimizer, T_max=(config.TRAIN.END_EPOCH - warmup_epochs), eta_min=1e-6
         )
     
     best_mIoU = 0
+    flag_rm = config.TRAIN.RESUME
+    
      # Training loop modifications in the main script
     for epoch in range(config.TRAIN.BEGIN_EPOCH, config.TRAIN.END_EPOCH):
         model.train()  # Set model to training mode
@@ -182,27 +188,37 @@ def main():
             scheduler.step()
 
         # Validation and saving checkpoints
-        if epoch % config.PRINT_FREQ == 0 or epoch == config.TRAIN.END_EPOCH - 1:
+        if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
             mean_IoU, IoU_array, pixel_acc, mean_acc = validate(config, target_trainloader, model, writer_dict)
+        
+        if flag_rm == 1:
+            flag_rm = 0
 
-            # Log validation metrics
-            msg = f"Epoch [{epoch}], Loss: {train_metrics['total_loss']:.3f}, MeanIU: {mean_IoU:.4f}, "
-            f"Pixel_Acc: {pixel_acc:.4f}, Mean_Acc: {mean_acc:.4f}"
-            logging.info(msg)
-            logging.info(f"IoU per class: {IoU_array}")
+        # Log validation metrics
+        msg = f"Epoch [{epoch}], Loss: {train_metrics['total_loss']:.3f}, MeanIU: {mean_IoU:.4f}, "
+        f"Pixel_Acc: {pixel_acc:.4f}, Mean_Acc: {mean_acc:.4f}"
+        logging.info(msg)
+        logging.info(f"IoU per class: {IoU_array}")
 
-            # Save checkpoint and best model
-            is_best = mean_IoU > best_mIoU
-            if is_best:
-                best_mIoU = mean_IoU
-                torch.save(model.module.state_dict(), os.path.join(final_output_dir, 'best.pt'))
+        # Save checkpoint and best model
+        is_best = mean_IoU > best_mIoU
+        if is_best:
+            best_mIoU = mean_IoU
+            torch.save(model.module.state_dict(), os.path.join(final_output_dir, 'best.pt'))
 
-            torch.save({
-                'epoch': epoch + 1,
-                'best_mIoU': best_mIoU,
-                'state_dict': model.module.state_dict(),
-                'optimizer': optimizer.state_dict(),
-            }, os.path.join(final_output_dir, 'checkpoint.pth.tar'))
+        torch.save({
+            'epoch': epoch + 1,
+            'best_mIoU': best_mIoU,
+            'state_dict': model.module.state_dict(),
+            'optimizer': optimizer.state_dict(),
+        }, os.path.join(final_output_dir, 'checkpoint.pth.tar'))
+        
+    torch.save(model.module.state_dict(),
+            os.path.join(final_output_dir, 'final_state.pt'))
+    writer_dict['writer'].close()
+    end = timeit.default_timer()
+    logger.info('Hours: %d' % int((end-start)/3600))
+    logger.info('Done')
 
 
         

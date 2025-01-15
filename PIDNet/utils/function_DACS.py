@@ -95,7 +95,9 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
             
             target_logits = model_target(target_images)
             upsampled_logits = torch.nn.functional.interpolate(target_logits[1], size=(config.TRAIN.IMAGE_SIZE[0],config.TRAIN.IMAGE_SIZE[1]), mode='bilinear', align_corners=False)
-            pseudo_labels = torch.argmax(upsampled_logits, dim=1)      
+            pseudo_labels = torch.argmax(upsampled_logits, dim=1)
+
+        pseudo_labels = pseudo_labels.long().cuda()   
 
         # --- Compute target loss (only for confident pseudo-labels) ---
         if target_images.size(0) > 0:  # Ensure valid pseudo-labels exist
@@ -193,7 +195,7 @@ def validate(config, testloader, model, writer_dict):
             bd_gts = bd_gts.float().cuda(non_blocking=True)
 
             # Forward pass
-            losses, pred, _, _ = model(image, label, bd_gts)
+            losses, pred, _, _, _, _ = model(image, label, bd_gts)
 
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]

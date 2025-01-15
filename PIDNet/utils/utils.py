@@ -43,7 +43,7 @@ class FullModel(nn.Module):
     
     outputs = self.model(inputs, *args, **kwargs)
     with suppress_stdout():
-        flops, params = profile(self.model, inputs=(inputs,))
+        flops, params = 0,0#profile(self.model, inputs=(inputs,))
     
     h, w = labels.size(1), labels.size(2)
     ph, pw = outputs[0].size(2), outputs[0].size(3)

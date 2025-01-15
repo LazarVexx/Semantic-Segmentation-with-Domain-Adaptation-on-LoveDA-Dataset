@@ -16,7 +16,12 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from thop import profile
 from configs import config
+
+import sys
+import os
+from contextlib import contextmanager
 
 class FullModel(nn.Module):
 
@@ -37,6 +42,8 @@ class FullModel(nn.Module):
   def forward(self, inputs, labels, bd_gt, *args, **kwargs):
     
     outputs = self.model(inputs, *args, **kwargs)
+    with suppress_stdout():
+        flops, params = profile(self.model, inputs=(inputs,))
     
     h, w = labels.size(1), labels.size(2)
     ph, pw = outputs[0].size(2), outputs[0].size(3)
@@ -57,7 +64,7 @@ class FullModel(nn.Module):
         loss_sb = self.sem_loss([outputs[-2]], labels)
     loss = loss_s + loss_b + loss_sb
 
-    return torch.unsqueeze(loss,0), outputs[:-1], acc, [loss_s, loss_b]
+    return torch.unsqueeze(loss,0), outputs[:-1], acc, [loss_s, loss_b],flops,params
 
 
 class AverageMeter(object):
@@ -161,3 +168,13 @@ def adjust_learning_rate(optimizer, base_lr, max_iters,
     if len(optimizer.param_groups) == 2:
         optimizer.param_groups[1]['lr'] = lr * nbb_mult
     return lr
+
+@contextmanager
+def suppress_stdout():
+    with open(os.devnull, 'w') as fnull:
+        old_stdout = sys.stdout
+        sys.stdout = fnull
+        try:
+            yield
+        finally:
+            sys.stdout = old_stdout

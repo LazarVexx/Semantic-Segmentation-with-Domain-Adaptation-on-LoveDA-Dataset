@@ -77,7 +77,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
         # --- Compute source loss ---
         source_logits = model(source_images, source_labels, source_bd_gts)
-        source_loss, _, source_acc, _ = source_logits  
+        source_loss, _, source_acc, _,_,_ = source_logits  
         source_loss_total += source_loss.item()
 
         # --- Load target domain data ---
@@ -100,7 +100,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Compute target loss (only for confident pseudo-labels) ---
         if target_images.size(0) > 0:  # Ensure valid pseudo-labels exist
             confident_logits = model(target_images, pseudo_labels, target_bd_gts)
-            target_loss, _, target_acc, _ = confident_logits 
+            target_loss, _, target_acc, _,_,_ = confident_logits 
         else:
             target_loss = torch.tensor(0.0, requires_grad=True).cuda()
             target_acc = torch.tensor(0.0, device=source_acc.device)
@@ -111,7 +111,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         mixed_bd_gts = compute_bd_gt_mixup(source_bd_gts, target_bd_gts)
         mixed_images, mixed_labels, mixed_bd_gts = mixed_images.cuda(), mixed_labels.long().cuda(), mixed_bd_gts.float().cuda()
         mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
-        mixup_loss, _, mixup_acc, _ = mixed_logits  
+        mixup_loss, _, mixup_acc, _,_,_ = mixed_logits  
 
         # --- Compute total loss ---
         source_loss_weight = 0.5

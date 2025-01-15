@@ -12,8 +12,6 @@ BatchNorm2d = nn.BatchNorm2d
 bn_mom = 0.1
 algc = False
 
-
-
 class PIDNet(nn.Module):
 
     def __init__(self, m=2, n=3, num_classes=19, planes=64, ppm_planes=96, head_planes=128, augment=True):

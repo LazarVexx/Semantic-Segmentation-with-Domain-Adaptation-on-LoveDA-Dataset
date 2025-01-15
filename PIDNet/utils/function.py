@@ -272,14 +272,14 @@ def train_adv(config, epoch, num_epoch,
         labelst = labelst.long().cuda()
         bd_gtst = bd_gtst.float().cuda()
 
-        loss_tensort, outputst, acct, loss_listt,_,_ = model(imagest, labelst, bd_gtst)
+        loss_tensort, output_target, acct, loss_listt,_,_ = model(imagest, labelst, bd_gtst)
         losst = loss_tensort.mean()
         acct = acct.mean()
 
         # Discriminator predictions on target
-        D_out1 = model_D1(F.softmax(outputst[0], dim=1))
+        D_out1 = model_D1(F.softmax(output_target[0], dim=1))
 
-        D_out2 = model_D2(F.softmax(outputst[1], dim=1))
+        D_out2 = model_D2(F.softmax(output_target[1], dim=1))
 
         
         loss_adv_target1 = bce_loss(D_out1, 
@@ -321,8 +321,8 @@ def train_adv(config, epoch, num_epoch,
         loss_D_value2 += loss_D2.data.cpu().numpy().item()
 
         # Train with target
-        pred_target1 = outputst[0].detach()
-        pred_target2 = outputst[1].detach()
+        pred_target1 = output_target[0].detach()
+        pred_target2 = output_target[1].detach()
 
         D_out1 = model_D1(F.softmax(pred_target1, dim=1))
         D_out2 = model_D2(F.softmax(pred_target2, dim=1))

@@ -22,7 +22,7 @@ import models
 import datasets
 from configs import config
 from configs import update_config
-from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
+from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss, DiceLoss, FocalLoss
 from utils.function_DACS import train, validate
 from utils.utils import create_logger, adjust_learning_rate, FullModel
 
@@ -73,9 +73,7 @@ def main():
     # Prepare model
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
     model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
-    model = FullModel(model, CrossEntropy(), BondaryLoss())
-    model = nn.DataParallel(model, device_ids=gpus).cuda()
-
+   
     # Prepare datasets
     crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
     source_train_dataset = eval('datasets.' + config.DATASET.SOURCE_DATASET)(
@@ -119,6 +117,29 @@ def main():
         pin_memory=False,
         drop_last=True
     )
+    
+    # criterion
+    if config.LOSS.USE_OHEM:
+        sem_criterion = OhemCrossEntropy(ignore_label=config.TRAIN.IGNORE_LABEL,
+                                        thres=config.LOSS.OHEMTHRES,
+                                        min_kept=config.LOSS.OHEMKEEP,
+                                        weight=source_train_dataset.class_weights)
+    elif config.LOSS.USE_DICE:
+        sem_criterion = DiceLoss(ignore_label=config.TRAIN.IGNORE_LABEL,
+                                 eps=1e-6)
+    
+    elif config.LOSS.USE_FOCAL:
+        sem_criterion = FocalLoss(ignore_label=config.TRAIN.IGNORE_LABEL,
+                                  weight=source_train_dataset.class_weights)
+       
+    else:
+        sem_criterion = CrossEntropy(ignore_label=config.TRAIN.IGNORE_LABEL,
+                                    weight=source_train_dataset.class_weights)
+
+    bd_criterion = BondaryLoss()
+    
+    model = FullModel(model, sem_criterion, bd_criterion)
+    model = nn.DataParallel(model, device_ids=gpus).cuda()
 
     # optimizer
     if config.TRAIN.OPTIMIZER == 'sgd':
@@ -183,7 +204,8 @@ def main():
             optimizer=optimizer,
             model=model,
             writer_dict=writer_dict,
-            augmentations=strong_augmentations
+            augmentations=strong_augmentations,
+            criterion=sem_criterion
         )
 
         # Log training metrics

@@ -46,9 +46,16 @@ def classmix_fn(source_images, source_labels, target_images, pseudo_labels, sour
 
     return mixed_images, mixed_labels, mixed_bd_gts
 
+def dacs_loss(source_prediction, source_label, mixed_prediction, mixed_label, lambda_value, criterion):
+    source_loss = criterion()(source_prediction, source_label)
+    mixed_loss = criterion()(mixed_prediction, mixed_label)
+    total_loss = source_loss + lambda_value * mixed_loss
+    return total_loss
+    
+
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr,
-          num_iters, source_loader, target_loader, optimizer, model, writer_dict, augmentations):
+          num_iters, source_loader, target_loader, optimizer, model, writer_dict, augmentations, criterion):
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -85,9 +92,13 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         visualize_segmentation(source_labels[0])
 
         # --- Compute source loss ---
-        source_logits = model(source_images, source_labels, source_bd_gts)
-        source_loss, _, source_acc, _ = source_logits  
+        source_model = model(source_images, source_labels, source_bd_gts)
+        source_loss, _, source_acc, _ = source_model
         source_loss_total += source_loss.item()
+        
+        source_pred=model_target(source_images)[1]
+        source_pred=F.interpolate(source_pred, size=(config.TRAIN.IMAGE_SIZE[0],config.TRAIN.IMAGE_SIZE[1]), mode='bilinear', align_corners=False)
+            
 
         # --- Load target domain data ---
         target_images = target_data[0] # Ignore target labels
@@ -106,14 +117,10 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
             pseudo_labels = torch.argmax(upsampled_logits, dim=1)      
             
         pseudo_labels = pseudo_labels.long().cuda()
-
-        # --- Compute target loss (only for confident pseudo-labels) ---
-        if target_images.size(0) > 0:  # Ensure valid pseudo-labels exist
-            target_logits = model(target_images, pseudo_labels, target_bd_gts)
-            target_loss, _, target_acc, _, = target_logits 
-        else:
-            target_loss = torch.tensor(0.0, requires_grad=True).cuda()
-            target_acc = torch.tensor(0.0, device=source_acc.device)
+        
+        target_logits = model(target_images, pseudo_labels, target_bd_gts)
+        target_loss, _, target_acc, _, = target_logits 
+        
         target_loss_total += target_loss.item()
 
 
@@ -123,8 +130,11 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Apply MixUp augmentation between source and target images ---
         mixed_images, mixed_labels, mixed_bd_gts = classmix_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts)
         mixed_images, mixed_labels, mixed_bd_gts = mixed_images.cuda(), mixed_labels.long().cuda(), mixed_bd_gts.float().cuda()
-        mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
-        mixup_loss, _, mixup_acc, _ = mixed_logits  
+        mixed_model = model(mixed_images, mixed_labels, mixed_bd_gts)
+        mixup_loss, _, mixup_acc, _ = mixed_model 
+        
+        mixed_pred = model_target(mixed_images)[1]
+        mixed_pred = F.interpolate(mixed_pred, size=(config.TRAIN.IMAGE_SIZE[0],config.TRAIN.IMAGE_SIZE[1]), mode='bilinear', align_corners=False)
         
         visualize_images(mixed_images[0])
         visualize_segmentation(mixed_labels[0])
@@ -132,7 +142,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Compute total loss ---
         mixup_loss_weight = 0.5
 
-        loss_value = source_loss + mixup_loss_weight * mixup_loss
+        loss_value = dacs_loss(source_model, source_labels, mixed_model, mixed_labels, mixup_loss_weight, criterion)
         
         # --- Measure average accuracy ---
         acc = source_acc + mixup_loss_weight * mixup_acc # Averaging source, target, and mixup accuracy
@@ -145,9 +155,6 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         ave_loss.update(loss_value.item())
         ave_acc.update(acc.item())
         
-        # --- Update learning rate ---
-        lr = adjust_learning_rate(optimizer, base_lr, num_iters, i_iter + cur_iters)
-
         # --- Backpropagation and optimization ---
         model.zero_grad()       
         loss_value.backward()

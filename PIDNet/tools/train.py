@@ -23,7 +23,7 @@ import models
 import datasets
 from configs import config
 from configs import update_config
-from utils.criterion import CrossEntropy, DiceLoss, OhemCrossEntropy, BondaryLoss
+from utils.criterion import CrossEntropy, DiceLoss, OhemCrossEntropy, BondaryLoss, FocalLoss
 from utils.function import train, validate
 from utils.utils import create_logger, FullModel
 
@@ -141,8 +141,11 @@ def main():
     elif config.LOSS.USE_DICE:
         sem_criterion = DiceLoss(ignore_label=config.TRAIN.IGNORE_LABEL,
                                  eps=1e-6)
-
     
+    elif config.LOSS.USE_FOCAL:
+        sem_criterion = FocalLoss(ignore_label=config.TRAIN.IGNORE_LABEL,
+                                  weight=train_dataset.class_weights)
+       
     else:
         sem_criterion = CrossEntropy(ignore_label=config.TRAIN.IGNORE_LABEL,
                                     weight=train_dataset.class_weights)

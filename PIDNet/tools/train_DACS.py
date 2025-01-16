@@ -156,8 +156,16 @@ def main():
     
      # Training loop modifications in the main script
     for epoch in range(config.TRAIN.BEGIN_EPOCH, config.TRAIN.END_EPOCH):
-        model.train()  # Set model to training mode
-
+        
+        if config.TRAIN.SCHEDULER:
+            if epoch < warmup_epochs:
+                adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
+            else:
+                scheduler.step()
+            current_lr = optimizer.param_groups[0]['lr']
+        else:
+            current_lr = config.TRAIN.LR
+            
         # Warm-up phase for learning rate adjustment
         if epoch < warmup_epochs:
             adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
@@ -168,7 +176,7 @@ def main():
             epoch=epoch,
             num_epoch=config.TRAIN.END_EPOCH,
             epoch_iters=epoch_iters,
-            base_lr=base_lr,
+            base_lr=current_lr,
             num_iters=num_iters,
             source_loader=source_trainloader,
             target_loader=target_trainloader,
@@ -183,9 +191,6 @@ def main():
                     f"Source Loss: {train_metrics['source_loss']:.4f}, "
                     f"Target Loss: {train_metrics['target_loss']:.4f}")
 
-        # Step scheduler
-        if epoch >= warmup_epochs:
-            scheduler.step()
 
         # Validation and saving checkpoints
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):

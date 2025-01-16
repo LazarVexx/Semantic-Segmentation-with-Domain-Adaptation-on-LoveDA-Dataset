@@ -104,15 +104,12 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         target_loss_total += target_loss.item()
 
         # --- Apply MixUp augmentation between source and target images ---
-        mixed_images, mixed_labels, mixed_bd_gts = mixup_fn(source_images, source_labels, target_images, pseudo_labels)
+        mixed_images, mixed_labels, mixed_bd_gts = mixup_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts)
         mixed_images, mixed_labels, mixed_bd_gts = mixed_images.cuda(), mixed_labels.long().cuda(), mixed_bd_gts.float().cuda()
         mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
         mixup_loss, _, mixup_acc, _, flops,params = mixed_logits  
         
-        # --- Backpropagation and optimization ---
-        model.zero_grad()
-        total_batch_loss.backward()
-        optimizer.step()
+       
 
         # --- Compute total loss ---
         source_loss_weight = 0.5
@@ -124,6 +121,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
             target_loss_weight * target_loss +
             mixup_loss_weight * mixup_loss
         )
+        
+         
 
         # --- Measure average accuracy ---
         acc = (source_acc + target_acc + mixup_acc) / 3  # Averaging source, target, and mixup accuracy
@@ -141,6 +140,10 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Update learning rate ---
         lr = adjust_learning_rate(optimizer, base_lr, num_iters, i_iter + cur_iters)
 
+        # --- Backpropagation and optimization ---
+        model.zero_grad()
+        total_batch_loss.backward()
+        optimizer.step()
         # --- Log training progress ---
         if i_iter % config.PRINT_FREQ == 0:
             msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \

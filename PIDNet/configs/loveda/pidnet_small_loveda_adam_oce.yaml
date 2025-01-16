@@ -19,7 +19,7 @@ MODEL:
   NUM_OUTPUTS: 2
   PRETRAINED: "pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar"
 LOSS:
-  USE_OHEM: false
+  USE_OHEM: true
   OHEMTHRES: 0.7
   OHEMKEEP: 131072
   BALANCE_WEIGHTS: [0.4, 1.0]

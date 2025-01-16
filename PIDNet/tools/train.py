@@ -137,7 +137,6 @@ def main():
                                         thres=config.LOSS.OHEMTHRES,
                                         min_kept=config.LOSS.OHEMKEEP,
                                         weight=train_dataset.class_weights)
-    
     elif config.LOSS.USE_DICE:
         sem_criterion = DiceLoss(ignore_label=config.TRAIN.IGNORE_LABEL,
                                  eps=1e-6)

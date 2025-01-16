@@ -23,7 +23,7 @@ import datasets
 from configs import config
 from configs import update_config
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
-from utils.function_DACS import train, validate, generate_pseudo_labels
+from utils.function_DACS import train, validate
 from utils.utils import create_logger, adjust_learning_rate, FullModel
 
 
@@ -198,18 +198,18 @@ def main():
         
         if flag_rm == 1:
             flag_rm = 0
-
-        # Log validation metrics
-        msg = f"Epoch [{epoch}], Loss: {train_metrics['total_loss']:.3f}, MeanIU: {mean_IoU:.4f}, "
-        f"Pixel_Acc: {pixel_acc:.4f}, Mean_Acc: {mean_acc:.4f}"
-        logging.info(msg)
-        logging.info(f"IoU per class: {IoU_array}")
-
+            
         # Save checkpoint and best model
         is_best = mean_IoU > best_mIoU
         if is_best:
             best_mIoU = mean_IoU
             torch.save(model.module.state_dict(), os.path.join(final_output_dir, 'best.pt'))
+
+        # Log validation metrics
+        msg = f"Epoch [{epoch}], Loss: {train_metrics['total_loss']:.3f}, MeanIoU: {mean_IoU:.4f}, best_mIoU: {best_mIoU:.4f}"
+        f"Pixel_Acc: {pixel_acc:.4f}, Mean_Acc: {mean_acc:.4f}"
+        logging.info(msg)
+        logging.info(f"IoU per class: {IoU_array}")
 
         torch.save({
             'epoch': epoch + 1,

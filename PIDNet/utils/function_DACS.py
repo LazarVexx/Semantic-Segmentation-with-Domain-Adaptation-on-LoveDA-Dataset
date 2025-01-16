@@ -22,59 +22,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 from torchvision.utils import make_grid
 
-def visualize_images(images, labels, title, num_images=4):
-    """
-    Visualize a batch of images and their corresponding labels.
+def denormalize(tensor, mean, std):
+  for i in range(len(mean)):
+    tensor[i] = tensor[i]*std[i] + mean[i]
+  return tensor
 
-    Args:
-        images (torch.Tensor): Images tensor, shape (B, C, H, W).
-        labels (torch.Tensor): Labels tensor, shape (B, H, W).
-        title (str): Title of the visualization.
-        num_images (int): Number of images to display from the batch.
-    """
-    images = images[:num_images].cpu().numpy()  # Take first `num_images`
-    labels = labels[:num_images].cpu().numpy()
-    num_images = min(num_images, len(images))
+def visualize_images(image_tensor):
 
-    fig, axes = plt.subplots(num_images, 2, figsize=(10, num_images * 5))
-    fig.suptitle(title, fontsize=16)
-
-    for i in range(num_images):
-        # Image
-        img = images[i].transpose(1, 2, 0)  # Convert (C, H, W) to (H, W, C)
-        img = (img - img.min()) / (img.max() - img.min())  # Normalize to [0, 1]
-        axes[i, 0].imshow(img)
-        axes[i, 0].set_title(f"Image {i}")
-        axes[i, 0].axis("off")
-
-        # Label
-        label = labels[i]
-        axes[i, 1].imshow(label, cmap="tab20")  # Use a color map for labels
-        axes[i, 1].set_title(f"Label {i}")
-        axes[i, 1].axis("off")
-
-    plt.tight_layout()
-    plt.show()
-
+  image_tensor = image_tensor.cpu()
+  image_tensor = denormalize(image_tensor, [0.485,0.456,0.406], [0.229,0.224,0.225])
+  image = image_tensor.permute(1,2,0).numpy()
+  plt.imshow(image)
+  plt.show()
 
 
 def classmix_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts):
-    """
-    Perform ClassMix augmentation for DACS by mixing pixels based on class masks.
-
-    Args:
-        source_images (torch.Tensor): Source domain images, shape (B, C, H, W).
-        source_labels (torch.Tensor): Source domain labels, shape (B, H, W).
-        target_images (torch.Tensor): Target domain images, shape (B, C, H, W).
-        pseudo_labels (torch.Tensor): Pseudo-labels for target images, shape (B, H, W).
-        source_bd_gts (torch.Tensor): Source boundary ground truths, shape (B, H, W).
-        target_bd_gts (torch.Tensor): Target boundary ground truths, shape (B, H, W).
-
-    Returns:
-        mixed_images (torch.Tensor): Mixed images, shape (B, C, H, W).
-        mixed_labels (torch.Tensor): Mixed labels, shape (B, H, W).
-        mixed_bd_gts (torch.Tensor): Mixed boundary ground truths, shape (B, H, W).
-    """
     batch_size, _, height, width = source_images.size()
 
     # Clone inputs for mixed outputs
@@ -135,6 +97,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
         source_images, source_labels, source_bd_gts = source_images.cuda(), source_labels.long().cuda(), source_bd_gts.float().cuda()
 
+        #visualize_images(source_images[0])
+
         # --- Compute source loss ---
         source_logits = model(source_images, source_labels, source_bd_gts)
         source_loss, _, source_acc, _ = source_logits  
@@ -161,11 +125,14 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Compute target loss (only for confident pseudo-labels) ---
         if target_images.size(0) > 0:  # Ensure valid pseudo-labels exist
             target_logits = model(target_images, pseudo_labels, target_bd_gts)
-            target_loss, _, target_acc, _,_,_ = target_logits 
+            target_loss, _, target_acc, _, = target_logits 
         else:
             target_loss = torch.tensor(0.0, requires_grad=True).cuda()
             target_acc = torch.tensor(0.0, device=source_acc.device)
         target_loss_total += target_loss.item()
+
+
+        #visualize_images(target_images[0])
 
         # --- Apply MixUp augmentation between source and target images ---
         mixed_images, mixed_labels, mixed_bd_gts = classmix_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts)
@@ -173,18 +140,15 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
         mixup_loss, _, mixup_acc, _ = mixed_logits  
         
+        #visualize_images(mixed_images[0])
+
         # --- Compute total loss ---
-        source_loss_weight = 0.5
-        target_loss_weight = 0.5
         mixup_loss_weight = 0.5
 
-        source_loss = CrossEntropy()(source_logits, source_labels)
-        mixed_loss = CrossEntropy()(mixed_logits, mixed_labels)
-        
-        loss_value = source_loss + mixup_loss_weight + mixed_loss
+        loss_value = source_loss + mixup_loss_weight * mixup_loss
         
         # --- Measure average accuracy ---
-        acc = (source_acc + target_acc + mixup_acc) / 3  # Averaging source, target, and mixup accuracy
+        acc = source_acc + mixup_loss_weight * mixup_acc # Averaging source, target, and mixup accuracy
 
         # --- Measure elapsed time ---
         batch_time.update(time.time() - tic)
@@ -193,9 +157,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Update average loss ---
         ave_loss.update(loss_value.item())
         ave_acc.update(acc.item())
-        avg_sem_loss.update(source_loss.item())
-        avg_bce_loss.update(target_loss.item())
-
+        
         # --- Update learning rate ---
         lr = adjust_learning_rate(optimizer, base_lr, num_iters, i_iter + cur_iters)
 
@@ -203,6 +165,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         model.zero_grad()       
         loss_value.backward()
         optimizer.step()
+        
         # --- Log training progress ---
         if i_iter % config.PRINT_FREQ == 0:
             msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
@@ -211,8 +174,6 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
                       batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(),
                       ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(), mixup_loss.item())
             logging.info(msg)
-
-
 
     # --- Update Tensorboard ---
     writer.add_scalar('train_loss', ave_loss.average(), global_steps)
@@ -294,9 +255,12 @@ def validate(config, testloader, model, writer_dict):
         pos = confusion_matrix[..., i].sum(1)
         res = confusion_matrix[..., i].sum(0)
         tp = np.diag(confusion_matrix[..., i])
-        IoU_array = tp / np.maximum(1.0, pos + res - tp)
+        IoU_array = (tp / np.maximum(1.0, pos + res - tp))
         mean_IoU = IoU_array.mean()
+        
         logging.info('{} {} {}'.format(i, IoU_array, mean_IoU))
+      
+    
         
     # Calculate Pixel Accuracy and Mean Accuracy
     pixel_acc = total_correct_pixels / total_pixels

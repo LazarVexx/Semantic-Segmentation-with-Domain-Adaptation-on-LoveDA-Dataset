@@ -160,13 +160,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
         # --- Compute target loss (only for confident pseudo-labels) ---
         if target_images.size(0) > 0:  # Ensure valid pseudo-labels exist
-<<<<<<< Updated upstream
-            confident_logits = model(target_images, pseudo_labels, target_bd_gts)
-            target_loss, _, target_acc, _, = confident_logits 
-=======
             target_logits = model(target_images, pseudo_labels, target_bd_gts)
             target_loss, _, target_acc, _,_,_ = target_logits 
->>>>>>> Stashed changes
         else:
             target_loss = torch.tensor(0.0, requires_grad=True).cuda()
             target_acc = torch.tensor(0.0, device=source_acc.device)

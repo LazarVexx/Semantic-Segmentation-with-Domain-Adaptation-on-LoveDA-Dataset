@@ -1,0 +1,83 @@
+2025-01-16 19:52:18,781 Namespace(cfg='configs/loveDa/pidnet_small_loveda_train_AVD.yaml', seed=304, opts=['GPUS', '[0]', 'TRAIN.BATCH_SIZE_PER_GPU', '6'])
+2025-01-16 19:52:18,781 AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: loveDa
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 8
+  ROOT: data/
+  SOURCE_DATASET: loveDA-Urban
+  SOURCE_TEST_SET: list/loveDA-Urban/val.lst
+  SOURCE_TRAIN_SET: list/loveDA-Urban/train.lst
+  TARGET_DATASET: loveDA-Rural
+  TARGET_SET: list/loveDa/target.lst
+  TARGET_TEST_SET: list/loveDA-Rural/val.lst
+  TARGET_TRAIN_SET: list/loveDA-Rural/train.lst
+  TEST_SET: list/loveDa-Rural/val.lst
+  TRAIN_SET: list/loveDa/train.lst
+GPUS: (0,)
+LOG_DIR: log
+LOSS:
+  BALANCE_WEIGHTS: [0.4, 1.0]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  SB_WEIGHTS: 1.0
+  USE_DICE: False
+  USE_FOCAL: False
+  USE_OHEM: True
+MODEL:
+  ALIGN_CORNERS: True
+  NAME: pidnet_small
+  NUM_OUTPUTS: 2
+  PRETRAINED: pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar
+OUTPUT_DIR: output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+TEST:
+  BASE_SIZE: 2048
+  BATCH_SIZE_PER_GPU: 6
+  FLIP_TEST: False
+  IMAGE_SIZE: [1024, 1024]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  OUTPUT_INDEX: 1
+TRAIN:
+  ADVERSARIAL: True
+  AUG: False
+  AUG1: False
+  AUG2: False
+  AUG3: False
+  AUG4: False
+  AUG_CHANCE: False
+  BASE_SIZE: 1440
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  END_EPOCH: 20
+  EVAL_INTERVAL: 1
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  GAN: Vanilla
+  IGNORE_LABEL: 255
+  IMAGE_SIZE: [720, 720]
+  LAMBDA_ADV: 0.001
+  LR: 0.01
+  LR_D1: 0.01
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  OPTIMIZER: sgd
+  RESUME: False
+  SCALE_FACTOR: 16
+  SCHEDULER: False
+  SHUFFLE: True
+  WD: 0.0005
+WORKERS: 0
+2025-01-16 19:52:18,930 Attention!!!
+2025-01-16 19:52:18,931 Loaded 302 parameters!
+2025-01-16 19:52:18,931 Over!!!
+2025-01-16 19:52:55,391 Epoch: [0/20] Iter:[0/192], Time: 34.94, lr: [0.01], Loss: 16.367515, Loss_D: 0.693159, Acc:0.166214, Semantic loss: 0.601100

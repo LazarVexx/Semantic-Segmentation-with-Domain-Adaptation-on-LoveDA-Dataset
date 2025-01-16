@@ -132,32 +132,30 @@ class BondaryLoss(nn.Module):
     
 
     
-
-
-class FocalLoss(nn.Module):
-    def __init__(self, alpha=1, gamma=2, ignore_label=0, weight=None):
-        
-        super(FocalLoss, self).__init__()
-        self.alpha = alpha
-        self.gamma = gamma
+class DiceLoss(nn.Module):
+    def __init__(self, eps=1e-6, ignore_label=-1):
+        super(DiceLoss, self).__init__()
+        self.eps = eps
         self.ignore_label = ignore_label
-        self.criterion = nn.CrossEntropyLoss(weight=weight, ignore_index=ignore_label, reduction='none')
 
-    def forward(self, score, target):
-        
-        # Compute standard cross-entropy loss
-        ce_loss = self.criterion(score, target)
+    def forward(self, preds, targets):
+      # process each tensor individually
+      if isinstance(preds, list):
+          preds = torch.cat(preds, dim=1)  # Combine list into a single tensor along channel dimension
+      
+      # Proceed with the existing logic
+      if preds.shape[1] > 1:
+          preds = F.softmax(preds, dim=1)
+      num_classes = preds.shape[1]
+      targets_one_hot = F.one_hot(targets, num_classes=num_classes).permute(0, 3, 1, 2).float()
+      preds = preds[:, 1:]
+      targets_one_hot = targets_one_hot[:, 1:]
+      intersection = torch.sum(preds * targets_one_hot, dim=(2, 3))
+      union = torch.sum(preds, dim=(2, 3)) + torch.sum(targets_one_hot, dim=(2, 3))
+      dice_score = (2.0 * intersection + self.eps) / (union + self.eps)
+      loss = 1.0 - dice_score.mean()
+      return loss
 
-        # Compute probability of the target class
-        probs = F.softmax(score, dim=1)
-        target_probs = probs.gather(1, target.unsqueeze(1)).squeeze(1)
-
-        # Apply the focal loss formula
-        focal_weight = self.alpha * (1 - target_probs) ** self.gamma
-        focal_loss = focal_weight * ce_loss
-
-        # Return the average loss
-        return focal_loss.mean()
     
 if __name__ == '__main__':
     # Import required modules

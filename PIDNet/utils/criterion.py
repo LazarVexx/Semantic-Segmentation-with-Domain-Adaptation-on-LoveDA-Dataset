@@ -132,29 +132,7 @@ class BondaryLoss(nn.Module):
     
 
     
-class DiceLoss(nn.Module):
-    def __init__(self, eps=1e-6, ignore_label=-1):
-        super(DiceLoss, self).__init__()
-        self.eps = eps
-        self.ignore_label = ignore_label
 
-    def forward(self, preds, targets):
-      # process each tensor individually
-      if isinstance(preds, list):
-          preds = torch.cat(preds, dim=1)  # Combine list into a single tensor along channel dimension
-      
-      # Proceed with the existing logic
-      if preds.shape[1] > 1:
-          preds = F.softmax(preds, dim=1)
-      num_classes = preds.shape[1]
-      targets_one_hot = F.one_hot(targets, num_classes=num_classes).permute(0, 3, 1, 2).float()
-      preds = preds[:, 1:]
-      targets_one_hot = targets_one_hot[:, 1:]
-      intersection = torch.sum(preds * targets_one_hot, dim=(2, 3))
-      union = torch.sum(preds, dim=(2, 3)) + torch.sum(targets_one_hot, dim=(2, 3))
-      dice_score = (2.0 * intersection + self.eps) / (union + self.eps)
-      loss = 1.0 - dice_score.mean()
-      return loss
 
     
 if __name__ == '__main__':

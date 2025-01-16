@@ -49,12 +49,17 @@ class Loveda(BaseDataset):
         
         self.class_weights = torch.FloatTensor([0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]).cuda()
         
-        self.transform = A.Compose([
-            A.HorizontalFlip(p=0.5),
-            A.GaussianBlur(blur_limit=(3, 7), p=0.5),
-            A.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, p=0.5),
-            A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5)
-        ])
+        transforms_list = []
+        if config.TRAIN.AUG1:
+            transforms_list.append(A.HorizontalFlip(p=0.5))
+        if config.TRAIN.AUG2:
+            transforms_list.append(A.GaussianBlur(blur_limit=(3, 7), p=0.5))
+        if config.TRAIN.AUG3:
+            transforms_list.append(A.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, p=0.5))
+        if config.TRAIN.AUG4:
+            transforms_list.append(A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5))
+
+        self.transform = A.Compose(transforms_list)
 
 
         self.bd_dilate_size = bd_dilate_size
@@ -114,21 +119,20 @@ class Loveda(BaseDataset):
             label = transformed['mask']
 
 
-        # If AUG_RETAIN is enabled, return both the original and augmented versions of the image
-        if config.TRAIN.AUG_RETAIN:  # If retention of original and augmented images is enabled
+        # If AUG_CHANCE is enabled, return with 50% chance two times the augmented image
+        if config.TRAIN.AUG_CHANCE and np.random.rand() > 0.5:
+
             # Apply transformations to get the augmented image
             transformed = self.transform(image=image, mask=label)
             augmented_image = transformed['image']
             augmented_label = transformed['mask']
 
             # We return both the original and augmented image here
-            original_image, original_label, edge = self.gen_sample(image, label, 
-                                                                self.multi_scale, self.flip, edge_size=self.bd_dilate_size)
             augmented_image, augmented_label, _ = self.gen_sample(augmented_image, augmented_label, 
                                                                 self.multi_scale, self.flip, edge_size=self.bd_dilate_size)
 
-            # Return both original and augmented data
-            return original_image.copy(), original_label.copy(), edge.copy(), np.array(size), name, \
+            # Return both image from TRAIN.AUG and FROM AUG_CHANCE
+            return image.copy(), label.copy(), edge.copy(), np.array(size), name, \
                 augmented_image.copy(), augmented_label.copy(), edge.copy(), np.array(size), name
 
 
@@ -137,7 +141,9 @@ class Loveda(BaseDataset):
         image, label, edge = self.gen_sample(image, label, 
                                 self.multi_scale, self.flip, edge_size=self.bd_dilate_size)
 
-        return image.copy(), label.copy(), edge.copy(), np.array(size), name
+        return image.copy(), label.copy(), edge.copy(), np.array(size), name, \
+            -1, -1, -1, -1, -1
+            
         
 
         

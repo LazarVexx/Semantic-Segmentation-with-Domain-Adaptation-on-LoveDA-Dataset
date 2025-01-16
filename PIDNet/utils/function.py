@@ -39,12 +39,15 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
 
     for i_iter, batch in enumerate(trainloader, 0):
-        images, labels, bd_gts, _, _ = batch
+
+        
+        images, labels, bd_gts, _, _, \
+        images_chance, labels_chance, edges_chance, _, _ = batch
+        
         images = images.cuda()
         labels = labels.long().cuda()
         bd_gts = bd_gts.float().cuda()
         model.cuda()
-        
 
         losses, _, acc, loss_list,flops,num_params = model(images, labels, bd_gts)
         loss = losses.mean()
@@ -53,6 +56,20 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         model.zero_grad()
         loss.backward()
         optimizer.step()
+
+
+        # training is done with the same image (augmented)
+        if config.TRAIN.AUG_CHANCE:
+            images_chance = images_chance.cuda()
+            labels_chance = labels_chance.long().cuda()
+            edges_chance = edges_chance.float().cuda()
+            losses, _, acc, loss_list,flops,num_params = model(images_chance, labels_chance, edges_chance)
+            loss = losses.mean()
+            acc  = acc.mean()
+            model.zero_grad()
+            loss.backward()
+            optimizer.step()
+
 
         # measure elapsed time
         batch_time.update(time.time() - tic)

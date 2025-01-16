@@ -77,8 +77,19 @@ _C.TRAIN.WD = 0.0001
 _C.TRAIN.NESTEROV = False
 _C.TRAIN.IGNORE_LABEL = -1
 
-_C.TRAIN.AUG = False
-_C.TRAIN.AUG_RETAIN = False
+
+# Enable Augmentation in general
+_C.TRAIN.AUG = False 
+
+
+#Specific Augmentations
+_C.TRAIN.AUG1 = False
+_C.TRAIN.AUG2 = False
+_C.TRAIN.AUG3 = False
+_C.TRAIN.AUG4 = False
+
+
+_C.TRAIN.AUG_CHANCE = False # Must be used with TRAIN_AUG = True
 _C.TRAIN.EVAL_INTERVAL = 1
 
 _C.TRAIN.ADVERSARIAL = False

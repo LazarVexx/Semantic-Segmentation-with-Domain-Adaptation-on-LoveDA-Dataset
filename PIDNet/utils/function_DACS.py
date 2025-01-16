@@ -18,32 +18,96 @@ from utils.utils import get_confusion_matrix
 from utils.utils import adjust_learning_rate
 from utils.criterion import CrossEntropy, OhemCrossEntropy
 
-def mixup_fn(images1, labels1, images2, labels2, gts1, gts2, alpha=0.5):
-    lambda_val = torch.distributions.Beta(alpha, alpha).sample().item()
-    mixed_images = lambda_val * images1 + (1 - lambda_val) * images2
-    mixed_labels = lambda_val * labels1 + (1 - lambda_val) * labels2
-    mixed_gts = lambda_val * gts1 + (1 - lambda_val) * gts2
-    return mixed_images, mixed_labels, mixed_gts
+import matplotlib.pyplot as plt
+import numpy as np
+from torchvision.utils import make_grid
+
+def visualize_images(images, labels, title, num_images=4):
+    """
+    Visualize a batch of images and their corresponding labels.
+
+    Args:
+        images (torch.Tensor): Images tensor, shape (B, C, H, W).
+        labels (torch.Tensor): Labels tensor, shape (B, H, W).
+        title (str): Title of the visualization.
+        num_images (int): Number of images to display from the batch.
+    """
+    images = images[:num_images].cpu().numpy()  # Take first `num_images`
+    labels = labels[:num_images].cpu().numpy()
+    num_images = min(num_images, len(images))
+
+    fig, axes = plt.subplots(num_images, 2, figsize=(10, num_images * 5))
+    fig.suptitle(title, fontsize=16)
+
+    for i in range(num_images):
+        # Image
+        img = images[i].transpose(1, 2, 0)  # Convert (C, H, W) to (H, W, C)
+        img = (img - img.min()) / (img.max() - img.min())  # Normalize to [0, 1]
+        axes[i, 0].imshow(img)
+        axes[i, 0].set_title(f"Image {i}")
+        axes[i, 0].axis("off")
+
+        # Label
+        label = labels[i]
+        axes[i, 1].imshow(label, cmap="tab20")  # Use a color map for labels
+        axes[i, 1].set_title(f"Label {i}")
+        axes[i, 1].axis("off")
+
+    plt.tight_layout()
+    plt.show()
 
 
-# Function to generate pseudo-labels
-def generate_pseudo_labels(model, target_images, confidence_threshold=0.8):
-    """Generate pseudo-labels for target domain images."""
-    with torch.no_grad():
-        logits = model(target_images)
-        probs = torch.softmax(logits, dim=1)
-        pseudo_labels = torch.argmax(probs, dim=1)
-        confidence_mask = probs.max(dim=1).values > confidence_threshold
-        return pseudo_labels, confidence_mask
-    
+
+def classmix_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts):
+    """
+    Perform ClassMix augmentation for DACS by mixing pixels based on class masks.
+
+    Args:
+        source_images (torch.Tensor): Source domain images, shape (B, C, H, W).
+        source_labels (torch.Tensor): Source domain labels, shape (B, H, W).
+        target_images (torch.Tensor): Target domain images, shape (B, C, H, W).
+        pseudo_labels (torch.Tensor): Pseudo-labels for target images, shape (B, H, W).
+        source_bd_gts (torch.Tensor): Source boundary ground truths, shape (B, H, W).
+        target_bd_gts (torch.Tensor): Target boundary ground truths, shape (B, H, W).
+
+    Returns:
+        mixed_images (torch.Tensor): Mixed images, shape (B, C, H, W).
+        mixed_labels (torch.Tensor): Mixed labels, shape (B, H, W).
+        mixed_bd_gts (torch.Tensor): Mixed boundary ground truths, shape (B, H, W).
+    """
+    batch_size, _, height, width = source_images.size()
+
+    # Clone inputs for mixed outputs
+    mixed_images = target_images.clone()
+    mixed_labels = pseudo_labels.clone()
+    mixed_bd_gts = target_bd_gts.clone()
+
+    for i in range(batch_size):
+        # Select random classes from the source domain to mix
+        unique_classes = source_labels[i].unique()
+        num_classes = len(unique_classes)
+        selected_classes = unique_classes[torch.randperm(num_classes)[:num_classes // 2]]
+
+        # Create a mask for the selected classes
+        class_mask = torch.zeros_like(source_labels[i], dtype=torch.bool)
+        for cls in selected_classes:
+            class_mask |= source_labels[i] == cls
+
+        # Apply the class mask to copy pixels from source to target
+        mixed_images[i, :, class_mask] = source_images[i, :, class_mask]
+        mixed_labels[i, class_mask] = source_labels[i, class_mask]
+        mixed_bd_gts[i, class_mask] = source_bd_gts[i, class_mask]
+
+    return mixed_images, mixed_labels, mixed_bd_gts
+
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr,
           num_iters, source_loader, target_loader, optimizer, model, writer_dict, augmentations):
+    
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model.train()
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
     batch_time = AverageMeter()
     ave_loss = AverageMeter()
     ave_acc = AverageMeter()
@@ -96,34 +160,34 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
         # --- Compute target loss (only for confident pseudo-labels) ---
         if target_images.size(0) > 0:  # Ensure valid pseudo-labels exist
+<<<<<<< Updated upstream
             confident_logits = model(target_images, pseudo_labels, target_bd_gts)
             target_loss, _, target_acc, _, = confident_logits 
+=======
+            target_logits = model(target_images, pseudo_labels, target_bd_gts)
+            target_loss, _, target_acc, _,_,_ = target_logits 
+>>>>>>> Stashed changes
         else:
             target_loss = torch.tensor(0.0, requires_grad=True).cuda()
             target_acc = torch.tensor(0.0, device=source_acc.device)
         target_loss_total += target_loss.item()
 
         # --- Apply MixUp augmentation between source and target images ---
-        mixed_images, mixed_labels, mixed_bd_gts = mixup_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts)
+        mixed_images, mixed_labels, mixed_bd_gts = classmix_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts)
         mixed_images, mixed_labels, mixed_bd_gts = mixed_images.cuda(), mixed_labels.long().cuda(), mixed_bd_gts.float().cuda()
         mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
         mixup_loss, _, mixup_acc, _ = mixed_logits  
         
-       
-
         # --- Compute total loss ---
         source_loss_weight = 0.5
         target_loss_weight = 0.5
         mixup_loss_weight = 0.5
 
-        total_batch_loss = (
-            source_loss_weight * source_loss +
-            target_loss_weight * target_loss +
-            mixup_loss_weight * mixup_loss
-        )
+        source_loss = CrossEntropy()(source_logits, source_labels)
+        mixed_loss = CrossEntropy()(mixed_logits, mixed_labels)
         
-         
-
+        loss_value = source_loss + mixup_loss_weight + mixed_loss
+        
         # --- Measure average accuracy ---
         acc = (source_acc + target_acc + mixup_acc) / 3  # Averaging source, target, and mixup accuracy
 
@@ -132,7 +196,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         tic = time.time()
 
         # --- Update average loss ---
-        ave_loss.update(total_batch_loss.item())
+        ave_loss.update(loss_value.item())
         ave_acc.update(acc.item())
         avg_sem_loss.update(source_loss.item())
         avg_bce_loss.update(target_loss.item())
@@ -141,8 +205,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         lr = adjust_learning_rate(optimizer, base_lr, num_iters, i_iter + cur_iters)
 
         # --- Backpropagation and optimization ---
-        model.zero_grad()
-        total_batch_loss.backward()
+        model.zero_grad()       
+        loss_value.backward()
         optimizer.step()
         # --- Log training progress ---
         if i_iter % config.PRINT_FREQ == 0:

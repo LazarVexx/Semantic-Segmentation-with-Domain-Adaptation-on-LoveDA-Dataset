@@ -37,7 +37,7 @@ TRAIN:
   RESUME: false
   OPTIMIZER: sgd
   ADVERSARIAL: true
-  LR_D1 : 0.0001
+  LR_D1 : 0.01
   LR_D2 : 0.0001 
   GAN : 'Vanilla'
   LAMBDA_ADVT1: 0.0002

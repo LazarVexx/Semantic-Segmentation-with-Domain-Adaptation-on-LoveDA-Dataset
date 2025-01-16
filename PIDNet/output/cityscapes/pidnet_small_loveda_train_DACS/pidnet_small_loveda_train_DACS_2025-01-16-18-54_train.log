@@ -1,0 +1,85 @@
+2025-01-16 18:54:16,895 Namespace(cfg='configs/loveDa/pidnet_small_loveda_train_DACS.yaml', seed=304, opts=['GPUS', '[0]', 'TRAIN.BATCH_SIZE_PER_GPU', '6'])
+2025-01-16 18:54:16,895 AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: cityscapes
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 8
+  ROOT: data/
+  SOURCE_DATASET: loveDa
+  SOURCE_TEST_SET: list/loveDA-Urban/val.lst
+  SOURCE_TRAIN_SET: list/loveDA-Urban/train.lst
+  TARGET_DATASET: loveDa
+  TARGET_SET: list/cityscapes/val.lst
+  TARGET_TEST_SET: list/loveDa-Rural/val.lst
+  TARGET_TRAIN_SET: list/loveDa-Rural/train.lst
+  TEST_SET: list/cityscapes/val.lst
+  TRAIN_SET: list/cityscapes/train.lst
+GPUS: (0,)
+LOG_DIR: log
+LOSS:
+  BALANCE_WEIGHTS: [0.4, 1.0]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  SB_WEIGHTS: 1.0
+  USE_DICE: False
+  USE_FOCAL: False
+  USE_OHEM: True
+MODEL:
+  ALIGN_CORNERS: True
+  NAME: pidnet_small
+  NUM_OUTPUTS: 2
+  PRETRAINED: pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar
+OUTPUT_DIR: output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+TEST:
+  BASE_SIZE: 2048
+  BATCH_SIZE_PER_GPU: 6
+  FLIP_TEST: False
+  IMAGE_SIZE: [1024, 1024]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  OUTPUT_INDEX: 1
+TRAIN:
+  ADVERSARIAL: False
+  AUG: False
+  AUG1: False
+  AUG2: False
+  AUG3: False
+  AUG4: False
+  AUG_CHANCE: False
+  BASE_SIZE: 2048
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  END_EPOCH: 20
+  EVAL_INTERVAL: 1
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  GAN: Vanilla
+  IGNORE_LABEL: 0
+  IMAGE_SIZE: [720, 720]
+  LAMBDA_ADV: 0.001
+  LR: 0.001
+  LR_D1: 0.0001
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  OPTIMIZER: adam
+  RESUME: False
+  SCALE_FACTOR: 16
+  SCHEDULER: False
+  SHUFFLE: True
+  WD: 0.0005
+WORKERS: 0
+2025-01-16 18:54:17,083 Attention!!!
+2025-01-16 18:54:17,083 Loaded 302 parameters!
+2025-01-16 18:54:17,083 Over!!!
+2025-01-16 18:54:17,366 Attention!!!
+2025-01-16 18:54:17,366 Loaded 302 parameters!
+2025-01-16 18:54:17,367 Over!!!

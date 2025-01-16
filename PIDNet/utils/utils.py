@@ -22,6 +22,11 @@ import sys
 import os
 from contextlib import contextmanager
 
+
+import matplotlib.pyplot as plt
+import numpy as np
+from torchvision.utils import make_grid
+
 class FullModel(nn.Module):
 
   def __init__(self, model, sem_loss, bd_loss):
@@ -178,3 +183,50 @@ def suppress_stdout():
             yield
         finally:
             sys.stdout = old_stdout
+            
+
+
+def denormalize(tensor, mean, std):
+  for i in range(len(mean)):
+    tensor[i] = tensor[i]*std[i] + mean[i]
+  return tensor
+            
+def visualize_images(image_tensor):
+
+  image_tensor = image_tensor.cpu()
+  image_tensor = denormalize(image_tensor, [0.485,0.456,0.406], [0.229,0.224,0.225])
+  image = image_tensor.permute(1,2,0).numpy()
+  plt.imshow(image)
+  plt.show()
+  
+def visualize_segmentation(segmentation_tensor):
+    # Sposta il tensor sulla CPU e converti in numpy array
+    seg_map = segmentation_tensor.cpu().numpy()
+    
+    # Definisci una mappa colori per 8 classi (0-7)
+    # Ogni colore è in formato RGB
+    color_map = {
+        0: [0, 0, 0],        # Nero
+        1: [255, 0, 0],      # Rosso
+        2: [0, 255, 0],      # Verde
+        3: [0, 0, 255],      # Blu
+        4: [255, 255, 0],    # Giallo
+        5: [255, 0, 255],    # Magenta
+        6: [0, 255, 255],    # Ciano
+        7: [128, 128, 128]   # Grigio
+    }
+    
+    # Crea un'immagine RGB vuota
+    height, width = seg_map.shape
+    colored_seg = np.zeros((height, width, 3), dtype=np.uint8)
+    
+    # Assegna i colori in base al valore della classe
+    for class_idx in range(8):
+        mask = (seg_map == class_idx)
+        colored_seg[mask] = color_map[class_idx]
+    
+    # Visualizza l'immagine
+    plt.figure(figsize=(10, 10))
+    plt.imshow(colored_seg)
+    plt.axis('off')
+    plt.show()

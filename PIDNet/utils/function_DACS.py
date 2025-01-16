@@ -16,24 +16,8 @@ from torch.nn import functional as F
 from utils.utils import AverageMeter
 from utils.utils import get_confusion_matrix
 from utils.utils import adjust_learning_rate
+from utils.utils import visualize_images,visualize_segmentation
 from utils.criterion import CrossEntropy, OhemCrossEntropy
-
-import matplotlib.pyplot as plt
-import numpy as np
-from torchvision.utils import make_grid
-
-def denormalize(tensor, mean, std):
-  for i in range(len(mean)):
-    tensor[i] = tensor[i]*std[i] + mean[i]
-  return tensor
-
-def visualize_images(image_tensor):
-
-  image_tensor = image_tensor.cpu()
-  image_tensor = denormalize(image_tensor, [0.485,0.456,0.406], [0.229,0.224,0.225])
-  image = image_tensor.permute(1,2,0).numpy()
-  plt.imshow(image)
-  plt.show()
 
 
 def classmix_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts):
@@ -97,7 +81,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
         source_images, source_labels, source_bd_gts = source_images.cuda(), source_labels.long().cuda(), source_bd_gts.float().cuda()
 
-        #visualize_images(source_images[0])
+        visualize_images(source_images[0])
+        visualize_segmentation(source_labels[0])
 
         # --- Compute source loss ---
         source_logits = model(source_images, source_labels, source_bd_gts)
@@ -132,7 +117,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         target_loss_total += target_loss.item()
 
 
-        #visualize_images(target_images[0])
+        visualize_images(target_images[0])
+        visualize_segmentation(pseudo_labels[0])
 
         # --- Apply MixUp augmentation between source and target images ---
         mixed_images, mixed_labels, mixed_bd_gts = classmix_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts)
@@ -140,7 +126,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
         mixup_loss, _, mixup_acc, _ = mixed_logits  
         
-        #visualize_images(mixed_images[0])
+        visualize_images(mixed_images[0])
+        visualize_segmentation(mixed_labels[0])
 
         # --- Compute total loss ---
         mixup_loss_weight = 0.5

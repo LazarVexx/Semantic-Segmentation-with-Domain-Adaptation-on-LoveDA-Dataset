@@ -45,7 +45,6 @@ class FullModel(nn.Module):
     labels.cuda()
     bd_gt.cuda()
 
-    
     h, w = labels.size(1), labels.size(2)
     ph, pw = outputs[0].size(2), outputs[0].size(3)
     if ph != h or pw != w:

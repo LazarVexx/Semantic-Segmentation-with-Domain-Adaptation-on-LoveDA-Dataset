@@ -2,6 +2,7 @@
 # Modified based on https://github.com/HRNet/HRNet-Semantic-Segmentation
 # ------------------------------------------------------------------------------
 
+
 import argparse
 import os
 import pprint
@@ -93,13 +94,10 @@ def main():
     # init D
     if config.TRAIN.ADVERSARIAL:
         model_D1 = Discriminator(num_classes=config.DATASET.NUM_CLASSES)
-        model_D2 = Discriminator(num_classes=config.DATASET.NUM_CLASSES)
-
         model_D1.train()
         model_D1.cuda()
-
-        model_D2.train()
-        model_D2.cuda()
+        optimizer_D1 = optim.Adam(model_D1.parameters(), lr=config.TRAIN.LR_D1, betas=(0.9, 0.99))
+        optimizer_D1.zero_grad()
  
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
@@ -194,12 +192,7 @@ def main():
     else:
         raise ValueError('Only Support SGD optimizer')
     
-    if config.TRAIN.ADVERSARIAL:
-        optimizer_D1 = optim.Adam(model_D1.parameters(), lr=config.TRAIN.LR_D1, betas=(0.9, 0.99))
-        optimizer_D1.zero_grad()
 
-        optimizer_D2 = optim.Adam(model_D2.parameters(), lr=config.TRAIN.LR_D2, betas=(0.9, 0.99))
-        optimizer_D2.zero_grad()
     
 
     epoch_iters = int(train_dataset.__len__() / config.TRAIN.BATCH_SIZE_PER_GPU / len(gpus))
@@ -252,7 +245,7 @@ def main():
             train_adv(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, current_lr, num_iters,
                   trainloader,targetloader, 
-                  optimizer,optimizer_D1,optimizer_D2, model,model_D1,model_D2, 
+                  optimizer,optimizer_D1, model,model_D1, 
                   writer_dict)
         else: 
             train(config, epoch, config.TRAIN.END_EPOCH, 

@@ -26,8 +26,8 @@ from models.model_utils import Discriminator
 from configs import config
 from configs import update_config
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
-from utils.function import train, validate , train_adv
-from utils.utils import create_logger, FullModel
+from utils.function import train, validate , train_adv,train_adv_D1
+from utils.utils_adv import create_logger, FullModel
 
 
 def parse_args():
@@ -89,7 +89,7 @@ def main():
         return 0
     
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
-    model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
+    model = models.pidnet_adv.get_seg_model(config, imgnet_pretrained=imgnet)
 
     # init D
     if config.TRAIN.ADVERSARIAL:
@@ -98,6 +98,11 @@ def main():
         model_D1.cuda()
         optimizer_D1 = optim.Adam(model_D1.parameters(), lr=config.TRAIN.LR_D1, betas=(0.9, 0.99))
         optimizer_D1.zero_grad()
+        model_D2 = Discriminator(num_classes=config.DATASET.NUM_CLASSES)
+        model_D2.train()
+        model_D2.cuda()
+        optimizer_D2 = optim.Adam(model_D2.parameters(), lr=config.TRAIN.LR_D2, betas=(0.9, 0.99))
+        optimizer_D2.zero_grad()
  
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
@@ -242,10 +247,17 @@ def main():
             current_trainloader.sampler.set_epoch(epoch)
 
         if config.TRAIN.ADVERSARIAL:
-            train_adv(config, epoch, config.TRAIN.END_EPOCH, 
+            if config.TRAIN.LR_D2 == 0:
+                train_adv_D1(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, current_lr, num_iters,
                   trainloader,targetloader, 
                   optimizer,optimizer_D1, model,model_D1, 
+                  writer_dict)
+            else:
+                train_adv(config, epoch, config.TRAIN.END_EPOCH, 
+                  epoch_iters, current_lr, num_iters,
+                  trainloader,targetloader, 
+                  optimizer,optimizer_D1,optimizer_D2, model,model_D1,model_D2, 
                   writer_dict)
         else: 
             train(config, epoch, config.TRAIN.END_EPOCH, 

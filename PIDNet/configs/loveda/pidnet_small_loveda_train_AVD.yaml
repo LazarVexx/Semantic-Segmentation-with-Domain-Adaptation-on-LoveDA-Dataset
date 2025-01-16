@@ -17,7 +17,7 @@ DATASET:
   NUM_CLASSES: 8
 MODEL:
   NAME: pidnet_small
-  NUM_OUTPUTS: 2
+  NUM_OUTPUTS: 3
   PRETRAINED: "pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar"
 LOSS:
   USE_OHEM: true
@@ -38,8 +38,10 @@ TRAIN:
   OPTIMIZER: sgd
   ADVERSARIAL: true
   LR_D1 : 0.01
-  GAN : 'Vanilla'
-  LAMBDA_ADV: 0.001
+  LR_D2 : 0.01
+  GAN : 'LS'
+  LAMBDA_ADV1: 0.001
+  LAMBDA_ADV2: 0.0001
   LR: 0.01
   WD: 0.0005
   SCHEDULER: false

@@ -5,6 +5,9 @@ import cv2
 import numpy as np
 import random
 
+import torch
+from torch.utils.data import Dataset
+
 from torch.nn import functional as F
 from torch.utils import data
 
@@ -148,4 +151,33 @@ class BaseDataset(data.Dataset):
         
         
         return pred.exp()
+    
+    
+class AugmentedDataset(Dataset):
+    def __init__(self, base_dataset, augmentation_prob=0.5):
+        """
+        Dataset che aggiunge una copia di un'immagine con probabilità augmentation_prob.
+        Args:
+            base_dataset (Dataset): Dataset originale.
+            augmentation_prob (float): Probabilità di aggiungere una copia dell'immagine.
+        """
+        self.base_dataset = base_dataset
+        self.augmentation_prob = augmentation_prob
+
+    def __len__(self):
+        # La lunghezza rimane la stessa del dataset originale
+        return len(self.base_dataset)
+
+    def __getitem__(self, index):
+        # Ottieni un campione dal dataset originale
+        sample = self.base_dataset[index]
+        
+        # Applica la probabilità di duplicare l'immagine
+        if random.random() < self.augmentation_prob:
+            # Duplica i dati
+            images, labels, bd_gts, array, name = sample
+            augmented_sample = (images, labels, bd_gts, array, name)
+            return augmented_sample
+        
+        return sample
 

@@ -17,6 +17,7 @@ import torch.backends.cudnn as cudnn
 import torch.optim
 from tensorboardX import SummaryWriter
 import torch.optim as optim
+from thop import profile
 
 import _init_paths
 import models
@@ -25,7 +26,8 @@ from configs import config
 from configs import update_config
 from utils.criterion import CrossEntropy, DiceLoss, OhemCrossEntropy, BondaryLoss, FocalLoss
 from utils.function import train, validate
-from utils.utils import create_logger, FullModel
+from utils.utils import create_logger, FullModel,suppress_stdout
+from datasets.base_dataset import AugmentedDataset
 
 
 def parse_args():
@@ -103,6 +105,7 @@ def main():
                         base_size=config.TRAIN.BASE_SIZE,
                         crop_size=crop_size,
                         scale_factor=config.TRAIN.SCALE_FACTOR)
+    
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,
@@ -153,6 +156,9 @@ def main():
     
     model = FullModel(model, sem_criterion, bd_criterion)
     model = nn.DataParallel(model, device_ids=gpus).cuda()
+    inputs_random = torch.randn(6, 3, 240, 240).cuda()
+    with suppress_stdout():
+        flops, num_params = 0,0#profile(model,inputs=(inputs_random))
 
     # optimizer
     if config.TRAIN.OPTIMIZER == 'sgd':
@@ -229,6 +235,7 @@ def main():
                         testloader, model, writer_dict)
         if flag_rm == 1:
             flag_rm = 0
+            
 
         logger.info('=> saving checkpoint to {}'.format(
             final_output_dir + 'checkpoint.pth.tar'))
@@ -237,6 +244,8 @@ def main():
             'best_mIoU': best_mIoU,
             'state_dict': model.module.state_dict(),
             'optimizer': optimizer.state_dict(),
+            'flops': flops,
+            'num_params': num_params
         }, os.path.join(final_output_dir,'checkpoint.pth.tar'))
         if mean_IoU > best_mIoU:
             best_mIoU = mean_IoU

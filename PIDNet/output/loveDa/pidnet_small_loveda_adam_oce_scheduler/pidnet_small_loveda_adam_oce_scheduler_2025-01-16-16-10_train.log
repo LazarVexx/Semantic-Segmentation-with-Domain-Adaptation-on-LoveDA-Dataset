@@ -1,0 +1,104 @@
+2025-01-16 16:10:04,256 Namespace(cfg='configs/loveDa/pidnet_small_loveda_adam_oce_scheduler.yaml', seed=304, opts=['GPUS', '[0]', 'TRAIN.BATCH_SIZE_PER_GPU', '6'])
+2025-01-16 16:10:04,256 AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: loveDa
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 8
+  ROOT: data/
+  SOURCE_DATASET: loveDA-Urban
+  SOURCE_TEST_SET: list/loveDA-Urban/val.lst
+  SOURCE_TRAIN_SET: list/loveDA-Urban/train.lst
+  TARGET_DATASET: loveDA-Rural
+  TARGET_SET: list/cityscapes/val.lst
+  TARGET_TEST_SET: list/loveDA-Rural/val.lst
+  TARGET_TRAIN_SET: list/loveDA-Rural/train.lst
+  TEST_SET: list/loveDa/val.lst
+  TRAIN_SET: list/loveDa/train.lst
+GPUS: (0,)
+LOG_DIR: log
+LOSS:
+  BALANCE_WEIGHTS: [0.4, 1.0]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.7
+  SB_WEIGHTS: 0.5
+  USE_DICE: False
+  USE_FOCAL: False
+  USE_OHEM: True
+MODEL:
+  ALIGN_CORNERS: True
+  NAME: pidnet_small
+  NUM_OUTPUTS: 2
+  PRETRAINED: pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar
+OUTPUT_DIR: output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+TEST:
+  BASE_SIZE: 2048
+  BATCH_SIZE_PER_GPU: 20
+  FLIP_TEST: False
+  IMAGE_SIZE: [1024, 1024]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  OUTPUT_INDEX: 1
+TRAIN:
+  ADVERSARIAL: False
+  AUG: False
+  AUG1: True
+  AUG2: False
+  AUG3: False
+  AUG4: False
+  AUG_CHANCE: False
+  BASE_SIZE: 1440
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 1
+  END_EPOCH: 20
+  EVAL_INTERVAL: 1
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  GAN: Vanilla
+  IGNORE_LABEL: 0
+  IMAGE_SIZE: [240, 240]
+  LAMBDA_ADVT1: 0.001
+  LAMBDA_ADVT2: 0.001
+  LR: 0.001
+  LR_D1: 0.001
+  LR_D2: 0.001
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  OPTIMIZER: adam
+  RESUME: False
+  SCALE_FACTOR: 16
+  SCHEDULER: True
+  SHUFFLE: True
+  WD: 0.0005
+WORKERS: 0
+2025-01-16 16:10:04,420 Attention!!!
+2025-01-16 16:10:04,421 Loaded 302 parameters!
+2025-01-16 16:10:04,421 Over!!!
+2025-01-16 16:10:07,592 Epoch: [0/20] Iter:[0/192], Time: 1.64, lr: [0.0002], Loss: 4.143816, Acc:0.127810, Semantic loss: 0.633609, BCE loss: 3.300340, SB loss: 0.209868
+2025-01-16 16:10:11,057 Epoch: [0/20] Iter:[10/192], Time: 0.46, lr: [0.00019953118890648385], Loss: 4.263677, Acc:0.223712, Semantic loss: 0.548513, BCE loss: 3.539196, SB loss: 0.175967
+2025-01-16 16:10:14,834 Epoch: [0/20] Iter:[20/192], Time: 0.42, lr: [0.00019906225539185522], Loss: 4.141611, Acc:0.241050, Semantic loss: 0.544880, BCE loss: 3.425452, SB loss: 0.171278
+2025-01-16 16:10:18,680 Epoch: [0/20] Iter:[30/192], Time: 0.41, lr: [0.00019859319910354564], Loss: 4.186178, Acc:0.241792, Semantic loss: 0.520914, BCE loss: 3.505090, SB loss: 0.160174
+2025-01-16 16:10:22,439 Epoch: [0/20] Iter:[40/192], Time: 0.40, lr: [0.00019812401968704308], Loss: 3.951801, Acc:0.259245, Semantic loss: 0.492712, BCE loss: 3.306963, SB loss: 0.152126
+2025-01-16 16:10:26,132 Epoch: [0/20] Iter:[50/192], Time: 0.40, lr: [0.00019765471678587608], Loss: 3.830629, Acc:0.266152, Semantic loss: 0.477936, BCE loss: 3.207270, SB loss: 0.145424
+2025-01-16 16:10:30,002 Epoch: [0/20] Iter:[60/192], Time: 0.39, lr: [0.0001971852900415978], Loss: 3.673843, Acc:0.272989, Semantic loss: 0.464769, BCE loss: 3.066840, SB loss: 0.142234
+2025-01-16 16:10:33,760 Epoch: [0/20] Iter:[70/192], Time: 0.39, lr: [0.0001967157390937697], Loss: 3.544543, Acc:0.278258, Semantic loss: 0.449783, BCE loss: 2.957496, SB loss: 0.137264
+2025-01-16 16:10:37,637 Epoch: [0/20] Iter:[80/192], Time: 0.39, lr: [0.0001962460635799452], Loss: 3.411243, Acc:0.287517, Semantic loss: 0.437135, BCE loss: 2.839977, SB loss: 0.134132
+2025-01-16 16:10:41,617 Epoch: [0/20] Iter:[90/192], Time: 0.39, lr: [0.00019577626313565326], Loss: 3.402748, Acc:0.291094, Semantic loss: 0.428653, BCE loss: 2.843196, SB loss: 0.130899
+2025-01-16 16:10:45,559 Epoch: [0/20] Iter:[100/192], Time: 0.39, lr: [0.00019530633739438136], Loss: 3.349758, Acc:0.296522, Semantic loss: 0.420407, BCE loss: 2.801252, SB loss: 0.128098
+2025-01-16 16:10:49,477 Epoch: [0/20] Iter:[110/192], Time: 0.39, lr: [0.00019483628598755885], Loss: 3.298385, Acc:0.299887, Semantic loss: 0.409948, BCE loss: 2.763224, SB loss: 0.125214
+2025-01-16 16:10:53,375 Epoch: [0/20] Iter:[120/192], Time: 0.39, lr: [0.00019436610854453975], Loss: 3.223059, Acc:0.306949, Semantic loss: 0.401360, BCE loss: 2.700211, SB loss: 0.121487
+2025-01-16 16:10:56,940 Epoch: [0/20] Iter:[130/192], Time: 0.39, lr: [0.00019389580469258532], Loss: 3.171572, Acc:0.308704, Semantic loss: 0.396267, BCE loss: 2.654682, SB loss: 0.120623
+2025-01-16 16:11:00,750 Epoch: [0/20] Iter:[140/192], Time: 0.39, lr: [0.00019342537405684678], Loss: 3.105433, Acc:0.315653, Semantic loss: 0.388947, BCE loss: 2.598693, SB loss: 0.117793
+2025-01-16 16:11:04,466 Epoch: [0/20] Iter:[150/192], Time: 0.39, lr: [0.00019295481626034752], Loss: 3.058932, Acc:0.319481, Semantic loss: 0.383837, BCE loss: 2.559105, SB loss: 0.115989
+2025-01-16 16:11:08,236 Epoch: [0/20] Iter:[160/192], Time: 0.39, lr: [0.00019248413092396525], Loss: 3.005902, Acc:0.322885, Semantic loss: 0.377174, BCE loss: 2.514831, SB loss: 0.113897
+2025-01-16 16:11:12,102 Epoch: [0/20] Iter:[170/192], Time: 0.39, lr: [0.00019201331766641378], Loss: 2.976460, Acc:0.325907, Semantic loss: 0.371020, BCE loss: 2.493597, SB loss: 0.111843
+2025-01-16 16:11:15,970 Epoch: [0/20] Iter:[180/192], Time: 0.39, lr: [0.0001915423761042251], Loss: 2.929929, Acc:0.328384, Semantic loss: 0.365063, BCE loss: 2.454896, SB loss: 0.109971
+2025-01-16 16:11:19,880 Epoch: [0/20] Iter:[190/192], Time: 0.39, lr: [0.00019107130585173049], Loss: 2.867499, Acc:0.329593, Semantic loss: 0.360762, BCE loss: 2.398091, SB loss: 0.108646

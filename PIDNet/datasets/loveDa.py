@@ -83,6 +83,12 @@ class Loveda(BaseDataset):
                     "label": label_path,
                     "name": name
                 })
+                if config.TRAIN.AUG_CHANCE and np.random.uniform(0,1) > 0.5:
+                    files.append({
+                        "img": image_path,
+                        "label": label_path,
+                        "name": name
+                    })
         return files
 
     def convert_label(self, label, inverse=False):
@@ -119,38 +125,14 @@ class Loveda(BaseDataset):
             label = transformed['mask']
 
 
-        # If AUG_CHANCE is enabled, return with 50% chance two times the augmented image
-        if config.TRAIN.AUG_CHANCE and np.random.rand() > 0.5:
-
-            # Apply transformations to get the augmented image
-            transformed = self.transform(image=image, mask=label)
-            augmented_image = transformed['image']
-            augmented_label = transformed['mask']
-
-            # We return both the original and augmented image here
-            augmented_image, augmented_label, _ = self.gen_sample(augmented_image, augmented_label, 
-                                                                self.multi_scale, self.flip, edge_size=self.bd_dilate_size)
-
-            # Return both image from TRAIN.AUG and FROM AUG_CHANCE
-            return image.copy(), label.copy(), edge.copy(), np.array(size), name, \
-                augmented_image.copy(), augmented_label.copy(), edge.copy(), np.array(size), name
-
-
         label = self.convert_label(label)
 
         image, label, edge = self.gen_sample(image, label, 
                                 self.multi_scale, self.flip, edge_size=self.bd_dilate_size)
 
-        return image.copy(), label.copy(), edge.copy(), np.array(size), name, \
-            -1, -1, -1, -1, -1
+        return image.copy(), label.copy(), edge.copy(), np.array(size), name
             
         
-
-        
-
-
-
-
     
     def single_scale_inference(self, config, model, image):
         pred = self.inference(config, model, image)

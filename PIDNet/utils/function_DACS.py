@@ -73,7 +73,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
         # --- Compute source loss ---
         source_logits = model(source_images, source_labels, source_bd_gts)
-        source_loss, _, source_acc, _,_,_ = source_logits  
+        source_loss, _, source_acc, _ = source_logits  
         source_loss_total += source_loss.item()
 
         # --- Load target domain data ---
@@ -97,7 +97,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Compute target loss (only for confident pseudo-labels) ---
         if target_images.size(0) > 0:  # Ensure valid pseudo-labels exist
             confident_logits = model(target_images, pseudo_labels, target_bd_gts)
-            target_loss, _, target_acc, _,_,_ = confident_logits 
+            target_loss, _, target_acc, _, = confident_logits 
         else:
             target_loss = torch.tensor(0.0, requires_grad=True).cuda()
             target_acc = torch.tensor(0.0, device=source_acc.device)
@@ -107,7 +107,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         mixed_images, mixed_labels, mixed_bd_gts = mixup_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts)
         mixed_images, mixed_labels, mixed_bd_gts = mixed_images.cuda(), mixed_labels.long().cuda(), mixed_bd_gts.float().cuda()
         mixed_logits = model(mixed_images, mixed_labels, mixed_bd_gts)
-        mixup_loss, _, mixup_acc, _, flops,params = mixed_logits  
+        mixup_loss, _, mixup_acc, _ = mixed_logits  
         
        
 
@@ -147,10 +147,10 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Log training progress ---
         if i_iter % config.PRINT_FREQ == 0:
             msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
-                  'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Source Loss: {:.6f}, Target Loss: {:.6f}, MixUp Loss: {:.6f}, Flop: {:.6f}, Params: {:.6f}' .format(
+                  'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Source Loss: {:.6f}, Target Loss: {:.6f}, MixUp Loss: {:.6f}' .format(
                       epoch, num_epoch, i_iter, epoch_iters,
                       batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(),
-                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(), mixup_loss.item(), flops, params)
+                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(), mixup_loss.item())
             logging.info(msg)
 
 
@@ -194,7 +194,7 @@ def validate(config, testloader, model, writer_dict):
             bd_gts = bd_gts.float().cuda()
 
             # Forward pass
-            losses, pred, _, _, _, _ = model(image, label, bd_gts)
+            losses, pred, _, _ = model(image, label, bd_gts)
 
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]

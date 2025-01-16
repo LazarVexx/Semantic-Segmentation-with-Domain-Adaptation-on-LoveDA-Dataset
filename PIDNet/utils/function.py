@@ -35,40 +35,26 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     cur_iters = epoch*epoch_iters
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
-    
+ 
 
 
     for i_iter, batch in enumerate(trainloader, 0):
 
         
-        images, labels, bd_gts, _, _, \
-        images_chance, labels_chance, edges_chance, _, _ = batch
+        images, labels, bd_gts, _,_  = batch
         
         images = images.cuda()
         labels = labels.long().cuda()
         bd_gts = bd_gts.float().cuda()
         model.cuda()
 
-        losses, _, acc, loss_list,flops,num_params = model(images, labels, bd_gts)
+        losses, _, acc, loss_list = model(images, labels, bd_gts)
         loss = losses.mean()
         acc  = acc.mean()
 
         model.zero_grad()
         loss.backward()
         optimizer.step()
-
-
-        # training is done with the same image (augmented)
-        if config.TRAIN.AUG_CHANCE:
-            images_chance = images_chance.cuda()
-            labels_chance = labels_chance.long().cuda()
-            edges_chance = edges_chance.float().cuda()
-            losses, _, acc, loss_list,flops,num_params = model(images_chance, labels_chance, edges_chance)
-            loss = losses.mean()
-            acc  = acc.mean()
-            model.zero_grad()
-            loss.backward()
-            optimizer.step()
 
 
         # measure elapsed time
@@ -89,10 +75,10 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
         if i_iter % config.PRINT_FREQ == 0:
             msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
-                  'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}, BCE loss: {:.6f}, SB loss: {:.6f}, NumParams: {:.6f} M, FLOPs: {:.6f} GFLOPS' .format(
+                  'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}, BCE loss: {:.6f}, SB loss: {:.6f}' .format(
                       epoch, num_epoch, i_iter, epoch_iters,
                       batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(),
-                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(),ave_loss.average()-avg_sem_loss.average()-avg_bce_loss.average(),num_params,flops/1e9)
+                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(),ave_loss.average()-avg_sem_loss.average()-avg_bce_loss.average())
             logging.info(msg)
 
     writer.add_scalar('train_loss', ave_loss.average(), global_steps)
@@ -106,13 +92,13 @@ def validate(config, testloader, model, writer_dict):
         (config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES, nums))
     with torch.no_grad():
         for idx, batch in enumerate(testloader):
-            image, label, bd_gts, _, _, _ = batch
+            image, label, bd_gts, _, _ = batch
             size = label.size()
             image = image.cuda()
             label = label.long().cuda()
             bd_gts = bd_gts.float().cuda()
 
-            losses, pred, _, _, _, _ = model(image, label, bd_gts)
+            losses, pred, _, _ = model(image, label, bd_gts)
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
             for i, x in enumerate(pred):
@@ -279,7 +265,7 @@ def train_adv(config, epoch, num_epoch,
         labels = labels.long().cuda()
         bd_gts = bd_gts.float().cuda()
         
-        losses, outputs, acc, loss_list,_,_ = model(images, labels, bd_gts)
+        losses, outputs, acc, loss_list = model(images, labels, bd_gts)
         loss_seg1 = losses.mean()
         acc = acc.mean()
 

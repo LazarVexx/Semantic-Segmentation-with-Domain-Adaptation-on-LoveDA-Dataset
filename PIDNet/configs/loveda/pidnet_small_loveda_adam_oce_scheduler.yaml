@@ -26,9 +26,9 @@ LOSS:
   SB_WEIGHTS: 0.5
 TRAIN:
   IMAGE_SIZE:
-  - 720
-  - 720
-  BASE_SIZE: 1440
+  - 240
+  - 240
+  BASE_SIZE: 480
   BATCH_SIZE_PER_GPU: 12
   SHUFFLE: true
   BEGIN_EPOCH: 1
@@ -38,6 +38,8 @@ TRAIN:
   LR: 0.001
   WD: 0.0005
   AUG: False
+  AUG_CHANCE: false
+  AUG1: true
   SCHEDULER: true
   MOMENTUM: 0.9
   NESTEROV: false
@@ -47,9 +49,9 @@ TRAIN:
   SCALE_FACTOR: 16
 TEST:
   IMAGE_SIZE:
-  - 1024
-  - 1024
-  BASE_SIZE: 2048
+  - 120
+  - 120
+  BASE_SIZE: 240
   BATCH_SIZE_PER_GPU: 20
   FLIP_TEST: false
   MULTI_SCALE: false

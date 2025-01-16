@@ -16,7 +16,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from thop import profile
 from configs import config
 
 import sys
@@ -45,9 +44,7 @@ class FullModel(nn.Module):
     inputs.cuda()
     labels.cuda()
     bd_gt.cuda()
-    
-    with suppress_stdout():
-        flops, params = profile(self.model, inputs=(inputs,))
+
     
     h, w = labels.size(1), labels.size(2)
     ph, pw = outputs[0].size(2), outputs[0].size(3)
@@ -68,7 +65,7 @@ class FullModel(nn.Module):
         loss_sb = self.sem_loss([outputs[-2]], labels)
     loss = loss_s + loss_b + loss_sb
 
-    return torch.unsqueeze(loss,0), outputs[:-1], acc, [loss_s, loss_b],flops,params
+    return torch.unsqueeze(loss,0), outputs[:-1], acc, [loss_s, loss_b]
 
 
 class AverageMeter(object):

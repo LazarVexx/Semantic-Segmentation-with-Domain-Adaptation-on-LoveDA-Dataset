@@ -131,7 +131,6 @@ class BondaryLoss(nn.Module):
         return loss
     
 
-    
 class DiceLoss(nn.Module):
     def __init__(self, eps=1e-6, ignore_label=-1):
         super(DiceLoss, self).__init__()

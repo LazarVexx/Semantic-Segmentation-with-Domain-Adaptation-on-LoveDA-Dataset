@@ -47,8 +47,8 @@ def classmix_fn(source_images, source_labels, target_images, pseudo_labels, sour
     return mixed_images, mixed_labels, mixed_bd_gts
 
 def dacs_loss(source_prediction, source_label, mixed_prediction, mixed_label, lambda_value, criterion):
-    source_loss = criterion()(source_prediction, source_label)
-    mixed_loss = criterion()(mixed_prediction, mixed_label)
+    source_loss = criterion(source_prediction, source_label)
+    mixed_loss = criterion(mixed_prediction, mixed_label)
     total_loss = source_loss + lambda_value * mixed_loss
     return total_loss
     
@@ -88,18 +88,20 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
         source_images, source_labels, source_bd_gts = source_images.cuda(), source_labels.long().cuda(), source_bd_gts.float().cuda()
 
-        visualize_images(source_images[0])
-        visualize_segmentation(source_labels[0])
+        #visualize_images(source_images[0])
+        #visualize_segmentation(source_labels[0])
 
         # --- Compute source loss ---
         source_model = model(source_images, source_labels, source_bd_gts)
         source_loss, _, source_acc, _ = source_model
-        source_loss_total += source_loss.item()
+        source_loss_total += source_loss.mean().item()
+        # Update avg_sem_loss with source loss
+        avg_sem_loss.update(source_loss.mean().item())
         
         source_pred=model_target(source_images)[1]
         source_pred=F.interpolate(source_pred, size=(config.TRAIN.IMAGE_SIZE[0],config.TRAIN.IMAGE_SIZE[1]), mode='bilinear', align_corners=False)
-            
-
+        #source_pred=torch.argmax(source_pred, dim=1)  
+    
         # --- Load target domain data ---
         target_images = target_data[0] # Ignore target labels
         target_labels = target_data[1]
@@ -121,11 +123,14 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         target_logits = model(target_images, pseudo_labels, target_bd_gts)
         target_loss, _, target_acc, _, = target_logits 
         
-        target_loss_total += target_loss.item()
+        target_loss_total += target_loss.mean().item()
+
+        # Update avg_sem_loss with target loss
+        avg_bce_loss.update(target_loss.mean().item())
 
 
-        visualize_images(target_images[0])
-        visualize_segmentation(pseudo_labels[0])
+        #visualize_images(target_images[0])
+        #visualize_segmentation(pseudo_labels[0])
 
         # --- Apply MixUp augmentation between source and target images ---
         mixed_images, mixed_labels, mixed_bd_gts = classmix_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts)
@@ -135,14 +140,15 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         
         mixed_pred = model_target(mixed_images)[1]
         mixed_pred = F.interpolate(mixed_pred, size=(config.TRAIN.IMAGE_SIZE[0],config.TRAIN.IMAGE_SIZE[1]), mode='bilinear', align_corners=False)
+        #mixed_pred = torch.argmax(mixed_pred, dim=1)
         
-        visualize_images(mixed_images[0])
-        visualize_segmentation(mixed_labels[0])
+        #visualize_images(mixed_images[0])
+        #visualize_segmentation(mixed_labels[0])
 
         # --- Compute total loss ---
         mixup_loss_weight = 0.5
 
-        loss_value = dacs_loss(source_model, source_labels, mixed_model, mixed_labels, mixup_loss_weight, criterion)
+        loss_value = dacs_loss(source_pred, source_labels, mixed_pred, mixed_labels, mixup_loss_weight, criterion)
         
         # --- Measure average accuracy ---
         acc = source_acc + mixup_loss_weight * mixup_acc # Averaging source, target, and mixup accuracy
@@ -154,6 +160,9 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Update average loss ---
         ave_loss.update(loss_value.item())
         ave_acc.update(acc.item())
+
+        # --- Update learning rate ---
+        lr = adjust_learning_rate(optimizer, base_lr, num_iters, i_iter + cur_iters)
         
         # --- Backpropagation and optimization ---
         model.zero_grad()       
@@ -166,7 +175,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
                   'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Source Loss: {:.6f}, Target Loss: {:.6f}, MixUp Loss: {:.6f}' .format(
                       epoch, num_epoch, i_iter, epoch_iters,
                       batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(),
-                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(), mixup_loss.item())
+                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(), mixup_loss.mean().item())
             logging.info(msg)
 
     # --- Update Tensorboard ---

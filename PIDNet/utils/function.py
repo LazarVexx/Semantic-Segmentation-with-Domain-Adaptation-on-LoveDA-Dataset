@@ -112,7 +112,7 @@ def validate(config, testloader, model, writer_dict):
             label = label.long().cuda()
             bd_gts = bd_gts.float().cuda()
 
-            losses, pred, _, _ = model(image, label, bd_gts)
+            losses, pred, _, _, _, _ = model(image, label, bd_gts)
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
             for i, x in enumerate(pred):

@@ -156,6 +156,31 @@ class DiceLoss(nn.Module):
       return loss
 
     
+class FocalLoss(nn.Module):
+    def __init__(self, alpha=1, gamma=2, ignore_label=0, weight=None):
+        
+        super(FocalLoss, self).__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+        self.ignore_label = ignore_label
+        self.criterion = nn.CrossEntropyLoss(weight=weight, ignore_index=ignore_label, reduction='none')
+
+    def forward(self, score, target):
+        
+        # Compute standard cross-entropy loss
+        ce_loss = self.criterion(score, target)
+
+        # Compute probability of the target class
+        probs = F.softmax(score, dim=1)
+        target_probs = probs.gather(1, target.unsqueeze(1)).squeeze(1)
+
+        # Apply the focal loss formula
+        focal_weight = self.alpha * (1 - target_probs) ** self.gamma
+        focal_loss = focal_weight * ce_loss
+
+        # Return the average loss
+        return focal_loss.mean()
+    
 if __name__ == '__main__':
     # Import required modules
     import torch

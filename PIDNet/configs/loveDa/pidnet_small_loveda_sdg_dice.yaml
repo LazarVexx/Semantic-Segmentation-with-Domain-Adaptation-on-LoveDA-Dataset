@@ -34,7 +34,7 @@ TRAIN:
   SHUFFLE: true
   BEGIN_EPOCH: 1
   END_EPOCH: 20
-  RESUME: true
+  RESUME: false
   OPTIMIZER: sgd
   LR: 0.001
   WD: 0.0005

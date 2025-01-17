@@ -132,28 +132,80 @@ class BondaryLoss(nn.Module):
     
 
 class DiceLoss(nn.Module):
-    def __init__(self, eps=1e-6, ignore_label=-1):
+    def __init__(self, ignore_label=-1, num_classes=8, eps=1e-6, weight=None):
         super(DiceLoss, self).__init__()
-        self.eps = eps
         self.ignore_label = ignore_label
+        self.num_classes = num_classes
+        self.eps = eps
+        self.weight = weight
+        self.criterion = nn.CrossEntropyLoss(
+            weight=weight,
+            ignore_index=ignore_label,
+            reduction='none'
+        )
 
-    def forward(self, preds, targets):
-      # process each tensor individually
-      if isinstance(preds, list):
-          preds = torch.cat(preds, dim=1)  # Combine list into a single tensor along channel dimension
-      
-      # Proceed with the existing logic
-      if preds.shape[1] > 1:
-          preds = F.softmax(preds, dim=1)
-      num_classes = preds.shape[1]
-      targets_one_hot = F.one_hot(targets, num_classes=num_classes).permute(0, 3, 1, 2).float()
-      preds = preds[:, 1:]
-      targets_one_hot = targets_one_hot[:, 1:]
-      intersection = torch.sum(preds * targets_one_hot, dim=(2, 3))
-      union = torch.sum(preds, dim=(2, 3)) + torch.sum(targets_one_hot, dim=(2, 3))
-      dice_score = (2.0 * intersection + self.eps) / (union + self.eps)
-      loss = 1.0 - dice_score.mean()
-      return loss
+    def _ce_forward(self, score, target):
+        """
+        Calcola CrossEntropy Loss standard
+        """
+        loss = self.criterion(score, target)
+        return loss.mean()
+
+    def _dice_forward(self, score, target, **kwargs):
+        """
+        Calcola Dice Loss
+        """
+        if isinstance(score, list):
+            score = torch.cat(score, dim=1)
+            
+        pred = F.softmax(score, dim=1)
+        
+        # Gestione pixel da ignorare
+        mask = target != self.ignore_label
+        tmp_target = target.clone()
+        tmp_target[~mask] = 0
+        
+        # Conversione one-hot
+        targets_one_hot = F.one_hot(
+            tmp_target, 
+            num_classes=self.num_classes
+        ).permute(0, 3, 1, 2).float()
+        
+        # Applica maschera
+        pred = pred * mask.unsqueeze(1).float()
+        targets_one_hot = targets_one_hot * mask.unsqueeze(1).float()
+        
+        # Calcolo Dice
+        intersection = torch.sum(pred * targets_one_hot, dim=(2, 3))
+        union = torch.sum(pred, dim=(2, 3)) + torch.sum(targets_one_hot, dim=(2, 3))
+        dice_score = (2.0 * intersection + self.eps) / (union + self.eps)
+        
+        return 1.0 - dice_score.mean()
+
+    def forward(self, score, target):
+        """
+        Gestisce input multipli con pesi di bilanciamento
+        """
+        if not (isinstance(score, list) or isinstance(score, tuple)):
+            score = [score]
+
+        balance_weights = config.LOSS.BALANCE_WEIGHTS
+        sb_weights = config.LOSS.SB_WEIGHTS
+        
+        if len(balance_weights) == len(score):
+            functions = [self._ce_forward] * \
+                (len(balance_weights) - 1) + [self._dice_forward]
+            return sum([
+                w * func(x, target)
+                for (w, x, func) in zip(balance_weights, score, functions)
+            ])
+        
+        elif len(score) == 1:
+            return sb_weights * self._dice_forward(score[0], target)
+        
+        else:
+            raise ValueError("lengths of prediction and target are not identical!")
+
 
     
 class FocalLoss(nn.Module):

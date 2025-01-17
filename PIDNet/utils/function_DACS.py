@@ -39,20 +39,16 @@ def classmix_fn(source_images, source_labels, target_images, pseudo_labels, sour
         for cls in selected_classes:
             class_mask |= source_labels[i] == cls
 
+         #visualize_segmentation(class_mask)
+
         # Apply the class mask to copy pixels from source to target
         mixed_images[i, :, class_mask] = source_images[i, :, class_mask]
         mixed_labels[i, class_mask] = source_labels[i, class_mask]
         mixed_bd_gts[i, class_mask] = source_bd_gts[i, class_mask]
 
     return mixed_images, mixed_labels, mixed_bd_gts
-
-def dacs_loss(source_prediction, source_label, mixed_prediction, mixed_label, lambda_value, criterion):
-    source_loss = criterion(source_prediction, source_label)
-    mixed_loss = criterion(mixed_prediction, mixed_label)
-    total_loss = source_loss + lambda_value * mixed_loss
-    return total_loss
+   
     
-
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr,
           num_iters, source_loader, target_loader, optimizer, model, writer_dict, augmentations, criterion):
@@ -85,7 +81,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         source_images = source_data[0]
         source_labels = source_data[1]
         source_bd_gts = source_data[2]
-
+       
         source_images, source_labels, source_bd_gts = source_images.cuda(), source_labels.long().cuda(), source_bd_gts.float().cuda()
 
         #visualize_images(source_images[0])
@@ -94,14 +90,11 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Compute source loss ---
         source_model = model(source_images, source_labels, source_bd_gts)
         source_loss, _, source_acc, _ = source_model
-        source_loss_total += source_loss.mean().item()
+        source_loss = source_loss.mean()
+        source_loss_total += source_loss.item()
         # Update avg_sem_loss with source loss
-        avg_sem_loss.update(source_loss.mean().item())
-        
-        source_pred=model_target(source_images)[1]
-        source_pred=F.interpolate(source_pred, size=(config.TRAIN.IMAGE_SIZE[0],config.TRAIN.IMAGE_SIZE[1]), mode='bilinear', align_corners=False)
-        #source_pred=torch.argmax(source_pred, dim=1)  
-    
+        avg_sem_loss.update(source_loss.item())
+           
         # --- Load target domain data ---
         target_images = target_data[0] # Ignore target labels
         target_labels = target_data[1]
@@ -137,18 +130,16 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         mixed_images, mixed_labels, mixed_bd_gts = mixed_images.cuda(), mixed_labels.long().cuda(), mixed_bd_gts.float().cuda()
         mixed_model = model(mixed_images, mixed_labels, mixed_bd_gts)
         mixup_loss, _, mixup_acc, _ = mixed_model 
+        mixup_loss = mixup_loss.mean()
         
-        mixed_pred = model_target(mixed_images)[1]
-        mixed_pred = F.interpolate(mixed_pred, size=(config.TRAIN.IMAGE_SIZE[0],config.TRAIN.IMAGE_SIZE[1]), mode='bilinear', align_corners=False)
-        #mixed_pred = torch.argmax(mixed_pred, dim=1)
         
         #visualize_images(mixed_images[0])
-        #visualize_segmentation(mixed_labels[0])
+        #isualize_segmentation(mixed_labels[0])
 
         # --- Compute total loss ---
         mixup_loss_weight = 0.5
 
-        loss_value = dacs_loss(source_pred, source_labels, mixed_pred, mixed_labels, mixup_loss_weight, criterion)
+        loss_value = source_loss + mixup_loss_weight*mixup_loss
         
         # --- Measure average accuracy ---
         acc = source_acc + mixup_loss_weight * mixup_acc # Averaging source, target, and mixup accuracy
@@ -158,7 +149,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         tic = time.time()
 
         # --- Update average loss ---
-        ave_loss.update(loss_value.item())
+        ave_loss.update(loss_value.mean().item())
         ave_acc.update(acc.item())
 
         # --- Update learning rate ---

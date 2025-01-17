@@ -206,14 +206,14 @@ def visualize_segmentation(segmentation_tensor):
     # Definisci una mappa colori per 8 classi (0-7)
     # Ogni colore è in formato RGB
     color_map = {
-        0: [0, 0, 0],        # Nero
-        1: [255, 0, 0],      # Rosso
-        2: [0, 255, 0],      # Verde
-        3: [0, 0, 255],      # Blu
-        4: [255, 255, 0],    # Giallo
-        5: [255, 0, 255],    # Magenta
-        6: [0, 255, 255],    # Ciano
-        7: [128, 128, 128]   # Grigio
+        0: [0, 0, 0],        # Nero Tutto il resto
+        1: [255, 0, 0],      # Rosso Background
+        2: [0, 255, 0],      # Verde Building
+        3: [0, 0, 255],      # Blu Road 
+        4: [255, 255, 0],    # Giallo Water
+        5: [255, 0, 255],    # Magenta Barren
+        6: [0, 255, 255],    # Ciano Forest
+        7: [128, 128, 128]   # Grigio Agricolture
     }
     
     # Crea un'immagine RGB vuota

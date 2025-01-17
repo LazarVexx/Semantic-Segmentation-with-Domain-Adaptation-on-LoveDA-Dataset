@@ -46,6 +46,14 @@ strong_augmentations = transforms.Compose([
     transforms.ToTensor()
 ])
 
+# Function to adjust the learning rate during the warm-up phase
+def adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr):
+    """Linear warm-up."""
+    lr = base_lr * (epoch + 1) / warmup_epochs
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+    print(f"Warm-up Epoch {epoch + 1}: Learning Rate = {lr}")
+    return lr
 
 def main():
     args = parse_args()
@@ -74,6 +82,7 @@ def main():
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
     model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
    
+    batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # Prepare datasets
     crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
     source_train_dataset = eval('datasets.' + config.DATASET.SOURCE_DATASET)(
@@ -90,7 +99,7 @@ def main():
     
     source_trainloader = torch.utils.data.DataLoader(
         source_train_dataset,
-        batch_size=config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus),
+        batch_size=batch_size,
         shuffle=config.TRAIN.SHUFFLE,
         num_workers=config.WORKERS,
         pin_memory=False,
@@ -117,6 +126,25 @@ def main():
         pin_memory=False,
         drop_last=True
     )
+    
+    test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
+    test_dataset = eval('datasets.'+config.DATASET.TARGET_DATASET)(
+                        root=config.DATASET.ROOT,
+                        list_path=config.DATASET.TARGET_TEST_SET,
+                        num_classes=config.DATASET.NUM_CLASSES,
+                        multi_scale=False,
+                        flip=False,
+                        ignore_label=config.TRAIN.IGNORE_LABEL,
+                        base_size=config.TEST.BASE_SIZE,
+                        crop_size=test_size)
+
+    testloader = torch.utils.data.DataLoader(
+        test_dataset,
+        batch_size=config.TEST.BATCH_SIZE_PER_GPU * len(gpus),
+        shuffle=False,
+        num_workers=config.WORKERS,
+        pin_memory=False)
+
     
     # criterion
     if config.LOSS.USE_OHEM:
@@ -158,23 +186,35 @@ def main():
     else:
         raise ValueError('Only Support SGD optimizer')
     
+    epoch_iters = int(source_train_dataset.__len__() / config.TRAIN.BATCH_SIZE_PER_GPU / len(gpus))
+        
+    best_mIoU = 0
+    last_epoch = 0
+    flag_rm = config.TRAIN.RESUME
+    if config.TRAIN.RESUME:
+        model_state_file = os.path.join(final_output_dir, 'checkpoint.pth.tar')
+        if os.path.isfile(model_state_file):
+            checkpoint = torch.load(model_state_file, map_location={'cuda:0': 'cpu'})
+            best_mIoU = checkpoint['best_mIoU']
+            last_epoch = checkpoint['epoch']
+            dct = checkpoint['state_dict']
+            
+            model.module.model.load_state_dict({k.replace('model.', ''): v for k, v in dct.items() if k.startswith('model.')})
+            optimizer.load_state_dict(checkpoint['optimizer'])
+            logger.info("=> loaded checkpoint (epoch {})".format(checkpoint['epoch']))
+
+    start = timeit.default_timer()
+    end_epoch = config.TRAIN.END_EPOCH
+    num_iters = config.TRAIN.END_EPOCH * epoch_iters
+    real_end = 120+1 if 'camvid' in config.DATASET.TRAIN_SET else end_epoch
+    
     warmup_epochs = 5  # Number of warm-up epochs
     base_lr = config.TRAIN.LR
-    
-    start = timeit.default_timer()
-    epoch_iters = int(source_train_dataset.__len__() / config.TRAIN.BATCH_SIZE_PER_GPU / len(gpus))
-    num_iters = config.TRAIN.END_EPOCH * epoch_iters
-    end_epoch = config.TRAIN.END_EPOCH
-    real_end = 120+1 if 'camvid' in config.DATASET.TRAIN_SET else end_epoch
     
     if config.TRAIN.SCHEDULER:
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
             optimizer, T_max=(config.TRAIN.END_EPOCH - warmup_epochs), eta_min=1e-6
         )
-    
-    best_mIoU = 0
-    flag_rm = config.TRAIN.RESUME
-    
      # Training loop modifications in the main script
     for epoch in range(config.TRAIN.BEGIN_EPOCH, config.TRAIN.END_EPOCH):
         
@@ -189,7 +229,7 @@ def main():
             
         # Warm-up phase for learning rate adjustment
         if epoch < warmup_epochs:
-            adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
+            current_lr = adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
 
         # Train on source and target domains
         train_metrics = train(
@@ -216,7 +256,7 @@ def main():
 
         # Validation and saving checkpoints
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
-            mean_IoU, IoU_array, pixel_acc, mean_acc = validate(config, target_trainloader, model, writer_dict)
+            mean_IoU, IoU_array, pixel_acc, mean_acc = validate(config, testloader, model, writer_dict)
         
         if flag_rm == 1:
             flag_rm = 0

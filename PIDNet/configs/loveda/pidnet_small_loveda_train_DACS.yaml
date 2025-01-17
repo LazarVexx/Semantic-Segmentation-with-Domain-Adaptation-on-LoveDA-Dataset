@@ -39,8 +39,8 @@ TRAIN:
   BEGIN_EPOCH: 0
   END_EPOCH: 20
   RESUME: false
-  OPTIMIZER: adam
-  LR: 0.001
+  OPTIMIZER: sgd
+  LR: 0.01
   WD: 0.0005
   SCHEDULER: false
   MOMENTUM: 0.9
@@ -54,7 +54,6 @@ TRAIN:
   ADVERSARIAL: false
   LR_D1: 0.0001
   GAN: 'Vanilla'
-  LAMBDA_ADV: 0.001
 
 TEST:
   IMAGE_SIZE:

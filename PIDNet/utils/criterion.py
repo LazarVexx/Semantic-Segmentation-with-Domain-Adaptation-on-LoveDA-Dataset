@@ -209,29 +209,80 @@ class DiceLoss(nn.Module):
 
     
 class FocalLoss(nn.Module):
-    def __init__(self, alpha=1, gamma=2, ignore_label=0, weight=None):
-        
+    def __init__(self, alpha=1, gamma=2, ignore_label=-1, weight=None):
+        """
+        Args:
+            alpha: fattore di bilanciamento
+            gamma: fattore di focusing
+            ignore_label: etichetta da ignorare
+            weight: pesi per le classi
+        """
         super(FocalLoss, self).__init__()
         self.alpha = alpha
         self.gamma = gamma
         self.ignore_label = ignore_label
-        self.criterion = nn.CrossEntropyLoss(weight=weight, ignore_index=ignore_label, reduction='none')
+        self.criterion = nn.CrossEntropyLoss(
+            weight=weight,
+            ignore_index=ignore_label,
+            reduction='none'
+        )
 
-    def forward(self, score, target):
-        
-        # Compute standard cross-entropy loss
+    def _ce_forward(self, score, target):
+        """
+        Calcola CrossEntropy standard
+        """
+        loss = self.criterion(score, target)
+        return loss.mean()
+
+    def _focal_forward(self, score, target, **kwargs):
+        """
+        Calcola Focal Loss
+        """
+        # Calcola CrossEntropy standard
         ce_loss = self.criterion(score, target)
-
-        # Compute probability of the target class
-        probs = F.softmax(score, dim=1)
-        target_probs = probs.gather(1, target.unsqueeze(1)).squeeze(1)
-
-        # Apply the focal loss formula
+        
+        # Calcola probabilità della classe target
+        pred = F.softmax(score, dim=1)
+        mask = target != self.ignore_label
+        tmp_target = target.clone()
+        tmp_target[tmp_target == self.ignore_label] = 0
+        
+        # Ottiene probabilità per la classe target
+        target_probs = pred.gather(1, tmp_target.unsqueeze(1)).squeeze(1)
+        
+        # Applica la formula della Focal Loss
         focal_weight = self.alpha * (1 - target_probs) ** self.gamma
         focal_loss = focal_weight * ce_loss
-
-        # Return the average loss
+        
+        # Applica la maschera per ignorare le etichette specificate
+        focal_loss = focal_loss[mask]
+        
         return focal_loss.mean()
+
+    def forward(self, score, target):
+        """
+        Gestisce input multipli con pesi di bilanciamento
+        """
+        if not (isinstance(score, list) or isinstance(score, tuple)):
+            score = [score]
+
+        balance_weights = config.LOSS.BALANCE_WEIGHTS
+        sb_weights = config.LOSS.SB_WEIGHTS
+        
+        if len(balance_weights) == len(score):
+            functions = [self._ce_forward] * \
+                (len(balance_weights) - 1) + [self._focal_forward]
+            return sum([
+                w * func(x, target)
+                for (w, x, func) in zip(balance_weights, score, functions)
+            ])
+        
+        elif len(score) == 1:
+            return sb_weights * self._focal_forward(score[0], target)
+        
+        else:
+            raise ValueError("lengths of prediction and target are not identical!")
+
     
 if __name__ == '__main__':
     # Import required modules

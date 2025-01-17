@@ -44,6 +44,13 @@ TRAIN:
   MULTI_SCALE: true
   IGNORE_LABEL: 0
   SCALE_FACTOR: 16
+  AUG: false
+  AUG1: false
+  AUG2: false
+  AUG3: false
+  AUG4: false
+  AUG_CHANCE: false
+  
 TEST:
   IMAGE_SIZE:
   - 1024

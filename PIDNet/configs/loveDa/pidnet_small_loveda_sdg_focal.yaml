@@ -20,7 +20,7 @@ MODEL:
   PRETRAINED: "pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar"
 LOSS:
   USE_OHEM: False
-  USE_DICE: True
+  USE_FOCAL: True
   OHEMTHRES: 0.7
   OHEMKEEP: 131072
   BALANCE_WEIGHTS: [0.4, 1.0]

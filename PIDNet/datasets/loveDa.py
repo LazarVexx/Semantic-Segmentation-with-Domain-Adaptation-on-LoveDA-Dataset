@@ -57,7 +57,20 @@ class Loveda(BaseDataset):
         if config.TRAIN.AUG3:
             transforms_list.append(A.RGBShift(r_shift_limit=10, g_shift_limit=20, b_shift_limit=10, p=0.5))
         if config.TRAIN.AUG4:
-            transforms_list.append(A.GaussNoise(var_limit=(10.0, 50.0), p=0.5))
+            transforms_list.append(A.OneOf(
+            [
+                A.HorizontalFlip(p=1.0),    # Apply Horizontal Flip
+                A.VerticalFlip(p=1.0),      # Apply Vertical Flip
+                A.RandomRotate90(p=1.0),    # Apply Random 90-degree rotation
+            ],
+            p=0.75,  # Apply one of the above with 75% probability
+        ),
+                A.Normalize(
+                    mean=(0.0, 0.0, 0.0),       # Specify the mean for each channel
+                    std=(1.0, 1.0, 1.0),        # Specify the standard deviation for each channel
+                    max_pixel_value=1.0,        # Normalize pixel values to [0, 1] range
+                    always_apply=True           # Always apply normalization
+                ))
 
         self.transform = A.Compose(transforms_list)
 

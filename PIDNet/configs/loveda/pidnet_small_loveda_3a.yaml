@@ -19,15 +19,15 @@ MODEL:
   NUM_OUTPUTS: 2
   PRETRAINED: "pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar"
 LOSS:
-  USE_OHEM: false
+  USE_OHEM: true
   OHEMTHRES: 0.7
   OHEMKEEP: 131072
   BALANCE_WEIGHTS: [0.4, 1.0]
   SB_WEIGHTS: 0.5
 TRAIN:
   IMAGE_SIZE:
-  - 1024
-  - 1024
+  - 720
+  - 720
   BASE_SIZE: 2048
   BATCH_SIZE_PER_GPU: 12
   SHUFFLE: true
@@ -37,7 +37,7 @@ TRAIN:
   OPTIMIZER: adam
   LR: 0.001
   WD: 0.0005
-  SCHEDULER: false
+  SCHEDULER: true
   MOMENTUM: 0.9
   NESTEROV: false
   FLIP: true

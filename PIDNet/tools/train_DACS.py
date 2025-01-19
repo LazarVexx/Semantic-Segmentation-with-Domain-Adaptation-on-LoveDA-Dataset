@@ -227,9 +227,6 @@ def main():
         else:
             current_lr = config.TRAIN.LR
             
-        # Warm-up phase for learning rate adjustment
-        if epoch < warmup_epochs:
-            current_lr = adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr)
 
         # Train on source and target domains
         train_metrics = train(

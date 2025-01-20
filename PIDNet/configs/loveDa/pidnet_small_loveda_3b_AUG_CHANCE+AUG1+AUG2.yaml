@@ -32,7 +32,7 @@ TRAIN:
   SHUFFLE: true
   BEGIN_EPOCH: 1
   END_EPOCH: 20
-  RESUME: false
+  RESUME: true
   OPTIMIZER: adam
   LR: 0.001
   WD: 0.0005

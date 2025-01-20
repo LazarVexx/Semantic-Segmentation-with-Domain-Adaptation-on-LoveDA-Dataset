@@ -55,8 +55,6 @@ class Loveda(BaseDataset):
         if config.TRAIN.AUG2:
             transforms_list.append(A.HueSaturationValue(hue_shift_limit=10, sat_shift_limit=20, val_shift_limit=10, p=0.5)) #hue = color
         if config.TRAIN.AUG3:
-            transforms_list.append(A.RGBShift(r_shift_limit=10, g_shift_limit=20, b_shift_limit=10, p=0.5))
-        if config.TRAIN.AUG4:
             transforms_list.append(A.OneOf(
             [
                 A.HorizontalFlip(p=1.0),    # Apply Horizontal Flip

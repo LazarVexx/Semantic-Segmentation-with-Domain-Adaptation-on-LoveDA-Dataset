@@ -62,7 +62,8 @@ class Loveda(BaseDataset):
                 A.RandomRotate90(p=1.0),    # Apply Random 90-degree rotation
             ],
             p=0.75,  # Apply one of the above with 75% probability
-        ),
+            ))
+            transforms_list.append(
                 A.Normalize(
                     mean=(0.0, 0.0, 0.0),       # Specify the mean for each channel
                     std=(1.0, 1.0, 1.0),        # Specify the standard deviation for each channel

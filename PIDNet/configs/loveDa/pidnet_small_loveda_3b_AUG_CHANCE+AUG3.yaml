@@ -32,7 +32,7 @@ TRAIN:
   SHUFFLE: true
   BEGIN_EPOCH: 1
   END_EPOCH: 20
-  RESUME: false
+  RESUME: true
   OPTIMIZER: adam
   LR: 0.001
   WD: 0.0005
@@ -52,7 +52,7 @@ TEST:
   IMAGE_SIZE:
   - 1024
   - 1024
-  BASE_SIZE: 2048
+  BASE_SIZE: 1024
   BATCH_SIZE_PER_GPU: 20
   FLIP_TEST: false
   MULTI_SCALE: false

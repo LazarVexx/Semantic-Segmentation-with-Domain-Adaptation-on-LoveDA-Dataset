@@ -17,8 +17,6 @@ DATASET:
   NUM_CLASSES: 8
   TARGET_TRAIN_SET: 'list/loveDa-Rural/train.lst'  # Path to target dataset train set
   TARGET_TEST_SET: 'list/loveDa-Rural/val.lst'    # Path to target dataset validation set
-  
-
 MODEL:
   NAME: pidnet_small
   NUM_OUTPUTS: 2
@@ -50,10 +48,11 @@ TRAIN:
   IGNORE_LABEL: 0
   SCALE_FACTOR: 16
   EVAL_INTERVAL: 1
-
-  ADVERSARIAL: false
-  LR_D1: 0.0001
-  GAN: 'Vanilla'
+  AUG_CHANCE: true
+  AUG: false
+  AUG1: false
+  AUG2: false
+  AUG3: false
 
 TEST:
   IMAGE_SIZE:

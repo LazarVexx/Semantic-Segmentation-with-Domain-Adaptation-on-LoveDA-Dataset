@@ -192,12 +192,29 @@ def denormalize(tensor, mean, std):
   return tensor
             
 def visualize_images(image_tensor):
+    # Ensure tensor is on CPU and denormalize
+    image_tensor = image_tensor.cpu()
+    image_tensor = denormalize(image_tensor, [0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 
-  image_tensor = image_tensor.cpu()
-  image_tensor = denormalize(image_tensor, [0.485,0.456,0.406], [0.229,0.224,0.225])
-  image = image_tensor.permute(1,2,0).numpy()
-  plt.imshow(image)
-  plt.show()
+    # Debug: Print the shape of the tensor
+    print(f"Image tensor shape before permute: {image_tensor.shape}")
+
+    # Handle different tensor shapes
+    if image_tensor.dim() == 4:  # Batch of images (B, C, H, W)
+        # Permute to (B, H, W, C)
+        batch_images = image_tensor.permute(0, 2, 3, 1).numpy()  # Reorder dimensions
+        for img in batch_images:
+            plt.imshow(img)
+            plt.show()
+    elif image_tensor.dim() == 3:  # Single image (C, H, W)
+        # Permute to (H, W, C)
+        image = image_tensor.permute(1, 2, 0).numpy()  # Reorder dimensions
+        plt.imshow(image)
+        plt.show()
+    else:
+        raise ValueError(f"Unexpected tensor dimensions: {image_tensor.dim()}")
+
+
   
 def visualize_segmentation(segmentation_tensor):
     # Sposta il tensor sulla CPU e converti in numpy array

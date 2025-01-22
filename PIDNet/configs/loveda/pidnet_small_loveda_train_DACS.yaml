@@ -39,10 +39,10 @@ TRAIN:
   BEGIN_EPOCH: 0
   END_EPOCH: 20
   RESUME: false
-  OPTIMIZER: sgd
-  LR: 0.01
+  OPTIMIZER: adam
+  LR: 0.001
   WD: 0.0005
-  SCHEDULER: false
+  SCHEDULER: true
   MOMENTUM: 0.9
   NESTEROV: false
   FLIP: true

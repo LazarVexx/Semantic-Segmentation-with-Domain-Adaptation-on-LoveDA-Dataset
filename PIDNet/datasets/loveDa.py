@@ -50,19 +50,23 @@ class Loveda(BaseDataset):
         self.class_weights = torch.FloatTensor([0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]).cuda()
         
         transforms_list = []
-        if config.TRAIN.AUG1:
-            transforms_list.append(A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5))
-        if config.TRAIN.AUG2:
-            transforms_list.append(A.HueSaturationValue(hue_shift_limit=10, sat_shift_limit=20, val_shift_limit=10, p=0.5)) #hue = color
-        if config.TRAIN.AUG3:
-            transforms_list.append(A.OneOf(
-            [
-                A.HorizontalFlip(p=1.0),    # Apply Horizontal Flip
-                A.VerticalFlip(p=1.0),      # Apply Vertical Flip
-                A.RandomRotate90(p=1.0),    # Apply Random 90-degree rotation
-            ],
-            p=0.75,  # Apply one of the above with 75% probability
-            ))
+        
+        if config.TRAIN.AUG1 or config.TRAIN.AUG2 or config.TRAIN.AUG3:
+            if config.TRAIN.AUG1:
+                transforms_list.append(A.RandomBrightnessContrast(brightness_limit=0.3, contrast_limit=0.3, p=0.8))
+                transforms_list.append(A.RandomShadow(p=0.5))
+            if config.TRAIN.AUG2:
+                transforms_list.append(A.HueSaturationValue(hue_shift_limit=20, sat_shift_limit=30, val_shift_limit=20, p=0.8))
+                transforms_list.append(A.GaussianBlur(blur_limit=(3, 7), p=0.3)) #hue = color
+            if config.TRAIN.AUG3:
+                transforms_list.append(A.OneOf(
+                [
+                    A.HorizontalFlip(p=1.0),    # Apply Horizontal Flip
+                    A.VerticalFlip(p=1.0),      # Apply Vertical Flip
+                    A.RandomRotate90(p=1.0),    # Apply Random 90-degree rotation
+                ],
+                p=0.75,  # Apply one of the above with 75% probability
+                ))
             transforms_list.append(
                 A.Normalize(
                     mean=(0.0, 0.0, 0.0),       # Specify the mean for each channel

@@ -42,9 +42,13 @@ PIDNet on LovaDA-Urban (Train & Val) , 20 epochs
 |--------|------------|-------|-------|-------|--------|---------|---------------|
 | 1      | TRUE       | False | False | False | 0.2656 | 0.2753  | 0.3146        |
 | 2      | TRUE       | True  | False | False | 0.2523 | 0.2540  | 0.2903        |
-| 3      | TRUE       | False | True  | False | 0.2346 | 0.2647  | 0.3025        |
+| 3      | TRUE       | False | True  | False | 0.3089 |         | 0.3108        |
 | 4      | TRUE       | True  | True  | False | 0.2672 | 0.2750  | 0.3143        |
 | 5      | TRUE       | False | False | True  | 0.2568 | 0.2642  | 0.3020        |
 | 6      | TRUE       | True  | False | True  | 0.2599 | 0.2632  | 0.3008        |
-| 7      | TRUE       | False | True  | True  | 0.2492 | 0.2608  | 0.2970        |
+| 7      | TRUE       | False | True  | True  | 0.3133 |         | 0.3151        |
 | 8      | TRUE       | True  | True  | True  | 0.2926 |         | 0.3014        |
+
+### Best 3b result
+
+| 7      | TRUE       | False | True  | True  | 0.3133 |         | 0.3151        |

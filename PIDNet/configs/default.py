@@ -46,12 +46,12 @@ _C.LOSS.SB_WEIGHTS = 0.5
 # DATASET related params
 _C.DATASET = CN()
 _C.DATASET.ROOT = 'data/'
-_C.DATASET.DATASET = 'cityscapes'
+_C.DATASET.DATASET = 'loveDa'
 _C.DATASET.NUM_CLASSES = 19
-_C.DATASET.TRAIN_SET = 'list/cityscapes/train.lst'
+_C.DATASET.TRAIN_SET = 'list/loveDa/train.lst'
 _C.DATASET.EXTRA_TRAIN_SET = ''
-_C.DATASET.TEST_SET = 'list/cityscapes/val.lst'
-_C.DATASET.TARGET_SET = 'list/cityscapes/val.lst'
+_C.DATASET.TEST_SET = 'list/loveDa/val.lst'
+_C.DATASET.TARGET_SET = 'list/loveDa/val.lst'
 
 _C.DATASET.SOURCE_DATASET = 'loveDA-Urban'
 _C.DATASET.TARGET_DATASET = 'loveDA-Rural'

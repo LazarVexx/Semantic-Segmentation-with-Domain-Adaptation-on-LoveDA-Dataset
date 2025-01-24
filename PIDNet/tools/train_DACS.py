@@ -24,7 +24,7 @@ from configs import config
 from configs import update_config
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss, DiceLoss, FocalLoss
 from utils.function_DACS import train, validate
-from utils.utils import create_logger, adjust_learning_rate, FullModel
+from utils.utils import create_logger, FullModel, suppress_stdout
 
 
 def parse_args():
@@ -168,6 +168,9 @@ def main():
     
     model = FullModel(model, sem_criterion, bd_criterion)
     model = nn.DataParallel(model, device_ids=gpus).cuda()
+    with suppress_stdout():
+        flops, num_params = 0,0#profile(model,inputs=(inputs_random))
+
 
     # optimizer
     if config.TRAIN.OPTIMIZER == 'sgd':
@@ -244,6 +247,13 @@ def main():
             augmentations=strong_augmentations,
             criterion=sem_criterion
         )
+         # Validation and saving checkpoints
+        if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
+            mean_IoU, IoU_array, pixel_acc, mean_acc = validate(config, testloader, model, writer_dict)
+        
+        if flag_rm == 1:
+            flag_rm = 0
+            
 
         # Log training metrics
         logging.info(f"Epoch {epoch + 1}/{config.TRAIN.END_EPOCH} - "
@@ -251,13 +261,17 @@ def main():
                     f"Target Loss: {train_metrics['target_loss']:.4f}")
 
 
-        # Validation and saving checkpoints
-        if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
-            mean_IoU, IoU_array, pixel_acc, mean_acc = validate(config, testloader, model, writer_dict)
-        
-        if flag_rm == 1:
-            flag_rm = 0
-            
+        logger.info('=> saving checkpoint to {}'.format(
+            final_output_dir + 'checkpoint.pth.tar'))
+        torch.save({
+            'epoch': epoch+1,
+            'best_mIoU': best_mIoU,
+            'state_dict': model.module.state_dict(),
+            'optimizer': optimizer.state_dict(),
+            'flops': flops,
+            'num_params': num_params
+        }, os.path.join(final_output_dir,'checkpoint.pth.tar'))
+       
         # Save checkpoint and best model
         is_best = mean_IoU > best_mIoU
         if is_best:
@@ -269,13 +283,6 @@ def main():
         f"Pixel_Acc: {pixel_acc:.4f}, Mean_Acc: {mean_acc:.4f}"
         logging.info(msg)
         logging.info(f"IoU per class: {IoU_array}")
-
-        torch.save({
-            'epoch': epoch + 1,
-            'best_mIoU': best_mIoU,
-            'state_dict': model.module.state_dict(),
-            'optimizer': optimizer.state_dict(),
-        }, os.path.join(final_output_dir, 'checkpoint.pth.tar'))
         
     torch.save(model.module.state_dict(),
             os.path.join(final_output_dir, 'final_state.pt'))

@@ -125,7 +125,7 @@ class Loveda(BaseDataset):
                            cv2.IMREAD_COLOR)
         size = image.shape
 
-        if 'test' in self.list_path:
+        if 'test' in self.list_path or 'val' in self.list_path:
             image = self.input_transform(image)
             image = image.transpose((2, 0, 1))
 

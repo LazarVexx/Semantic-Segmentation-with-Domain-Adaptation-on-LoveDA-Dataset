@@ -82,7 +82,7 @@ class Loveda(BaseDataset):
     
     def read_files(self):
         files = []
-        if 'test' in self.list_path or 'val' in self.list_path:
+        if 'test' in self.list_path :
             for item in self.img_list:
                 image_path = item
                 name = os.path.splitext(os.path.basename(image_path[0]))[0]
@@ -99,7 +99,7 @@ class Loveda(BaseDataset):
                     "label": label_path,
                     "name": name
                 })
-                if config.TRAIN.AUG_CHANCE and np.random.uniform(0,1) > 0.5:
+                if config.TRAIN.AUG_CHANCE and np.random.uniform(0,1) > 0.5 and "val" not in self.list_path:
                     files.append({
                         "img": image_path,
                         "label": label_path,
@@ -125,7 +125,7 @@ class Loveda(BaseDataset):
                            cv2.IMREAD_COLOR)
         size = image.shape
 
-        if 'test' in self.list_path or 'val' in self.list_path:
+        if 'test' in self.list_path:
             image = self.input_transform(image)
             image = image.transpose((2, 0, 1))
 
@@ -135,7 +135,7 @@ class Loveda(BaseDataset):
                            cv2.IMREAD_GRAYSCALE)
         
        # Applicazione delle augmentation
-        if config.TRAIN.AUG:  # Controlla se le augmentazioni sono abilitate
+        if config.TRAIN.AUG and "val" not in self.list_path:  # Controlla se le augmentazioni sono abilitate
             transformed = self.transform(image=image, mask=label)
             image = transformed['image']
             label = transformed['mask']

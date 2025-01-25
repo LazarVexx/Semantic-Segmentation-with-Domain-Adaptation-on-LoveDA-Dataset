@@ -1,0 +1,219 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\title{Report}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Testi Luca}
+
+\subsection{Semantic Segmentation}
+% This can be used as an abstract or introduction.
+Semantic segmentation is a fundamental task in computer vision that involves classifying each pixel in an image into a predefined category, thereby enabling detailed scene understanding. Recent advancements in deep learning have significantly improved the accuracy and efficiency of semantic segmentation methods. For instance, DeepLab employs atrous convolutions and fully connected Conditional Random Fields (CRFs) to capture multi-scale context and refine segmentation boundaries \cite{chen2017deeplab}. BiSeNet introduces a bilateral network architecture to balance spatial detail and semantic context, achieving real-time performance \cite{yu2018bisenet}. Meanwhile, PIDNet draws inspiration from PID controllers to develop a lightweight network for high-quality real-time segmentation \cite{feng2021pidnet}. Domain adaptation techniques further enhance semantic segmentation by addressing challenges posed by domain shifts, as seen in methods like DACS, which utilizes cross-domain mixed sampling \cite{tranheden2021dacs}, and LoveDA, a dataset specifically designed for domain adaptation in remote sensing \cite{wang2021loveda}. These advancements highlight the diverse strategies employed to tackle the complexities of semantic segmentation across different applications and domains.
+
+\subsection{PIDNet}
+
+PIDNet is a real-time semantic segmentation network inspired by the principles of Proportional-Integral-Derivative (PID) controllers, which are widely used in control systems to achieve precise and stable performance \cite{feng2021pidnet}. By integrating ideas from PID control theory, PIDNet introduces a unique architecture that balances low-latency processing with high-quality segmentation results. The network comprises three branches—P (proportional), I (integral), and D (derivative)—that are designed to capture complementary information: the P-branch focuses on spatial detail, the I-branch accumulates global context, and the D-branch enhances boundary precision. This innovative design enables PIDNet to achieve state-of-the-art performance in real-time segmentation tasks, particularly in scenarios that demand both accuracy and efficiency, such as autonomous driving and robotics. Furthermore, its lightweight structure ensures applicability in resource-constrained environments without significant performance degradation, demonstrating its practical utility in a wide range of applications.
+
+\subsection{ADAM}
+
+ADAM (Adaptive Moment Estimation) is a popular optimization algorithm that combines the benefits of adaptive learning rates and momentum-based updates to accelerate convergence and improve generalization in deep learning models. The algorithm maintains two moving averages of gradients: the first moment (mean) and the second moment (uncentered variance). These estimates are used to update the model parameters by adjusting the learning rate based on the gradient magnitudes and the historical gradients. ADAM's adaptive learning rate mechanism allows it to automatically adjust the step size for each parameter, enabling faster convergence and better generalization performance compared to traditional optimization methods like Stochastic Gradient Descent (SGD). By incorporating momentum, ADAM also benefits from faster convergence and improved stability, making it a popular choice for training deep neural networks across various tasks and domains.
+
+\subsection{DACS}
+
+Domain adaptation addresses the challenge of generalizing a model trained on one domain to perform well on a different but related domain, a critical issue in semantic segmentation when labeled data from the target domain is scarce. Traditional methods often struggle with the significant domain gap caused by differences in visual appearance, texture, or lighting conditions. DACS (Domain Adaptation via Cross-domain Mixed Sampling) introduces an innovative approach to bridge this gap by leveraging cross-domain mixed sampling \cite{tranheden2021dacs}. This technique combines image regions from both the source and target domains to create hybrid training samples, effectively enhancing the model's ability to adapt to target domain features. Additionally, DACS uses a self-supervised learning objective to further refine its predictions on the target domain, achieving state-of-the-art performance on several benchmarks. The simplicity and effectiveness of DACS make it a robust solution for domain adaptation challenges in semantic segmentation, particularly in applications like autonomous driving and remote sensing where domain shifts are prevalent.
+
+\bibliographystyle{plain}
+\bibliography{reference}
+@article{chen2017deeplab,
+  title={DeepLab: Semantic Image Segmentation with Deep Convolutional Nets, Atrous Convolution, and Fully Connected CRFs},
+  author={Chen, Liang-Chieh and Papandreou, George and Murphy, Kevin and Yuille, Alan L},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  year={2017}
+}
+
+@inproceedings{yu2018bisenet,
+  title={BiSeNet: Bilateral Segmentation Network for Real-time Semantic Segmentation},
+  author={Yu, Changqian and Wang, Jingbo and Peng, Chao and Gao, Changxin and Yu, Gang and Sang, Nong},
+  booktitle={Proceedings of the European Conference on Computer Vision (ECCV)},
+  year={2018}
+}
+
+@article{feng2021pidnet,
+  title={PIDNet: A Real-time Semantic Segmentation Network Inspired by PID Controllers},
+  author={Feng, Hao and others},
+  journal={arXiv preprint arXiv:2103.12370},
+  year={2021}
+}
+
+@inproceedings{tranheden2021dacs,
+  title={DACS: Domain Adaptation via Cross-domain Mixed Sampling},
+  author={Tranheden, Wilhelm and Olsson, Viktor and Pinto, Juliano and Svensson, Lennart},
+  booktitle={Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year={2021}
+}
+
+@article{wang2021loveda,
+  title={LoveDA: A Remote Sensing Land-Cover Dataset for Domain Adaptive Semantic Segmentation},
+  author={Wang, Yucheng and others},
+  journal={arXiv preprint arXiv:2110.08733},
+  year={2021}
+}
+
+
+
+\title{DeepLab V2: Advancements in Semantic Segmentation}
+\author{Antonio}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Semantic segmentation is a fundamental task in computer vision that involves assigning a class label to each pixel in an image. Over the years, deep convolutional neural networks (DCNNs) have significantly improved performance in this field. However, despite their success in image classification, DCNN architectures face several challenges in achieving pixel-level accuracy in segmentation tasks.
+
+\section{Challenges in Semantic Segmentation}
+\subsection{Resolution Loss}
+Pooling and striding operations in DCNNs reduce the spatial resolution of feature maps, making it difficult to capture fine details such as object boundaries. 
+
+\subsection{Scale Variability}
+Objects in natural images often appear at multiple scales, requiring a model capable of representing features at different sizes.
+
+\subsection{Boundary Localization}
+While DCNNs excel at capturing high-level semantics, they often produce overly smooth segmentations, failing to delineate sharp object edges necessary for precise segmentation.
+
+\section{DeepLab V2: Addressing Core Challenges}
+DeepLab V2 addresses these challenges through three key innovations: atrous convolution, the Atrous Spatial Pyramid Pooling (ASPP) module, and Fully Connected Conditional Random Fields (CRFs).
+
+\subsection{Atrous Convolution}
+Atrous convolution, also known as dilated convolution, mitigates resolution loss by expanding the receptive field without increasing computational cost or the number of parameters. This preserves spatial resolution, enabling accurate pixel-level predictions.
+
+\subsection{Atrous Spatial Pyramid Pooling (ASPP)}
+The ASPP module employs parallel atrous convolutions with multiple dilation rates to aggregate contextual information at different scales. This multi-scale approach captures both global and local image features, enhancing robustness to variations in object size.
+
+\subsection{Fully Connected CRFs}
+To refine initial predictions, DeepLab V2 integrates Fully Connected Conditional Random Fields (CRFs) as a post-processing step. CRFs model pairwise relationships between pixels based on spatial proximity and color similarity, emphasizing object edges and recovering fine-grained details. The unary potential expresses the confidence (likelihood) that a pixel belongs to a class given the softmax probabilities. 
+
+\section{Key Results and Contributions}
+DeepLab V2 achieves several notable results:
+\begin{itemize}
+    \item \textbf{High-resolution segmentation:} Spatial detail is preserved through atrous convolution.
+    \item \textbf{Robust multi-scale representation:} ASPP enables accurate segmentation of objects at varying scales.
+    \item \textbf{Precise boundary localization:} Fully connected CRFs improve boundary delineation and recover intricate details.
+\end{itemize}
+These innovations make DeepLab V2 a benchmark framework in semantic segmentation, addressing the core limitations of traditional DCNN architectures.
+
+\section{Conclusion}
+DeepLab V2 exemplifies how DCNNs can be optimized for semantic segmentation. By leveraging the strengths of atrous convolution, ASPP, and fully connected CRFs, it overcomes challenges such as resolution loss, scale variability, and boundary localization, achieving high accuracy and robustness. This framework has become a cornerstone in the evolution of semantic segmentation technologies, paving the way for further advancements in the field.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{LoveDA Dataset: Advancing Remote Sensing Through Semantic Segmentation and Domain Adaptation}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+The LoveDA dataset is a specialized collection designed to enhance remote sensing tasks, specifically land-cover semantic segmentation and domain adaptation. Comprising 5,987 high-resolution images with pixel-wise annotations, the dataset spans both urban and rural regions across three Chinese cities: Nanjing, Changzhou, and Wuhan. With its diverse characteristics, LoveDA provides valuable insights for advancing remote sensing technology while posing unique challenges for machine learning models.
+
+\section{Key Characteristics}
+\subsection{Dual-Domain Nature}
+LoveDA’s dual-domain composition includes both urban and rural areas:
+\begin{itemize}
+    \item \textbf{Urban Environments:} Characterized by dense populations and artificial structures, such as buildings, roads, and other infrastructure.
+    \item \textbf{Rural Environments:} Predominantly natural landscapes, including forests and agricultural lands, with less human-made infrastructure.
+\end{itemize}
+This stark dichotomy requires models to distinguish between vastly different land features in each domain.
+
+\subsection{Multi-Scale Variability}
+The dataset features objects of varying scales:
+\begin{itemize}
+    \item Urban objects, such as large buildings or roads, differ significantly in size and appearance from rural objects, like small ponds or agricultural plots.
+    \item This wide range of object sizes demands advanced modeling techniques capable of handling multi-scale variability.
+\end{itemize}
+
+\subsection{Complex Background Samples}
+Intricate and heterogeneous background features often lead to misclassifications, particularly between similar land classes, such as forests and agricultural fields, increasing intra-class variance.
+
+\section{Challenges}
+\subsection{Multi-Scale Variability}
+Objects from the same class vary significantly in scale across domains. For example:
+\begin{itemize}
+    \item Urban water bodies may appear as large rivers or lakes.
+    \item Rural water bodies may appear as small ponds or ditches.
+\end{itemize}
+
+\subsection{Diverse Backgrounds}
+Heterogeneous features in the dataset complicate segmentation tasks, leading to misclassification of similar-looking land types.
+
+\subsection{Class Imbalance}
+Inconsistent class distributions between urban and rural domains pose challenges:
+\begin{itemize}
+    \item Urban scenes are dominated by man-made structures.
+    \item Rural scenes are rich in natural elements.
+\end{itemize}
+The long-tail distribution of certain classes, such as buildings in rural areas, exacerbates this problem by making smaller, less frequent instances harder to detect.
+
+\section{Strategies for Improvement}
+To address the challenges posed by the LoveDA dataset, the following strategies can be employed:
+
+\subsection{Data Augmentation}
+Techniques such as geometric transformations and synthetic data generation can help balance class distributions, particularly for underrepresented classes.
+
+\subsection{Loss Function Adjustments}
+Adjusting the loss function through methods like class-weighted losses or focal loss can improve model accuracy, especially in handling class imbalance.
+
+\subsection{Multi-Scale Feature Extraction}
+Architectures like HRNet or multi-scale inference techniques can enhance feature extraction across varying object sizes.
+
+\subsection{Domain Adaptation}
+To reduce domain shifts between urban and rural areas:
+\begin{itemize}
+    \item Employ self-training with pseudo-labeling.
+    \item Use adversarial learning for robust domain adaptation.
+\end{itemize}
+
+\subsection{Attention Mechanisms}
+Incorporating spatial or channel-wise attention can enable models to focus on the most discriminative features in complex backgrounds, improving classification accuracy.
+
+\section{Conclusion}
+The LoveDA dataset is a valuable resource for advancing semantic segmentation and domain adaptation tasks in remote sensing. By addressing its challenges with the right methodologies, researchers can push the boundaries of land-cover classification and environmental monitoring. With its rich features and unique challenges, LoveDA is poised to contribute significantly to the evolution of remote sensing technologies.
+
+
+\bibliographystyle{plain}
+\bibliography{reference}
+@article{hao2020briefSurvey,
+  author    = {Shijie Hao and Yuan Zhou and Yanrong Guo},
+  title     = {A Brief Survey on Semantic Segmentation with Deep Learning},
+  year      = {2020},
+  
+}
+
+@inproceedings{chen2017deeplab,
+  author    = {Liang-Chieh Chen and George Papandreou and Kevin Murphy and Alan L. Yuille},
+  title     = {DeepLab: Semantic Image Segmentation with Deep Convolutional Nets, Atrous Convolution, and Fully Connected CRFs},
+  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2017}
+}
+
+@article{wang2021loveda,
+  author    = {Wang, Jianzhuang and Xie, Weiyuan and Wang, Jiyong and Zhang, Xiaopeng and Li, Yu},
+  title     = {{LoveDA: A Remote Sensing Land-Cover Dataset for Domain Adaptive Semantic Segmentation}},
+  year      = {2021},
+ 
+}
+
+\end{document}

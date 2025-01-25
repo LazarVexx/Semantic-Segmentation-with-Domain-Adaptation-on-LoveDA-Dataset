@@ -99,6 +99,7 @@ def validate(config, testloader, model, writer_dict):
             bd_gts = bd_gts.float().cuda()
 
             losses, pred, _, _ = model(image, label, bd_gts)
+            print(len(pred))
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
             for i, x in enumerate(pred):
@@ -210,101 +211,6 @@ def test(config, test_dataset, testloader, model,
                 if not os.path.exists(sv_path):
                     os.mkdir(sv_path)
                 test_dataset.save_pred(pred, sv_path, name)
- 
-def train_adv_D1(config, epoch, num_epoch, 
-          epoch_iters, base_lr, num_iters,
-          trainloader, targetloader, 
-          optimizer, optimizer_D1,
-          model, model_D1,
-          writer_dict):
-    
-    # Modalità training
-    model.train()
-    model_D1.train()
-
-    # Loss function
-    if config.TRAIN.GAN == 'Vanilla':
-        bce_loss = torch.nn.BCEWithLogitsLoss()
-    elif config.TRAIN.GAN == 'LS':
-        bce_loss = torch.nn.MSELoss()
-
-    # Metriche
-    batch_time = AverageMeter()
-    ave_loss = AverageMeter()
-    ave_acc = AverageMeter()
-    avg_sem_loss = AverageMeter()
-    
-    tic = time.time()
-    cur_iters = epoch * epoch_iters
-    writer = writer_dict['writer']
-    global_steps = writer_dict['train_global_steps']
-
-    for i_iter, (batch, target_batch) in enumerate(zip(trainloader, targetloader)):
-        # 1. Training del generatore
-        optimizer.zero_grad()
-        
-        # Source domain
-        images, labels, bd_gts, _, _ = batch
-        images = images.cuda()
-        labels = labels.long().cuda()
-        bd_gts = bd_gts.float().cuda()
-
-        losses_source, pred_source, acc_source, loss_list_source = model(images, labels, bd_gts)
-        loss_seg = losses_source.mean()
-
-        # Target domain
-        images_target, labels_target, bd_gts_target, _, _ = target_batch
-        images_target = images_target.cuda()
-        labels_target = labels_target.long().cuda()
-        bd_gts_target = bd_gts_target.float().cuda()
-        
-        _, pred_target, _, _ = model(images_target, labels_target, bd_gts_target)
-
-        # Loss adversarial
-        D_out_target_conv5 = model_D1(F.softmax(pred_target[1].detach(), dim=1))
-        
-        loss_adv = config.TRAIN.LAMBDA_ADV1 * bce_loss(D_out_target_conv5, 
-                                                      torch.ones_like(D_out_target_conv5).cuda())
-        
-        # Loss totale
-        loss = loss_seg + loss_adv
-        loss.backward()
-        optimizer.step()
-
-        # 2. Training del discriminatore
-        optimizer_D1.zero_grad()
-        
-        # Source domain (label=1)
-        D_out_source_conv5 = model_D1(F.softmax(pred_source[1].detach(), dim=1))
-        loss_D_source = bce_loss(D_out_source_conv5, torch.ones_like(D_out_source_conv5).cuda())
-        
-        # Target domain (label=0)
-        loss_D_target = bce_loss(D_out_target_conv5, torch.zeros_like(D_out_target_conv5).cuda())
-        
-        # Loss totale discriminatore
-        loss_D = (loss_D_source + loss_D_target) * 0.5
-        loss_D.backward()
-        optimizer_D1.step()
-
-        # Metriche e logging
-        batch_time.update(time.time() - tic)
-        ave_loss.update(loss.item())
-        ave_acc.update(acc_source.item())
-        avg_sem_loss.update(loss_list_source[0].mean().item())
-        
-        lr = adjust_learning_rate(optimizer, base_lr, num_iters, i_iter+cur_iters)
-
-        if i_iter % config.PRINT_FREQ == 0:
-            msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
-                  'lr: {}, Loss: {:.6f}, Loss_D: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}' .format(
-                      epoch, num_epoch, i_iter, epoch_iters,
-                      batch_time.average(), [x['lr'] for x in optimizer.param_groups], 
-                      ave_loss.average(), loss_D.item(),
-                      ave_acc.average(), avg_sem_loss.average())
-            logging.info(msg)
-
-    writer.add_scalar('train_loss', ave_loss.average(), global_steps)
-    writer_dict['train_global_steps'] = global_steps + 1
 
 
 
@@ -315,18 +221,12 @@ def train_adv(config, epoch, num_epoch,
           model, model_D1, model_D2, 
           writer_dict):
     
-    # Modalità training
     model.train()
     model_D1.train()
     model_D2.train()
 
-    # Loss function
-    if config.TRAIN.GAN == 'Vanilla':
-        bce_loss = torch.nn.BCEWithLogitsLoss()
-    elif config.TRAIN.GAN == 'LS':
-        bce_loss = torch.nn.MSELoss()
+    bce_loss = torch.nn.MSELoss() if config.TRAIN.GAN == 'LS' else torch.nn.BCEWithLogitsLoss()
 
-    # Metriche
     batch_time = AverageMeter()
     ave_loss = AverageMeter()
     ave_acc = AverageMeter()
@@ -338,45 +238,70 @@ def train_adv(config, epoch, num_epoch,
     global_steps = writer_dict['train_global_steps']
 
     for i_iter, (batch, target_batch) in enumerate(zip(trainloader, targetloader)):
-
         # 1. Training Generator
         optimizer.zero_grad()
-        
-        # Source domain training
-        images, labels, bd_gts, _, _ = batch
-        images = images.cuda()
-        labels = labels.long().cuda()
-        bd_gts = bd_gts.float().cuda()
 
-        losses_source, pred_source, acc_source, loss_list_source = model(images, labels, bd_gts)
-        loss_seg = losses_source.mean()
+        # Initialize loss values
+        loss_seg_value1 = 0
+        loss_seg_value2 = 0
+        loss_adv_target_value1 = 0
+        loss_adv_target_value2 = 0
 
-        # Target domain training
-        images_target, _, _, _, _ = target_batch
-        images_target = images_target.cuda()
-        
-        with torch.no_grad():
-            _, pred_target, _, _ = model(images_target, labels, bd_gts)
-
-
-        # Disable discriminator gradients
+        # Freeze discriminator
         for param in model_D1.parameters():
             param.requires_grad = False
         for param in model_D2.parameters():
             param.requires_grad = False
 
+        # Train with source domain
+        images, labels, bd_gts, _, _ = batch
+        images = images.cuda()
+        labels = labels.long().cuda()
+        bd_gts = bd_gts.float().cuda()
+        h, w = labels.size(1), labels.size(2)
+
+        losses_source, pred_source, acc_source, loss_list_source = model(images, labels, bd_gts)
+
+        # Interpolate source predictions
+        pred_source[1] = F.interpolate(pred_source[1], size=(h, w), 
+                                    mode='bilinear', 
+                                    align_corners=config.MODEL.ALIGN_CORNERS)
+        pred_source[2] = F.interpolate(pred_source[2], size=(h, w), 
+                                    mode='bilinear', 
+                                    align_corners=config.MODEL.ALIGN_CORNERS)
+
+        loss_seg = losses_source.mean() 
+        loss_seg.backward()
+        loss_seg_value1 += loss_seg.item()
+
+        # Train with target domain
+        images_target, _, _, _, _ = target_batch
+        images_target = images_target.cuda()
+
+        _, pred_target, _, _ = model(images_target, labels, bd_gts)
+
+        # Interpolate target predictions
+        pred_target[1] = F.interpolate(pred_target[1], size=(h, w), 
+                                    mode='bilinear', 
+                                    align_corners=config.MODEL.ALIGN_CORNERS)
+        pred_target[2] = F.interpolate(pred_target[2], size=(h, w), 
+                                    mode='bilinear', 
+                                    align_corners=config.MODEL.ALIGN_CORNERS)
+
         # Adversarial loss on target
         D_out_target_conv5 = model_D1(F.softmax(pred_target[1], dim=1))
         D_out_target_conv4 = model_D2(F.softmax(pred_target[2], dim=1))
-        
+
         loss_adv_target1 = config.TRAIN.LAMBDA_ADV1 * bce_loss(D_out_target_conv5, 
-                                                              torch.ones_like(D_out_target_conv5).cuda()).mean()
+                                                            torch.ones_like(D_out_target_conv5).cuda())
         loss_adv_target2 = config.TRAIN.LAMBDA_ADV2 * bce_loss(D_out_target_conv4,
-                                                              torch.ones_like(D_out_target_conv4).cuda()).mean()
-        
-        total_loss = loss_seg + (loss_adv_target1 + loss_adv_target2)
-        total_loss.backward()
-        optimizer.step()
+                                                            torch.ones_like(D_out_target_conv4).cuda())
+
+        # Normalize and accumulate adversarial losses
+        loss_adv = (loss_adv_target1 + loss_adv_target2) 
+        loss_adv.backward()
+        loss_adv_target_value1 += loss_adv_target1.item() 
+        loss_adv_target_value2 += loss_adv_target2.item() 
 
 
         # 2. Training Discriminators
@@ -385,43 +310,51 @@ def train_adv(config, epoch, num_epoch,
         for param in model_D2.parameters():
             param.requires_grad = True
 
-        optimizer_D1.zero_grad()
-        optimizer_D2.zero_grad()
+        # Initialize loss values
+        loss_D_value1 = 0
+        loss_D_value2 = 0
 
-        # Train on source domain
+        # Train with source
         pred_source_conv5 = pred_source[1].detach()
         pred_source_conv4 = pred_source[2].detach()
-        
+
         D_out_source_conv5 = model_D1(F.softmax(pred_source_conv5, dim=1))
         D_out_source_conv4 = model_D2(F.softmax(pred_source_conv4, dim=1))
 
-        # Train on target domain
+        loss_D1_source = bce_loss(D_out_source_conv5, torch.ones_like(D_out_source_conv5).cuda())
+        loss_D2_source = bce_loss(D_out_source_conv4, torch.ones_like(D_out_source_conv4).cuda())
+
+        # Train with target
         pred_target_conv5 = pred_target[1].detach()
         pred_target_conv4 = pred_target[2].detach()
-        
+
         D_out_target_conv5 = model_D1(F.softmax(pred_target_conv5, dim=1))
         D_out_target_conv4 = model_D2(F.softmax(pred_target_conv4, dim=1))
-        
-        # Source domain
-        loss_D1_source = bce_loss(D_out_source_conv5, torch.ones_like(D_out_source_conv5).cuda()).mean()
-        loss_D2_source = bce_loss(D_out_source_conv4, torch.ones_like(D_out_source_conv4).cuda()).mean()
 
-        # Target domain
-        loss_D1_target = bce_loss(D_out_target_conv5, torch.zeros_like(D_out_target_conv5).cuda()).mean()
-        loss_D2_target = bce_loss(D_out_target_conv4, torch.zeros_like(D_out_target_conv4).cuda()).mean()
+        loss_D1_target = bce_loss(D_out_target_conv5, torch.zeros_like(D_out_target_conv5).cuda())
+        loss_D2_target = bce_loss(D_out_target_conv4, torch.zeros_like(D_out_target_conv4).cuda())
 
-        # Combine losses
-        total_loss_D1 = (loss_D1_source + loss_D1_target)
-        total_loss_D2 = (loss_D2_source + loss_D2_target)
-
-        total_loss_D1.backward()
-        total_loss_D2.backward()
+        # Combine and normalize losses
+        optimizer_D1.zero_grad()
+        loss_D1 = (loss_D1_source + loss_D1_target) / (2)
+        loss_D1.backward()
+        loss_D_value1 += loss_D1.item()
         optimizer_D1.step()
+
+        optimizer_D2.zero_grad()
+        loss_D2 = (loss_D2_source + loss_D2_target) / (2)
+        loss_D2.backward()
+        loss_D_value2 += loss_D2.item()
         optimizer_D2.step()
 
-        # Metriche e logging
+
+        # Metrics update
         batch_time.update(time.time() - tic)
-        ave_loss.update(total_loss.item())
+        tic = time.time()
+
+        
+        optimizer.step()
+        ave_loss.update(loss_seg.item())
         ave_acc.update(acc_source.item())
         avg_sem_loss.update(loss_list_source[0].mean().item())
         
@@ -432,9 +365,65 @@ def train_adv(config, epoch, num_epoch,
                   'lr: {}, Loss: {:.6f}, Loss_D1: {:.6f}, Loss_D2: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}' .format(
                       epoch, num_epoch, i_iter, epoch_iters,
                       batch_time.average(), [x['lr'] for x in optimizer.param_groups], 
-                      ave_loss.average(), total_loss_D1,total_loss_D2,
+                      ave_loss.average(), loss_D1.item(), loss_D2.item(),
                       ave_acc.average(), avg_sem_loss.average())
             logging.info(msg)
 
     writer.add_scalar('train_loss', ave_loss.average(), global_steps)
     writer_dict['train_global_steps'] = global_steps + 1
+    
+def validate_adv(config, testloader, model, writer_dict):
+    model.eval()
+    ave_loss = AverageMeter()
+    nums = config.MODEL.NUM_OUTPUTS
+    confusion_matrix = np.zeros(
+        (config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES, nums))
+    with torch.no_grad():
+        for idx, batch in enumerate(testloader):
+            image, label, bd_gts, _, _ = batch
+            size = label.size()
+            image = image.cuda()
+            label = label.long().cuda()
+            bd_gts = bd_gts.float().cuda()
+
+            losses, pred, _, _ = model(image, label, bd_gts)
+            pred = pred[:2]
+
+            if not isinstance(pred, (list, tuple)):
+                pred = [pred]
+            for i, x in enumerate(pred):
+                x = F.interpolate(
+                    input=x, size=size[-2:],
+                    mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
+                )
+
+                confusion_matrix[..., i] += get_confusion_matrix(
+                    label,
+                    x,
+                    size,
+                    config.DATASET.NUM_CLASSES,
+                    config.TRAIN.IGNORE_LABEL
+                )
+
+            if idx % 10 == 0:
+                print(idx)
+
+            loss = losses.mean()
+            ave_loss.update(loss.item())
+
+    for i in range(nums):
+        pos = confusion_matrix[..., i].sum(1)
+        res = confusion_matrix[..., i].sum(0)
+        tp = np.diag(confusion_matrix[..., i])
+        IoU_array = (tp / np.maximum(1.0, pos + res - tp))
+        mean_IoU = IoU_array[1:].mean()
+        
+        logging.info('{} {} {}'.format(i, IoU_array, mean_IoU))
+
+    writer = writer_dict['writer']
+    global_steps = writer_dict['valid_global_steps']
+    writer.add_scalar('valid_loss', ave_loss.average(), global_steps)
+    writer.add_scalar('valid_mIoU', mean_IoU, global_steps)
+    writer_dict['valid_global_steps'] = global_steps + 1
+    return ave_loss.average(), mean_IoU, IoU_array
+

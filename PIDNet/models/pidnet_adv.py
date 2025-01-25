@@ -12,10 +12,10 @@ BatchNorm2d = nn.BatchNorm2d
 bn_mom = 0.1
 algc = False
 
-class PIDNet(nn.Module):
+class PIDNet_avd(nn.Module):
 
     def __init__(self, m=2, n=3, num_classes=19, planes=64, ppm_planes=96, head_planes=128, augment=True):
-        super(PIDNet, self).__init__()
+        super(PIDNet_avd, self).__init__()
         self.augment = augment
         
         # I Branch
@@ -132,7 +132,6 @@ class PIDNet(nn.Module):
         return layer
 
     def forward(self, x):
-
         width_output = x.shape[-1] // 8
         height_output = x.shape[-2] // 8
 
@@ -163,17 +162,18 @@ class PIDNet(nn.Module):
         if self.augment:
             temp_d = x_d
         
+        # Salva x_ prima del layer5_ per il layer4 output
+        x_layer4 = x_.clone()
         
+        # Reduction layer per x_layer4
         reduction_layer = nn.Sequential(
-            nn.Conv2d(64, 8, kernel_size=1, stride=1, padding=0, bias=False),  # 1x1 conv per ridurre solo i canali
-            nn.LeakyReLU(0.2, inplace=True)  # LeakyReLU come specificato nel paper
+            nn.Conv2d(64, 8, kernel_size=1, stride=1, padding=0, bias=False),  # Modificato da 64 a 128 per match dei canali
+            nn.LeakyReLU(0.2, inplace=True)
         ).cuda()
-
-        # Apply the reduction
-        x_layer4 = reduction_layer(x_)
-
-
-            
+        
+        # Applica reduction
+        x_layer4 = reduction_layer(x_layer4)
+                
         x_ = self.layer5_(self.relu(x_))
         x_d = self.layer5_d(self.relu(x_d))
         x = F.interpolate(
@@ -186,18 +186,19 @@ class PIDNet(nn.Module):
         if self.augment: 
             x_extra_p = self.seghead_p(temp_p)
             x_extra_d = self.seghead_d(temp_d)
-            return [x_extra_p, x_,x_layer4, x_extra_d]
+            return [x_extra_p, x_, x_layer4, x_extra_d]
         else:
-            return x_, x_layer4      
+            return x_, x_layer4
+    
 
 def get_seg_model(cfg, imgnet_pretrained):
     
     if 's' in cfg.MODEL.NAME:
-        model = PIDNet(m=2, n=3, num_classes=cfg.DATASET.NUM_CLASSES, planes=32, ppm_planes=96, head_planes=128, augment=True)
+        model = PIDNet_avd(m=2, n=3, num_classes=cfg.DATASET.NUM_CLASSES, planes=32, ppm_planes=96, head_planes=128, augment=True)
     elif 'm' in cfg.MODEL.NAME:
-        model = PIDNet(m=2, n=3, num_classes=cfg.DATASET.NUM_CLASSES, planes=64, ppm_planes=96, head_planes=128, augment=True)
+        model = PIDNet_avd(m=2, n=3, num_classes=cfg.DATASET.NUM_CLASSES, planes=64, ppm_planes=96, head_planes=128, augment=True)
     else:
-        model = PIDNet(m=3, n=4, num_classes=cfg.DATASET.NUM_CLASSES, planes=64, ppm_planes=112, head_planes=256, augment=True)
+        model = PIDNet_avd(m=3, n=4, num_classes=cfg.DATASET.NUM_CLASSES, planes=64, ppm_planes=112, head_planes=256, augment=True)
     
     if imgnet_pretrained:
         pretrained_state = torch.load(cfg.MODEL.PRETRAINED, map_location='cpu')['state_dict'] 
@@ -227,11 +228,11 @@ def get_seg_model(cfg, imgnet_pretrained):
 def get_pred_model(name, num_classes):
     
     if 's' in name:
-        model = PIDNet(m=2, n=3, num_classes=num_classes, planes=32, ppm_planes=96, head_planes=128, augment=False)
+        model = PIDNet_avd(m=2, n=3, num_classes=num_classes, planes=32, ppm_planes=96, head_planes=128, augment=False)
     elif 'm' in name:
-        model = PIDNet(m=2, n=3, num_classes=num_classes, planes=64, ppm_planes=96, head_planes=128, augment=False)
+        model = PIDNet_avd(m=2, n=3, num_classes=num_classes, planes=64, ppm_planes=96, head_planes=128, augment=False)
     else:
-        model = PIDNet(m=3, n=4, num_classes=num_classes, planes=64, ppm_planes=112, head_planes=256, augment=False)
+        model = PIDNet_avd(m=3, n=4, num_classes=num_classes, planes=64, ppm_planes=112, head_planes=256, augment=False)
     
     return model
 

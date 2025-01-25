@@ -82,7 +82,7 @@ class Loveda(BaseDataset):
     
     def read_files(self):
         files = []
-        if 'test' in self.list_path:
+        if 'test' in self.list_path or 'val' in self.list_path:
             for item in self.img_list:
                 image_path = item
                 name = os.path.splitext(os.path.basename(image_path[0]))[0]

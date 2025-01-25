@@ -421,7 +421,7 @@ def train_adv(config, epoch, num_epoch,
 
         # Metriche e logging
         batch_time.update(time.time() - tic)
-        ave_loss.update(loss_seg.item())
+        ave_loss.update(total_loss.item())
         ave_acc.update(acc_source.item())
         avg_sem_loss.update(loss_list_source[0].mean().item())
         

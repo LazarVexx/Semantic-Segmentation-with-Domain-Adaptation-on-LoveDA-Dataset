@@ -219,7 +219,7 @@ def main():
             optimizer, T_max=(config.TRAIN.END_EPOCH - warmup_epochs), eta_min=1e-6
         )
      # Training loop modifications in the main script
-    for epoch in range(config.TRAIN.BEGIN_EPOCH, config.TRAIN.END_EPOCH):
+    for epoch in range(last_epoch, real_end):
         
         if config.TRAIN.SCHEDULER:
             if epoch < warmup_epochs:

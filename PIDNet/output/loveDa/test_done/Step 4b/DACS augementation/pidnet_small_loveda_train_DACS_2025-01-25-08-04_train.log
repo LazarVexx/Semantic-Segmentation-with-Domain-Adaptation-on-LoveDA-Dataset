@@ -1,0 +1,297 @@
+2025-01-25 08:04:58,097 Namespace(cfg='configs/loveda/pidnet_small_loveda_train_DACS.yaml', seed=304, opts=['GPUS', '[0]', 'TRAIN.BATCH_SIZE_PER_GPU', '6'])
+2025-01-25 08:04:58,097 AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: loveDa
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 8
+  ROOT: data/
+  SOURCE_DATASET: loveDa
+  SOURCE_TEST_SET: list/loveDA-Urban/val.lst
+  SOURCE_TRAIN_SET: list/loveDA-Urban/train.lst
+  TARGET_DATASET: loveDa
+  TARGET_SET: list/loveDa/val.lst
+  TARGET_TEST_SET: list/loveDa-Rural/val.lst
+  TARGET_TRAIN_SET: list/loveDa-Rural/train.lst
+  TEST_SET: list/loveDa/val.lst
+  TRAIN_SET: list/loveDa/train.lst
+GPUS: (0,)
+LOG_DIR: log
+LOSS:
+  BALANCE_WEIGHTS: [0.4, 1.0]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.7
+  SB_WEIGHTS: 0.5
+  USE_DICE: False
+  USE_FOCAL: False
+  USE_OHEM: True
+MODEL:
+  ALIGN_CORNERS: True
+  NAME: pidnet_small
+  NUM_OUTPUTS: 2
+  PRETRAINED: pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar
+OUTPUT_DIR: output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+TEST:
+  BASE_SIZE: 1024
+  BATCH_SIZE_PER_GPU: 6
+  FLIP_TEST: False
+  IMAGE_SIZE: [1024, 1024]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  OUTPUT_INDEX: 1
+TRAIN:
+  ADVERSARIAL: False
+  AUG: True
+  AUG1: False
+  AUG2: True
+  AUG3: True
+  AUG4: False
+  AUG_CHANCE: True
+  BASE_SIZE: 720
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  END_EPOCH: 20
+  EVAL_INTERVAL: 1
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  GAN: Vanilla
+  IGNORE_LABEL: 0
+  IMAGE_SIZE: [720, 720]
+  LAMBDA_ADV1: 0.001
+  LAMBDA_ADV2: 0.001
+  LR: 0.001
+  LR_D1: 0.001
+  LR_D2: 0.001
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  OPTIMIZER: adam
+  RESUME: True
+  SCALE_FACTOR: 16
+  SCHEDULER: True
+  SHUFFLE: True
+  WD: 0.0005
+WORKERS: 0
+2025-01-25 08:04:58,653 Attention!!!
+2025-01-25 08:04:58,653 Loaded 302 parameters!
+2025-01-25 08:04:58,654 Over!!!
+2025-01-25 08:04:59,596 => loaded checkpoint (epoch 15)
+2025-01-25 08:04:59,790 Attention!!!
+2025-01-25 08:04:59,791 Loaded 302 parameters!
+2025-01-25 08:04:59,791 Over!!!
+2025-01-25 08:05:09,216 Epoch: [15/20] Iter:[0/291], Time: 5.01, lr: [1.1129942050566235e-07], Loss: 1.971416, Acc:0.872027, Source Loss: 1.291562, Target Loss: 1.351033, MixUp Loss: 1.359707
+2025-01-25 08:05:29,617 Epoch: [15/20] Iter:[10/291], Time: 2.70, lr: [1.1061073330279703e-07], Loss: 1.586979, Acc:0.770558, Source Loss: 1.088855, Target Loss: 1.143530, MixUp Loss: 0.597346
+2025-01-25 08:05:50,323 Epoch: [15/20] Iter:[20/291], Time: 2.40, lr: [1.0992156933084242e-07], Loss: 1.619599, Acc:0.750912, Source Loss: 1.122157, Target Loss: 1.126040, MixUp Loss: 1.010092
+2025-01-25 08:06:10,292 Epoch: [15/20] Iter:[30/291], Time: 2.27, lr: [1.092319249337899e-07], Loss: 1.669399, Acc:0.774952, Source Loss: 1.166435, Target Loss: 1.092525, MixUp Loss: 0.966627
+2025-01-25 08:06:31,072 Epoch: [15/20] Iter:[40/291], Time: 2.22, lr: [1.0854179640173258e-07], Loss: 1.693183, Acc:0.787512, Source Loss: 1.199680, Target Loss: 1.064184, MixUp Loss: 0.703411
+2025-01-25 08:06:51,404 Epoch: [15/20] Iter:[50/291], Time: 2.19, lr: [1.078511799696841e-07], Loss: 1.746186, Acc:0.790673, Source Loss: 1.250805, Target Loss: 1.054066, MixUp Loss: 1.024605
+2025-01-25 08:07:11,691 Epoch: [15/20] Iter:[60/291], Time: 2.16, lr: [1.0716007181636287e-07], Loss: 1.731432, Acc:0.777236, Source Loss: 1.231160, Target Loss: 1.049397, MixUp Loss: 0.844850
+2025-01-25 08:07:32,584 Epoch: [15/20] Iter:[70/291], Time: 2.15, lr: [1.064684680629405e-07], Loss: 1.755101, Acc:0.779950, Source Loss: 1.243566, Target Loss: 1.072379, MixUp Loss: 1.333149
+2025-01-25 08:07:52,648 Epoch: [15/20] Iter:[80/291], Time: 2.13, lr: [1.0577636477175341e-07], Loss: 1.732649, Acc:0.779078, Source Loss: 1.224185, Target Loss: 1.071182, MixUp Loss: 0.619346
+2025-01-25 08:08:13,555 Epoch: [15/20] Iter:[90/291], Time: 2.13, lr: [1.0508375794497563e-07], Loss: 1.754130, Acc:0.786843, Source Loss: 1.235446, Target Loss: 1.089499, MixUp Loss: 1.324252
+2025-01-25 08:08:33,664 Epoch: [15/20] Iter:[100/291], Time: 2.12, lr: [1.0439064352325204e-07], Loss: 1.759708, Acc:0.786683, Source Loss: 1.235063, Target Loss: 1.097178, MixUp Loss: 1.684883
+2025-01-25 08:08:54,359 Epoch: [15/20] Iter:[110/291], Time: 2.11, lr: [1.0369701738429023e-07], Loss: 1.772762, Acc:0.793143, Source Loss: 1.253447, Target Loss: 1.086615, MixUp Loss: 1.351876
+2025-01-25 08:09:15,202 Epoch: [15/20] Iter:[120/291], Time: 2.11, lr: [1.0300287534140904e-07], Loss: 1.783944, Acc:0.793315, Source Loss: 1.257934, Target Loss: 1.089508, MixUp Loss: 1.245254
+2025-01-25 08:09:35,242 Epoch: [15/20] Iter:[130/291], Time: 2.10, lr: [1.0230821314204302e-07], Loss: 1.774353, Acc:0.791673, Source Loss: 1.248333, Target Loss: 1.095964, MixUp Loss: 0.777012
+2025-01-25 08:09:56,044 Epoch: [15/20] Iter:[140/291], Time: 2.10, lr: [1.0161302646620017e-07], Loss: 1.775287, Acc:0.795906, Source Loss: 1.249086, Target Loss: 1.095204, MixUp Loss: 0.933898
+2025-01-25 08:10:15,925 Epoch: [15/20] Iter:[150/291], Time: 2.09, lr: [1.0091731092487193e-07], Loss: 1.777359, Acc:0.800467, Source Loss: 1.252540, Target Loss: 1.089003, MixUp Loss: 1.105632
+2025-01-25 08:10:36,714 Epoch: [15/20] Iter:[160/291], Time: 2.09, lr: [1.002210620583929e-07], Loss: 1.773508, Acc:0.799201, Source Loss: 1.249769, Target Loss: 1.092073, MixUp Loss: 0.889115
+2025-01-25 08:10:56,864 Epoch: [15/20] Iter:[170/291], Time: 2.09, lr: [9.952427533474867e-08], Loss: 1.779801, Acc:0.798660, Source Loss: 1.255761, Target Loss: 1.093992, MixUp Loss: 0.831891
+2025-01-25 08:11:17,440 Epoch: [15/20] Iter:[180/291], Time: 2.09, lr: [9.882694614782985e-08], Loss: 1.776882, Acc:0.798034, Source Loss: 1.252496, Target Loss: 1.101274, MixUp Loss: 0.758474
+2025-01-25 08:11:38,258 Epoch: [15/20] Iter:[190/291], Time: 2.09, lr: [9.812906981562968e-08], Loss: 1.774146, Acc:0.799211, Source Loss: 1.250871, Target Loss: 1.101516, MixUp Loss: 0.783637
+2025-01-25 08:11:58,284 Epoch: [15/20] Iter:[200/291], Time: 2.08, lr: [9.743064157838322e-08], Loss: 1.778104, Acc:0.797464, Source Loss: 1.254396, Target Loss: 1.101443, MixUp Loss: 1.085016
+2025-01-25 08:12:19,152 Epoch: [15/20] Iter:[210/291], Time: 2.08, lr: [9.673165659664594e-08], Loss: 1.786734, Acc:0.799258, Source Loss: 1.261445, Target Loss: 1.102817, MixUp Loss: 0.932576
+2025-01-25 08:12:39,652 Epoch: [15/20] Iter:[220/291], Time: 2.08, lr: [9.603210994930866e-08], Loss: 1.784330, Acc:0.800691, Source Loss: 1.258823, Target Loss: 1.101392, MixUp Loss: 1.036718
+2025-01-25 08:13:00,383 Epoch: [15/20] Iter:[230/291], Time: 2.08, lr: [9.533199663154697e-08], Loss: 1.779510, Acc:0.800306, Source Loss: 1.255591, Target Loss: 1.100522, MixUp Loss: 1.001700
+2025-01-25 08:13:21,096 Epoch: [15/20] Iter:[240/291], Time: 2.08, lr: [9.463131155270154e-08], Loss: 1.788436, Acc:0.803522, Source Loss: 1.263859, Target Loss: 1.094995, MixUp Loss: 1.222970
+2025-01-25 08:13:41,080 Epoch: [15/20] Iter:[250/291], Time: 2.08, lr: [9.393004953408728e-08], Loss: 1.787359, Acc:0.801386, Source Loss: 1.262703, Target Loss: 1.096547, MixUp Loss: 0.766194
+2025-01-25 08:14:02,082 Epoch: [15/20] Iter:[260/291], Time: 2.08, lr: [9.322820530672766e-08], Loss: 1.786786, Acc:0.801011, Source Loss: 1.261422, Target Loss: 1.105021, MixUp Loss: 0.984395
+2025-01-25 08:14:22,950 Epoch: [15/20] Iter:[270/291], Time: 2.08, lr: [9.252577350901131e-08], Loss: 1.795771, Acc:0.800051, Source Loss: 1.267953, Target Loss: 1.106844, MixUp Loss: 1.022591
+2025-01-25 08:14:42,880 Epoch: [15/20] Iter:[280/291], Time: 2.07, lr: [9.18227486842675e-08], Loss: 1.797501, Acc:0.800579, Source Loss: 1.271217, Target Loss: 1.101193, MixUp Loss: 0.965667
+2025-01-25 08:15:03,561 Epoch: [15/20] Iter:[290/291], Time: 2.07, lr: [9.111912527825727e-08], Loss: 1.795433, Acc:0.800973, Source Loss: 1.271010, Target Loss: 1.096814, MixUp Loss: 0.750489
+2025-01-25 08:24:26,192 0 [0.         0.470425   0.24346361 0.12103444 0.23892724 0.06765928
+ 0.05714849 0.0366133 ] 0.15440892181778235
+2025-01-25 08:24:26,192 1 [0.         0.50796426 0.21567291 0.24587568 0.3733856  0.05753729
+ 0.03213028 0.27787307] 0.2138048857639487
+2025-01-25 08:24:26,203 Epoch 16/20 - Source Loss: 1.2710, Target Loss: 1.0968
+2025-01-25 08:24:26,203 => saving checkpoint to output/loveDa/pidnet_small_loveda_train_DACScheckpoint.pth.tar
+2025-01-25 08:24:26,476 Epoch [15], Loss: 1.795, MeanIoU: 0.2138, best_mIoU: 0.2250
+2025-01-25 08:24:26,477 IoU per class: [0.         0.50796426 0.21567291 0.24587568 0.3733856  0.05753729
+ 0.03213028 0.27787307]
+2025-01-25 08:24:26,627 Attention!!!
+2025-01-25 08:24:26,627 Loaded 302 parameters!
+2025-01-25 08:24:26,627 Over!!!
+2025-01-25 08:24:28,759 Epoch: [16/20] Iter:[0/291], Time: 1.92, lr: [2.8379090706600865e-08], Loss: 1.174152, Acc:0.474562, Source Loss: 0.748143, Target Loss: 1.414147, MixUp Loss: 0.852017
+2025-01-25 08:24:49,586 Epoch: [16/20] Iter:[10/291], Time: 2.07, lr: [2.8159570194136746e-08], Loss: 1.673845, Acc:0.724261, Source Loss: 1.116492, Target Loss: 1.299099, MixUp Loss: 1.347773
+2025-01-25 08:25:09,923 Epoch: [16/20] Iter:[20/291], Time: 2.05, lr: [2.7939859370979284e-08], Loss: 1.678730, Acc:0.717533, Source Loss: 1.156579, Target Loss: 1.241797, MixUp Loss: 0.942991
+2025-01-25 08:25:30,046 Epoch: [16/20] Iter:[30/291], Time: 2.04, lr: [2.7719956406371503e-08], Loss: 1.723318, Acc:0.729249, Source Loss: 1.191567, Target Loss: 1.202926, MixUp Loss: 1.253597
+2025-01-25 08:25:50,914 Epoch: [16/20] Iter:[40/291], Time: 2.05, lr: [2.7499859435637273e-08], Loss: 1.753849, Acc:0.744692, Source Loss: 1.221938, Target Loss: 1.190342, MixUp Loss: 1.303622
+2025-01-25 08:26:10,855 Epoch: [16/20] Iter:[50/291], Time: 2.04, lr: [2.7279566559245368e-08], Loss: 1.779423, Acc:0.748233, Source Loss: 1.248452, Target Loss: 1.180158, MixUp Loss: 1.159546
+2025-01-25 08:26:31,617 Epoch: [16/20] Iter:[60/291], Time: 2.05, lr: [2.7059075841839032e-08], Loss: 1.796796, Acc:0.754182, Source Loss: 1.261222, Target Loss: 1.187380, MixUp Loss: 1.093016
+2025-01-25 08:26:51,886 Epoch: [16/20] Iter:[70/291], Time: 2.04, lr: [2.683838531122951e-08], Loss: 1.777720, Acc:0.751966, Source Loss: 1.248140, Target Loss: 1.192860, MixUp Loss: 0.974369
+2025-01-25 08:27:12,172 Epoch: [16/20] Iter:[80/291], Time: 2.04, lr: [2.6617492957351826e-08], Loss: 1.783027, Acc:0.756351, Source Loss: 1.250607, Target Loss: 1.194970, MixUp Loss: 0.918357
+2025-01-25 08:27:32,746 Epoch: [16/20] Iter:[90/291], Time: 2.04, lr: [2.6396396731181046e-08], Loss: 1.794902, Acc:0.758443, Source Loss: 1.255556, Target Loss: 1.207704, MixUp Loss: 1.123183
+2025-01-25 08:27:52,591 Epoch: [16/20] Iter:[100/291], Time: 2.04, lr: [2.6175094543607155e-08], Loss: 1.785391, Acc:0.750952, Source Loss: 1.251131, Target Loss: 1.203454, MixUp Loss: 1.424117
+2025-01-25 08:28:13,101 Epoch: [16/20] Iter:[110/291], Time: 2.04, lr: [2.595358426426654e-08], Loss: 1.767005, Acc:0.748178, Source Loss: 1.232368, Target Loss: 1.218682, MixUp Loss: 0.983379
+2025-01-25 08:28:33,553 Epoch: [16/20] Iter:[120/291], Time: 2.04, lr: [2.573186372032801e-08], Loss: 1.771323, Acc:0.748819, Source Loss: 1.234753, Target Loss: 1.225650, MixUp Loss: 1.045533
+2025-01-25 08:28:53,853 Epoch: [16/20] Iter:[130/291], Time: 2.04, lr: [2.550993069523111e-08], Loss: 1.770110, Acc:0.751154, Source Loss: 1.236084, Target Loss: 1.218502, MixUp Loss: 0.949676
+2025-01-25 08:29:14,710 Epoch: [16/20] Iter:[140/291], Time: 2.04, lr: [2.528778292737436e-08], Loss: 1.773062, Acc:0.752814, Source Loss: 1.237926, Target Loss: 1.227568, MixUp Loss: 0.861909
+2025-01-25 08:29:34,858 Epoch: [16/20] Iter:[150/291], Time: 2.04, lr: [2.5065418108750988e-08], Loss: 1.780934, Acc:0.752625, Source Loss: 1.240687, Target Loss: 1.234456, MixUp Loss: 1.109632
+2025-01-25 08:29:55,449 Epoch: [16/20] Iter:[160/291], Time: 2.04, lr: [2.4842833883529406e-08], Loss: 1.778737, Acc:0.752521, Source Loss: 1.238310, Target Loss: 1.231612, MixUp Loss: 1.233562
+2025-01-25 08:30:15,742 Epoch: [16/20] Iter:[170/291], Time: 2.04, lr: [2.462002784657573e-08], Loss: 1.783691, Acc:0.753027, Source Loss: 1.242087, Target Loss: 1.234873, MixUp Loss: 1.293242
+2025-01-25 08:30:35,667 Epoch: [16/20] Iter:[180/291], Time: 2.04, lr: [2.4396997541915353e-08], Loss: 1.783929, Acc:0.752579, Source Loss: 1.242184, Target Loss: 1.232605, MixUp Loss: 1.591617
+2025-01-25 08:30:56,403 Epoch: [16/20] Iter:[190/291], Time: 2.04, lr: [2.4173740461130247e-08], Loss: 1.782459, Acc:0.754044, Source Loss: 1.240667, Target Loss: 1.237279, MixUp Loss: 0.940541
+2025-01-25 08:31:16,432 Epoch: [16/20] Iter:[200/291], Time: 2.04, lr: [2.3950254041688928e-08], Loss: 1.785139, Acc:0.754808, Source Loss: 1.242277, Target Loss: 1.235172, MixUp Loss: 1.109057
+2025-01-25 08:31:37,204 Epoch: [16/20] Iter:[210/291], Time: 2.04, lr: [2.372653566520522e-08], Loss: 1.794470, Acc:0.755177, Source Loss: 1.250071, Target Loss: 1.234809, MixUp Loss: 1.607847
+2025-01-25 08:31:57,351 Epoch: [16/20] Iter:[220/291], Time: 2.04, lr: [2.350258265562223e-08], Loss: 1.792376, Acc:0.755817, Source Loss: 1.248061, Target Loss: 1.235787, MixUp Loss: 1.030960
+2025-01-25 08:32:18,061 Epoch: [16/20] Iter:[230/291], Time: 2.04, lr: [2.327839227731733e-08], Loss: 1.793203, Acc:0.755442, Source Loss: 1.247611, Target Loss: 1.234538, MixUp Loss: 1.106048
+2025-01-25 08:32:38,909 Epoch: [16/20] Iter:[240/291], Time: 2.04, lr: [2.305396173312395e-08], Loss: 1.791615, Acc:0.756743, Source Loss: 1.247046, Target Loss: 1.231254, MixUp Loss: 1.107312
+2025-01-25 08:32:59,233 Epoch: [16/20] Iter:[250/291], Time: 2.04, lr: [2.2829288162265507e-08], Loss: 1.794358, Acc:0.758237, Source Loss: 1.249426, Target Loss: 1.229451, MixUp Loss: 1.072772
+2025-01-25 08:33:19,954 Epoch: [16/20] Iter:[260/291], Time: 2.04, lr: [2.2604368638196623e-08], Loss: 1.792715, Acc:0.760338, Source Loss: 1.248505, Target Loss: 1.229565, MixUp Loss: 0.938059
+2025-01-25 08:33:40,577 Epoch: [16/20] Iter:[270/291], Time: 2.04, lr: [2.237920016634634e-08], Loss: 1.792471, Acc:0.761764, Source Loss: 1.248915, Target Loss: 1.230588, MixUp Loss: 1.109052
+2025-01-25 08:34:00,258 Epoch: [16/20] Iter:[280/291], Time: 2.04, lr: [2.215377968175779e-08], Loss: 1.794630, Acc:0.761758, Source Loss: 1.249970, Target Loss: 1.230617, MixUp Loss: 1.769809
+2025-01-25 08:34:20,752 Epoch: [16/20] Iter:[290/291], Time: 2.04, lr: [2.1928104046618304e-08], Loss: 1.792518, Acc:0.758036, Source Loss: 1.248110, Target Loss: 1.228818, MixUp Loss: 0.854165
+2025-01-25 08:43:43,737 0 [0.         0.47359335 0.25438116 0.12340445 0.25070179 0.08181894
+ 0.05842211 0.03352011] 0.1594802396623804
+2025-01-25 08:43:43,738 1 [0.         0.50243038 0.20341882 0.23479451 0.38473863 0.05663783
+ 0.02239845 0.22207693] 0.20331194299613214
+2025-01-25 08:43:43,749 Epoch 17/20 - Source Loss: 1.2481, Target Loss: 1.2288
+2025-01-25 08:43:43,749 => saving checkpoint to output/loveDa/pidnet_small_loveda_train_DACScheckpoint.pth.tar
+2025-01-25 08:43:44,022 Epoch [16], Loss: 1.793, MeanIoU: 0.2033, best_mIoU: 0.2250
+2025-01-25 08:43:44,022 IoU per class: [0.         0.50243038 0.20341882 0.23479451 0.38473863 0.05663783
+ 0.02239845 0.22207693]
+2025-01-25 08:43:44,177 Attention!!!
+2025-01-25 08:43:44,177 Loaded 302 parameters!
+2025-01-25 08:43:44,177 Over!!!
+2025-01-25 08:43:46,314 Epoch: [17/20] Iter:[0/291], Time: 1.92, lr: [1.3664662206645536e-08], Loss: 1.191855, Acc:0.864316, Source Loss: 0.831734, Target Loss: 1.070545, MixUp Loss: 0.720242
+2025-01-25 08:44:07,114 Epoch: [17/20] Iter:[10/291], Time: 2.06, lr: [1.3523708376298412e-08], Loss: 1.748449, Acc:0.798407, Source Loss: 1.225464, Target Loss: 1.149445, MixUp Loss: 1.312130
+2025-01-25 08:44:27,966 Epoch: [17/20] Iter:[20/291], Time: 2.08, lr: [1.338259111739628e-08], Loss: 1.778974, Acc:0.794889, Source Loss: 1.249468, Target Loss: 1.174621, MixUp Loss: 0.833893
+2025-01-25 08:44:47,899 Epoch: [17/20] Iter:[30/291], Time: 2.05, lr: [1.324130832108772e-08], Loss: 1.812956, Acc:0.785209, Source Loss: 1.271108, Target Loss: 1.211322, MixUp Loss: 1.138770
+2025-01-25 08:45:08,166 Epoch: [17/20] Iter:[40/291], Time: 2.04, lr: [1.3099857825952884e-08], Loss: 1.778450, Acc:0.787186, Source Loss: 1.245386, Target Loss: 1.182194, MixUp Loss: 1.109660
+2025-01-25 08:45:27,940 Epoch: [17/20] Iter:[50/291], Time: 2.03, lr: [1.2958237416045794e-08], Loss: 1.779711, Acc:0.794178, Source Loss: 1.247462, Target Loss: 1.200635, MixUp Loss: 0.685465
+2025-01-25 08:45:48,483 Epoch: [17/20] Iter:[60/291], Time: 2.03, lr: [1.2816444818839078e-08], Loss: 1.754823, Acc:0.790152, Source Loss: 1.230775, Target Loss: 1.189972, MixUp Loss: 0.834586
+2025-01-25 08:46:08,827 Epoch: [17/20] Iter:[70/291], Time: 2.03, lr: [1.2674477703064984e-08], Loss: 1.781567, Acc:0.789980, Source Loss: 1.259931, Target Loss: 1.162542, MixUp Loss: 1.086734
+2025-01-25 08:46:28,612 Epoch: [17/20] Iter:[80/291], Time: 2.03, lr: [1.2532333676445994e-08], Loss: 1.789034, Acc:0.795655, Source Loss: 1.261823, Target Loss: 1.155941, MixUp Loss: 0.904543
+2025-01-25 08:46:49,096 Epoch: [17/20] Iter:[90/291], Time: 2.03, lr: [1.2390010283308143e-08], Loss: 1.794389, Acc:0.794966, Source Loss: 1.265958, Target Loss: 1.164073, MixUp Loss: 1.111480
+2025-01-25 08:47:08,924 Epoch: [17/20] Iter:[100/291], Time: 2.03, lr: [1.2247505002069172e-08], Loss: 1.788347, Acc:0.791496, Source Loss: 1.265040, Target Loss: 1.153320, MixUp Loss: 1.021094
+2025-01-25 08:47:29,325 Epoch: [17/20] Iter:[110/291], Time: 2.03, lr: [1.210481524259339e-08], Loss: 1.782636, Acc:0.789749, Source Loss: 1.262742, Target Loss: 1.142292, MixUp Loss: 1.022975
+2025-01-25 08:47:49,230 Epoch: [17/20] Iter:[120/291], Time: 2.02, lr: [1.1961938343404288e-08], Loss: 1.790692, Acc:0.786544, Source Loss: 1.272138, Target Loss: 1.135409, MixUp Loss: 0.973513
+2025-01-25 08:48:09,822 Epoch: [17/20] Iter:[130/291], Time: 2.03, lr: [1.181887156874523e-08], Loss: 1.775440, Acc:0.783877, Source Loss: 1.254007, Target Loss: 1.144649, MixUp Loss: 1.156028
+2025-01-25 08:48:30,796 Epoch: [17/20] Iter:[140/291], Time: 2.03, lr: [1.1675612105477863e-08], Loss: 1.773569, Acc:0.781428, Source Loss: 1.252811, Target Loss: 1.140926, MixUp Loss: 1.028047
+2025-01-25 08:48:51,173 Epoch: [17/20] Iter:[150/291], Time: 2.03, lr: [1.153215705980685e-08], Loss: 1.786214, Acc:0.781304, Source Loss: 1.262873, Target Loss: 1.145795, MixUp Loss: 1.071381
+2025-01-25 08:49:12,453 Epoch: [17/20] Iter:[160/291], Time: 2.04, lr: [1.1388503453818742e-08], Loss: 1.784272, Acc:0.780926, Source Loss: 1.261874, Target Loss: 1.146912, MixUp Loss: 0.900533
+2025-01-25 08:49:33,269 Epoch: [17/20] Iter:[170/291], Time: 2.04, lr: [1.124464822182165e-08], Loss: 1.787983, Acc:0.782074, Source Loss: 1.266248, Target Loss: 1.141109, MixUp Loss: 0.832328
+2025-01-25 08:49:53,075 Epoch: [17/20] Iter:[180/291], Time: 2.04, lr: [1.1100588206471241e-08], Loss: 1.795487, Acc:0.780732, Source Loss: 1.272055, Target Loss: 1.139186, MixUp Loss: 1.148305
+2025-01-25 08:50:13,523 Epoch: [17/20] Iter:[190/291], Time: 2.04, lr: [1.095632015466734e-08], Loss: 1.794294, Acc:0.780447, Source Loss: 1.269837, Target Loss: 1.149721, MixUp Loss: 1.036816
+2025-01-25 08:50:33,317 Epoch: [17/20] Iter:[200/291], Time: 2.03, lr: [1.0811840713203993e-08], Loss: 1.802906, Acc:0.778950, Source Loss: 1.276990, Target Loss: 1.148570, MixUp Loss: 1.091056
+2025-01-25 08:50:53,775 Epoch: [17/20] Iter:[210/291], Time: 2.03, lr: [1.066714642415428e-08], Loss: 1.804888, Acc:0.778257, Source Loss: 1.279003, Target Loss: 1.151237, MixUp Loss: 1.023223
+2025-01-25 08:51:13,839 Epoch: [17/20] Iter:[220/291], Time: 2.03, lr: [1.0522233719969445e-08], Loss: 1.798124, Acc:0.775808, Source Loss: 1.273449, Target Loss: 1.150180, MixUp Loss: 0.937215
+2025-01-25 08:51:33,881 Epoch: [17/20] Iter:[230/291], Time: 2.03, lr: [1.0377098918270045e-08], Loss: 1.804462, Acc:0.776298, Source Loss: 1.279053, Target Loss: 1.148024, MixUp Loss: 1.147061
+2025-01-25 08:51:54,460 Epoch: [17/20] Iter:[240/291], Time: 2.03, lr: [1.023173821630461e-08], Loss: 1.805283, Acc:0.775246, Source Loss: 1.278540, Target Loss: 1.152847, MixUp Loss: 0.794233
+2025-01-25 08:52:14,085 Epoch: [17/20] Iter:[250/291], Time: 2.03, lr: [1.0086147685049097e-08], Loss: 1.794269, Acc:0.771456, Source Loss: 1.268837, Target Loss: 1.156247, MixUp Loss: 0.937505
+2025-01-25 08:52:34,539 Epoch: [17/20] Iter:[260/291], Time: 2.03, lr: [9.940323262917527e-09], Loss: 1.788409, Acc:0.771339, Source Loss: 1.264118, Target Loss: 1.156323, MixUp Loss: 1.305888
+2025-01-25 08:52:54,173 Epoch: [17/20] Iter:[270/291], Time: 2.03, lr: [9.794260749051635e-09], Loss: 1.792298, Acc:0.772760, Source Loss: 1.268509, Target Loss: 1.156985, MixUp Loss: 1.089230
+2025-01-25 08:53:14,557 Epoch: [17/20] Iter:[280/291], Time: 2.03, lr: [9.647955796153736e-09], Loss: 1.786228, Acc:0.771343, Source Loss: 1.263095, Target Loss: 1.158476, MixUp Loss: 0.842088
+2025-01-25 08:53:35,141 Epoch: [17/20] Iter:[290/291], Time: 2.03, lr: [9.501403902823528e-09], Loss: 1.792217, Acc:0.772514, Source Loss: 1.267213, Target Loss: 1.157789, MixUp Loss: 1.039148
+2025-01-25 09:02:33,869 0 [0.         0.47215578 0.25446533 0.13409369 0.28668746 0.07656154
+ 0.09406229 0.04530045] 0.17041581526434435
+2025-01-25 09:02:33,870 1 [0.         0.5066104  0.17928386 0.24318639 0.33213949 0.06338978
+ 0.04526169 0.22067318] 0.19881809958016994
+2025-01-25 09:02:33,883 Epoch 18/20 - Source Loss: 1.2672, Target Loss: 1.1578
+2025-01-25 09:02:33,883 => saving checkpoint to output/loveDa/pidnet_small_loveda_train_DACScheckpoint.pth.tar
+2025-01-25 09:02:34,176 Epoch [17], Loss: 1.792, MeanIoU: 0.1988, best_mIoU: 0.2250
+2025-01-25 09:02:34,176 IoU per class: [0.         0.5066104  0.17928386 0.24318639 0.33213949 0.06338978
+ 0.04526169 0.22067318]
+2025-01-25 09:02:34,325 Attention!!!
+2025-01-25 09:02:34,326 Loaded 302 parameters!
+2025-01-25 09:02:34,326 Over!!!
+2025-01-25 09:02:36,390 Epoch: [18/20] Iter:[0/291], Time: 1.85, lr: [1.0838589862621396e-08], Loss: 1.293904, Acc:0.672100, Source Loss: 0.928958, Target Loss: 0.950957, MixUp Loss: 0.729891
+2025-01-25 09:02:57,045 Epoch: [18/20] Iter:[10/291], Time: 2.04, lr: [1.0670837895131244e-08], Loss: 1.637514, Acc:0.707524, Source Loss: 1.155237, Target Loss: 1.066956, MixUp Loss: 1.254592
+2025-01-25 09:03:17,038 Epoch: [18/20] Iter:[20/291], Time: 2.02, lr: [1.050279238274833e-08], Loss: 1.750482, Acc:0.722726, Source Loss: 1.219418, Target Loss: 1.155523, MixUp Loss: 1.069296
+2025-01-25 09:03:37,332 Epoch: [18/20] Iter:[30/291], Time: 2.03, lr: [1.0334447574215044e-08], Loss: 1.790665, Acc:0.709319, Source Loss: 1.242958, Target Loss: 1.193638, MixUp Loss: 1.670485
+2025-01-25 09:03:57,932 Epoch: [18/20] Iter:[40/291], Time: 2.03, lr: [1.0165797499242878e-08], Loss: 1.773795, Acc:0.725127, Source Loss: 1.233432, Target Loss: 1.196613, MixUp Loss: 0.992143
+2025-01-25 09:04:17,633 Epoch: [18/20] Iter:[50/291], Time: 2.02, lr: [9.996835955970547e-09], Loss: 1.792556, Acc:0.728413, Source Loss: 1.243905, Target Loss: 1.203886, MixUp Loss: 0.944729
+2025-01-25 09:04:38,171 Epoch: [18/20] Iter:[60/291], Time: 2.03, lr: [9.827556497454376e-09], Loss: 1.791835, Acc:0.741253, Source Loss: 1.243943, Target Loss: 1.195966, MixUp Loss: 0.819384
+2025-01-25 09:04:57,897 Epoch: [18/20] Iter:[70/291], Time: 2.02, lr: [9.65795241709627e-09], Loss: 1.812750, Acc:0.743700, Source Loss: 1.261812, Target Loss: 1.189069, MixUp Loss: 1.153736
+2025-01-25 09:05:18,238 Epoch: [18/20] Iter:[80/291], Time: 2.02, lr: [9.488016732903285e-09], Loss: 1.792228, Acc:0.744785, Source Loss: 1.246703, Target Loss: 1.197229, MixUp Loss: 0.918752
+2025-01-25 09:05:38,881 Epoch: [18/20] Iter:[90/291], Time: 2.03, lr: [9.317742170459953e-09], Loss: 1.799839, Acc:0.746544, Source Loss: 1.257287, Target Loss: 1.190665, MixUp Loss: 1.141319
+2025-01-25 09:05:58,730 Epoch: [18/20] Iter:[100/291], Time: 2.02, lr: [9.147121144479725e-09], Loss: 1.803680, Acc:0.744441, Source Loss: 1.260633, Target Loss: 1.192108, MixUp Loss: 0.954426
+2025-01-25 09:06:19,120 Epoch: [18/20] Iter:[110/291], Time: 2.02, lr: [8.976145738785012e-09], Loss: 1.809757, Acc:0.742429, Source Loss: 1.264720, Target Loss: 1.196043, MixUp Loss: 1.157620
+2025-01-25 09:06:38,957 Epoch: [18/20] Iter:[120/291], Time: 2.02, lr: [8.804807684545707e-09], Loss: 1.795340, Acc:0.742028, Source Loss: 1.253077, Target Loss: 1.201287, MixUp Loss: 1.038568
+2025-01-25 09:06:59,455 Epoch: [18/20] Iter:[130/291], Time: 2.02, lr: [8.63309833658373e-09], Loss: 1.787627, Acc:0.742036, Source Loss: 1.247357, Target Loss: 1.203910, MixUp Loss: 1.066792
+2025-01-25 09:07:19,704 Epoch: [18/20] Iter:[140/291], Time: 2.02, lr: [8.461008647525048e-09], Loss: 1.791771, Acc:0.740068, Source Loss: 1.253934, Target Loss: 1.196704, MixUp Loss: 1.037274
+2025-01-25 09:07:39,749 Epoch: [18/20] Iter:[150/291], Time: 2.02, lr: [8.28852913955024e-09], Loss: 1.790607, Acc:0.739145, Source Loss: 1.251807, Target Loss: 1.202629, MixUp Loss: 1.096138
+2025-01-25 09:08:00,159 Epoch: [18/20] Iter:[160/291], Time: 2.02, lr: [8.115649873459899e-09], Loss: 1.786709, Acc:0.741536, Source Loss: 1.247327, Target Loss: 1.207180, MixUp Loss: 1.025228
+2025-01-25 09:08:19,879 Epoch: [18/20] Iter:[170/291], Time: 2.02, lr: [7.942360414729599e-09], Loss: 1.798106, Acc:0.742395, Source Loss: 1.255134, Target Loss: 1.218693, MixUp Loss: 1.016105
+2025-01-25 09:08:40,321 Epoch: [18/20] Iter:[180/291], Time: 2.02, lr: [7.768649796181196e-09], Loss: 1.798757, Acc:0.744152, Source Loss: 1.257463, Target Loss: 1.211438, MixUp Loss: 1.385566
+2025-01-25 09:09:00,174 Epoch: [18/20] Iter:[190/291], Time: 2.02, lr: [7.594506476840441e-09], Loss: 1.802025, Acc:0.744673, Source Loss: 1.262074, Target Loss: 1.204812, MixUp Loss: 1.369458
+2025-01-25 09:09:20,393 Epoch: [18/20] Iter:[200/291], Time: 2.02, lr: [7.4199182964837355e-09], Loss: 1.808543, Acc:0.745427, Source Loss: 1.265555, Target Loss: 1.209286, MixUp Loss: 0.934504
+2025-01-25 09:09:40,944 Epoch: [18/20] Iter:[210/291], Time: 2.02, lr: [7.244872425297469e-09], Loss: 1.808655, Acc:0.746272, Source Loss: 1.266610, Target Loss: 1.205994, MixUp Loss: 1.312800
+2025-01-25 09:10:00,736 Epoch: [18/20] Iter:[220/291], Time: 2.02, lr: [7.069355307978473e-09], Loss: 1.802089, Acc:0.744226, Source Loss: 1.260841, Target Loss: 1.206842, MixUp Loss: 1.341000
+2025-01-25 09:10:21,550 Epoch: [18/20] Iter:[230/291], Time: 2.02, lr: [6.893352601490854e-09], Loss: 1.795566, Acc:0.745975, Source Loss: 1.255361, Target Loss: 1.204315, MixUp Loss: 0.998406
+2025-01-25 09:10:41,707 Epoch: [18/20] Iter:[240/291], Time: 2.02, lr: [6.716849105558106e-09], Loss: 1.792984, Acc:0.746840, Source Loss: 1.251896, Target Loss: 1.205346, MixUp Loss: 1.118639
+2025-01-25 09:11:02,048 Epoch: [18/20] Iter:[250/291], Time: 2.02, lr: [6.539828684804727e-09], Loss: 1.797054, Acc:0.747273, Source Loss: 1.255028, Target Loss: 1.204216, MixUp Loss: 1.322722
+2025-01-25 09:11:23,004 Epoch: [18/20] Iter:[260/291], Time: 2.02, lr: [6.362274181261628e-09], Loss: 1.796062, Acc:0.746366, Source Loss: 1.253367, Target Loss: 1.203601, MixUp Loss: 0.967543
+2025-01-25 09:11:43,184 Epoch: [18/20] Iter:[270/291], Time: 2.02, lr: [6.184167315705375e-09], Loss: 1.794463, Acc:0.746279, Source Loss: 1.252533, Target Loss: 1.202875, MixUp Loss: 1.032877
+2025-01-25 09:12:03,693 Epoch: [18/20] Iter:[280/291], Time: 2.03, lr: [6.005488576001417e-09], Loss: 1.786213, Acc:0.745638, Source Loss: 1.245373, Target Loss: 1.205510, MixUp Loss: 1.252930
+2025-01-25 09:12:23,393 Epoch: [18/20] Iter:[290/291], Time: 2.02, lr: [5.826217090250805e-09], Loss: 1.785553, Acc:0.742955, Source Loss: 1.245442, Target Loss: 1.206538, MixUp Loss: 1.226844
+2025-01-25 09:21:09,323 0 [0.         0.47100039 0.24316379 0.12888783 0.21671143 0.06292241
+ 0.04888324 0.03133752] 0.15036332668855729
+2025-01-25 09:21:09,324 1 [0.         0.50757968 0.20144603 0.249917   0.37337367 0.04640039
+ 0.02019819 0.24511252] 0.2055034355275627
+2025-01-25 09:21:09,335 Epoch 19/20 - Source Loss: 1.2454, Target Loss: 1.2065
+2025-01-25 09:21:09,335 => saving checkpoint to output/loveDa/pidnet_small_loveda_train_DACScheckpoint.pth.tar
+2025-01-25 09:21:09,627 Epoch [18], Loss: 1.786, MeanIoU: 0.2055, best_mIoU: 0.2250
+2025-01-25 09:21:09,628 IoU per class: [0.         0.50757968 0.20144603 0.249917   0.37337367 0.04640039
+ 0.02019819 0.24511252]
+2025-01-25 09:21:09,780 Attention!!!
+2025-01-25 09:21:09,780 Loaded 302 parameters!
+2025-01-25 09:21:09,780 Over!!!
+2025-01-25 09:21:11,902 Epoch: [19/20] Iter:[0/291], Time: 1.90, lr: [7.1892770836018455e-09], Loss: 1.817237, Acc:0.640108, Source Loss: 1.107848, Target Loss: 1.267896, MixUp Loss: 1.418777
+2025-01-25 09:21:32,135 Epoch: [19/20] Iter:[10/291], Time: 2.01, lr: [6.966541362684105e-09], Loss: 1.929312, Acc:0.694079, Source Loss: 1.378994, Target Loss: 1.170940, MixUp Loss: 1.135260
+2025-01-25 09:21:51,659 Epoch: [19/20] Iter:[20/291], Time: 1.98, lr: [6.743011399470699e-09], Loss: 1.782306, Acc:0.668053, Source Loss: 1.227977, Target Loss: 1.231267, MixUp Loss: 1.118212
+2025-01-25 09:22:12,122 Epoch: [19/20] Iter:[30/291], Time: 2.00, lr: [6.518654881352161e-09], Loss: 1.739000, Acc:0.676601, Source Loss: 1.200651, Target Loss: 1.245539, MixUp Loss: 1.148888
+2025-01-25 09:22:31,749 Epoch: [19/20] Iter:[40/291], Time: 1.99, lr: [6.29343688904884e-09], Loss: 1.727513, Acc:0.670526, Source Loss: 1.198671, Target Loss: 1.216534, MixUp Loss: 0.931891
+2025-01-25 09:22:52,477 Epoch: [19/20] Iter:[50/291], Time: 2.01, lr: [6.067319573713715e-09], Loss: 1.739893, Acc:0.681161, Source Loss: 1.210631, Target Loss: 1.226419, MixUp Loss: 0.985738
+2025-01-25 09:23:12,719 Epoch: [19/20] Iter:[60/291], Time: 2.01, lr: [5.840261778917068e-09], Loss: 1.733997, Acc:0.685769, Source Loss: 1.202422, Target Loss: 1.222159, MixUp Loss: 1.169163
+2025-01-25 09:23:33,015 Epoch: [19/20] Iter:[70/291], Time: 2.01, lr: [5.6122185952976886e-09], Loss: 1.746100, Acc:0.691789, Source Loss: 1.208009, Target Loss: 1.238992, MixUp Loss: 1.292723
+2025-01-25 09:23:53,444 Epoch: [19/20] Iter:[80/291], Time: 2.02, lr: [5.3831408322789015e-09], Loss: 1.739302, Acc:0.689704, Source Loss: 1.200845, Target Loss: 1.235555, MixUp Loss: 1.227246
+2025-01-25 09:24:13,579 Epoch: [19/20] Iter:[90/291], Time: 2.02, lr: [5.152974386716538e-09], Loss: 1.735948, Acc:0.688544, Source Loss: 1.198027, Target Loss: 1.243883, MixUp Loss: 1.137262
+2025-01-25 09:24:33,902 Epoch: [19/20] Iter:[100/291], Time: 2.02, lr: [4.92165948220564e-09], Loss: 1.743167, Acc:0.693227, Source Loss: 1.206607, Target Loss: 1.234628, MixUp Loss: 0.856452
+2025-01-25 09:24:53,636 Epoch: [19/20] Iter:[110/291], Time: 2.01, lr: [4.68912974433711e-09], Loss: 1.734822, Acc:0.697338, Source Loss: 1.199030, Target Loss: 1.235315, MixUp Loss: 1.079196
+2025-01-25 09:25:14,310 Epoch: [19/20] Iter:[120/291], Time: 2.02, lr: [4.455311065430541e-09], Loss: 1.740778, Acc:0.700796, Source Loss: 1.203500, Target Loss: 1.240453, MixUp Loss: 0.834649
+2025-01-25 09:25:34,731 Epoch: [19/20] Iter:[130/291], Time: 2.02, lr: [4.220120195587257e-09], Loss: 1.749291, Acc:0.701949, Source Loss: 1.208128, Target Loss: 1.255563, MixUp Loss: 1.348287
+2025-01-25 09:25:54,700 Epoch: [19/20] Iter:[140/291], Time: 2.02, lr: [3.983462972814933e-09], Loss: 1.762794, Acc:0.708823, Source Loss: 1.219298, Target Loss: 1.262806, MixUp Loss: 1.035588
+2025-01-25 09:26:15,097 Epoch: [19/20] Iter:[150/291], Time: 2.02, lr: [3.745232069463551e-09], Loss: 1.767388, Acc:0.705665, Source Loss: 1.223140, Target Loss: 1.262753, MixUp Loss: 1.039721
+2025-01-25 09:26:34,970 Epoch: [19/20] Iter:[160/291], Time: 2.02, lr: [3.505304078660074e-09], Loss: 1.790375, Acc:0.710067, Source Loss: 1.239717, Target Loss: 1.266781, MixUp Loss: 1.308596
+2025-01-25 09:26:55,282 Epoch: [19/20] Iter:[170/291], Time: 2.02, lr: [3.2635356815641934e-09], Loss: 1.799625, Acc:0.711090, Source Loss: 1.248955, Target Loss: 1.259609, MixUp Loss: 1.452243
+2025-01-25 09:27:15,628 Epoch: [19/20] Iter:[180/291], Time: 2.02, lr: [3.0197585042343076e-09], Loss: 1.802164, Acc:0.712362, Source Loss: 1.249933, Target Loss: 1.259988, MixUp Loss: 1.202837
+2025-01-25 09:27:35,423 Epoch: [19/20] Iter:[190/291], Time: 2.02, lr: [2.773772055326169e-09], Loss: 1.808742, Acc:0.713522, Source Loss: 1.256127, Target Loss: 1.256486, MixUp Loss: 1.176030
+2025-01-25 09:27:55,734 Epoch: [19/20] Iter:[200/291], Time: 2.02, lr: [2.5253337630754995e-09], Loss: 1.811224, Acc:0.715385, Source Loss: 1.259338, Target Loss: 1.248351, MixUp Loss: 1.164464
+2025-01-25 09:28:15,671 Epoch: [19/20] Iter:[210/291], Time: 2.02, lr: [2.2741444613475436e-09], Loss: 1.809872, Acc:0.715494, Source Loss: 1.258047, Target Loss: 1.246049, MixUp Loss: 0.868243
+2025-01-25 09:28:36,098 Epoch: [19/20] Iter:[220/291], Time: 2.02, lr: [2.0198264075423715e-09], Loss: 1.800084, Acc:0.714392, Source Loss: 1.250804, Target Loss: 1.241561, MixUp Loss: 0.693316
+2025-01-25 09:28:55,683 Epoch: [19/20] Iter:[230/291], Time: 2.02, lr: [1.76188834870741e-09], Loss: 1.798798, Acc:0.714007, Source Loss: 1.250773, Target Loss: 1.236618, MixUp Loss: 1.030870
+2025-01-25 09:29:16,027 Epoch: [19/20] Iter:[240/291], Time: 2.02, lr: [1.4996665013792668e-09], Loss: 1.804902, Acc:0.711835, Source Loss: 1.254025, Target Loss: 1.242265, MixUp Loss: 1.180890
+2025-01-25 09:29:36,347 Epoch: [19/20] Iter:[250/291], Time: 2.02, lr: [1.2322164523930716e-09], Loss: 1.804451, Acc:0.711916, Source Loss: 1.255195, Target Loss: 1.238255, MixUp Loss: 0.864937
+2025-01-25 09:29:56,367 Epoch: [19/20] Iter:[260/291], Time: 2.02, lr: [9.580916529588588e-10], Loss: 1.811096, Acc:0.714837, Source Loss: 1.262322, Target Loss: 1.238450, MixUp Loss: 1.143834
+2025-01-25 09:30:16,836 Epoch: [19/20] Iter:[270/291], Time: 2.02, lr: [6.748059408198223e-10], Loss: 1.803525, Acc:0.713430, Source Loss: 1.256580, Target Loss: 1.236991, MixUp Loss: 1.053211
+2025-01-25 09:30:36,502 Epoch: [19/20] Iter:[280/291], Time: 2.02, lr: [3.7708125925912414e-10], Loss: 1.810077, Acc:0.713788, Source Loss: 1.261482, Target Loss: 1.237302, MixUp Loss: 1.559986
+2025-01-25 09:30:56,875 Epoch: [19/20] Iter:[290/291], Time: 2.02, lr: [4.3569395268966853e-11], Loss: 1.807622, Acc:0.714877, Source Loss: 1.260511, Target Loss: 1.236539, MixUp Loss: 0.962133
+2025-01-25 09:40:16,792 0 [0.         0.47506495 0.25508367 0.1279656  0.26239418 0.07564783
+ 0.04248627 0.03857879] 0.15965266192549743
+2025-01-25 09:40:16,792 1 [0.         0.51280705 0.19984754 0.23063208 0.38153231 0.05921325
+ 0.01690054 0.25665804] 0.2071988516456883
+2025-01-25 09:40:16,802 Epoch 20/20 - Source Loss: 1.2605, Target Loss: 1.2365
+2025-01-25 09:40:16,802 => saving checkpoint to output/loveDa/pidnet_small_loveda_train_DACScheckpoint.pth.tar
+2025-01-25 09:40:17,107 Epoch [19], Loss: 1.808, MeanIoU: 0.2072, best_mIoU: 0.2250
+2025-01-25 09:40:17,108 IoU per class: [0.         0.51280705 0.19984754 0.23063208 0.38153231 0.05921325
+ 0.01690054 0.25665804]
+2025-01-25 09:40:17,199 Hours: 1
+2025-01-25 09:40:17,199 Done

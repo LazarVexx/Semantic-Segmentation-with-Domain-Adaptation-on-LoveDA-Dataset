@@ -94,6 +94,7 @@ _C.TRAIN.AUG_CHANCE = False # Must be used with TRAIN_AUG = True
 _C.TRAIN.EVAL_INTERVAL = 1
 
 _C.TRAIN.ADVERSARIAL = False
+_C.TRAIN.D1 = False
 _C.TRAIN.LR_D1 = 0.001
 _C.TRAIN.LR_D2 = 0.001
 _C.TRAIN.GAN = 'Vanilla'

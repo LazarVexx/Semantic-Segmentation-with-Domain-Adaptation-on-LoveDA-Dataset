@@ -24,47 +24,56 @@ from contextlib import contextmanager
 
 class FullModel(nn.Module):
 
-  def __init__(self, model, sem_loss, bd_loss):
-    super(FullModel, self).__init__()
-    self.model = model
-    self.sem_loss = sem_loss
-    self.bd_loss = bd_loss
+    def __init__(self, model, sem_loss, bd_loss):
+        super(FullModel, self).__init__()
+        self.model = model
+        self.sem_loss = sem_loss
+        self.bd_loss = bd_loss
 
-  def pixel_acc(self, pred, label):
-    _, preds = torch.max(pred, dim=1)
-    valid = (label >= 0).long()
-    acc_sum = torch.sum(valid * (preds == label).long())
-    pixel_sum = torch.sum(valid)
-    acc = acc_sum.float() / (pixel_sum.float() + 1e-10)
-    return acc
+    def pixel_acc(self, pred, label):
+        _, preds = torch.max(pred, dim=1)
+        valid = (label >= 0).long()
+        acc_sum = torch.sum(valid * (preds == label).long())
+        pixel_sum = torch.sum(valid)
+        acc = acc_sum.float() / (pixel_sum.float() + 1e-10)
+        return acc
 
-  def forward(self, inputs, labels, bd_gt, *args, **kwargs):
-    
-    outputs = self.model(inputs, *args, **kwargs)
-    inputs.cuda()
-    labels.cuda()
-    bd_gt.cuda()
-    
-    h, w = labels.size(1), labels.size(2)
-    ph, pw = outputs[0].size(2), outputs[0].size(3)
-    if ph != h or pw != w:
-        for i in range(len(outputs)):
-            outputs[i] = F.interpolate(outputs[i], size=(
-                h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
+    def forward(self, inputs, labels, bd_gt, *args, **kwargs):
+        outputs = self.model(inputs, *args, **kwargs)
+        inputs = inputs.cuda()
+        labels = labels.cuda()
+        bd_gt = bd_gt.cuda()
+        
+        # outputs contiene [x_extra_p, x_, x_layer4, x_extra_d]
+        h, w = labels.size(1), labels.size(2)
+        ph, pw = outputs[0].size(2), outputs[0].size(3)
+        
+        if ph != h or pw != w:
+            # Interpola tutti gli output tranne x_layer4 (che è outputs[2])
+            outputs = [
+                F.interpolate(output, size=(h, w), mode='bilinear', 
+                            align_corners=config.MODEL.ALIGN_CORNERS)
+                if i != 2 else output  # non interpolare x_layer4
+                for i, output in enumerate(outputs)
+            ]
 
-    acc  = self.pixel_acc(outputs[-3], labels)
-    loss_s = self.sem_loss(outputs[:-2], labels)
-    loss_b = self.bd_loss(outputs[-1], bd_gt)
+        # x_extra_p è outputs[0], x_ è outputs[1], x_layer4 è outputs[2], x_extra_d è outputs[3]
+        acc = self.pixel_acc(outputs[1], labels)  # usa x_ per accuracy
+        loss_s = self.sem_loss(outputs[:2], labels)  # loss semantica su x_extra_p e x_
+        loss_b = self.bd_loss(outputs[3], bd_gt)  # loss boundary su x_extra_d
 
-    filler = torch.ones_like(labels) * config.TRAIN.IGNORE_LABEL
-    try:
-        bd_label = torch.where(torch.sigmoid(outputs[-1][:,0,:,:]) > 0.7, labels, filler)
-        loss_sb = self.sem_loss([outputs[-3]], bd_label)
-    except:
-        loss_sb = self.sem_loss([outputs[-3]], labels)
-    loss = loss_s + loss_b + loss_sb
+        filler = torch.ones_like(labels) * config.TRAIN.IGNORE_LABEL
+        try:
+            bd_label = torch.where(torch.sigmoid(outputs[3][:,0,:,:]) > 0.7, labels, filler)
+            loss_sb = self.sem_loss([outputs[1]], bd_label)  # usa x_
+        except:
+            loss_sb = self.sem_loss([outputs[1]], labels)
+        
+        loss = loss_s + loss_b + loss_sb
 
-    return torch.unsqueeze(loss,0), outputs[:-1], acc, [loss_s, loss_b]
+        # Ritorna tutto tranne x_extra_d
+        return torch.unsqueeze(loss,0), outputs[:3], acc, [loss_s, loss_b]
+
 
 
 class AverageMeter(object):

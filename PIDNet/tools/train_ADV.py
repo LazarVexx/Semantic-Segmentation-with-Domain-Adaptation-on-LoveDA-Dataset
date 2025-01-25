@@ -26,7 +26,7 @@ from models.model_utils import Discriminator
 from configs import config
 from configs import update_config
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
-from utils.function import train, validate , train_adv,train_adv_D1
+from utils.function import train, validate_adv , train_adv
 from utils.utils_adv import create_logger, FullModel
 
 
@@ -247,18 +247,11 @@ def main():
             current_trainloader.sampler.set_epoch(epoch)
 
         if config.TRAIN.ADVERSARIAL:
-            if config.TRAIN.LR_D2 == 0:
-                train_adv_D1(config, epoch, config.TRAIN.END_EPOCH, 
-                  epoch_iters, current_lr, num_iters,
-                  trainloader,targetloader, 
-                  optimizer,optimizer_D1, model,model_D1, 
-                  writer_dict)
-            else:
-                train_adv(config, epoch, config.TRAIN.END_EPOCH, 
-                  epoch_iters, current_lr, num_iters,
-                  trainloader,targetloader, 
-                  optimizer,optimizer_D1,optimizer_D2, model,model_D1,model_D2, 
-                  writer_dict)
+            train_adv(config, epoch, config.TRAIN.END_EPOCH, 
+                epoch_iters, current_lr, num_iters,
+                trainloader,targetloader, 
+                optimizer,optimizer_D1,optimizer_D2, model,model_D1,model_D2, 
+                writer_dict)
         else: 
             train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, current_lr, num_iters,
@@ -266,7 +259,7 @@ def main():
         
 
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
-            valid_loss, mean_IoU, IoU_array = validate(config, 
+            valid_loss, mean_IoU, IoU_array = validate_adv(config, 
                         testloader, model, writer_dict)
         if flag_rm == 1:
             flag_rm = 0

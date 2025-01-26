@@ -34,7 +34,7 @@ TRAIN:
   SHUFFLE: true
   BEGIN_EPOCH: 0
   END_EPOCH: 20
-  RESUME: false
+  RESUME: true
   OPTIMIZER: adam
   ADVERSARIAL: true
   LR_D1 : 1e-4

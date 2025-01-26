@@ -1,8 +1,19 @@
 # TESTING SEMANTIC SEGMENTATION NETWORKS
 
+
+## Classic semantic segmentation network
+
+DeepLab V2 on LoveDA-Urban (Train & Val) , 20 epochs
+ 
+| Numero | Optimizer | Loss  | Scheduler | Picture Size |  mIoU  | bestIoU | modified mIoU |
+|--------|-----------|-------|-----------|--------------|--------|---------|---------------|
+
+
+
+
 ## Real-time semantic segmentation network.
 
-PIDNet on LovaDA-Urban (Train & Val) , 20 epochs 
+PIDNet on LoveDA-Urban (Train & Val) , 20 epochs 
 
 
 | Numero | Optimizer | Loss  | Scheduler | Picture Size |  mIoU  | bestIoU | modified mIoU |

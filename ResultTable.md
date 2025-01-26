@@ -52,7 +52,7 @@ PIDNet on LoveDA-Urban (Train & Val) , 20 epochs
 | Numero | AUG_CHANCE | AUG1  | AUG2  | AUG3  |  mIoU  | bestIoU | modified mIoU |
 |--------|------------|-------|-------|-------|--------|---------|---------------|
 | 1      | TRUE       | False | False | False | 0.2656 | 0.2753  | 0.3146        |
-| 2      | TRUE       | True  | False | False | 0.2523 | 0.2540  | 0.2903        |
+| 2      | TRUE       | True  | False | False | 0.3011 |         | 0.3042        |
 | 3      | TRUE       | False | True  | False | 0.3089 |         | 0.3108        |
 | 4      | TRUE       | True  | True  | False | 0.2672 | 0.2750  | 0.3143        |
 | 5      | TRUE       | False | False | True  | 0.2568 | 0.2642  | 0.3020        |

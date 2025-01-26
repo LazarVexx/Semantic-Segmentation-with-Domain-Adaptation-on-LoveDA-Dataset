@@ -62,4 +62,6 @@ PIDNet on LoveDA-Urban (Train & Val) , 20 epochs
 
 ### Best 3b result
 
+| Numero | AUG_CHANCE | AUG1  | AUG2  | AUG3  |  mIoU  | bestIoU | modified mIoU |
+|--------|------------|-------|-------|-------|--------|---------|---------------|
 | 7      | TRUE       | False | True  | True  | 0.3133 |         | 0.3151        |

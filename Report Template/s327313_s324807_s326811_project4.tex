@@ -72,11 +72,33 @@ PIDNet is a real-time semantic segmentation network inspired by Proportional-Int
 The dataset used in our experiments is the LoveDA dataset. The LoveDA dataset is a novel benchmark for domain adaptation in semantic segmentation, featuring distinct rural and urban domains with varying environmental characteristics \cite{wang2021loveda}. This dataset provides a challenging testbed for evaluating the generalization capabilities of segmentation models across diverse settings. By encompassing rural and urban scenes, LoveDA captures the complexity of real-world applications, where domain shifts are prevalent and pose significant challenges to model performance. The dataset's diverse landscapes, lighting conditions, and object distributions necessitate robust adaptation techniques to ensure accurate segmentation results.
 
 \section{Methodology}
+
 \label{sec:methodology}
 
 In this section we describe the methodology used to implement the project. We will discuss the models used, the techniques applied, and the implemented variation conducted to evaluate the performance of the models in domain adaptation scenarios.
 
+
 \subsection{DeepLab2 implementation}
+One of the methodologies adopted in this work is centered around the implementation and utilization of the DeepLabV2 model for semantic segmentation tasks. 
+The original model was proposed by \cite{chen2017deeplab}
+
+The dataset used for the training and for the evaluation is the LoveDA Urban. 
+
+
+The backbone of the DeepLabV2 model is a pre-trained ResNet-101 network, which is leveraged for feature extraction. Specifically, the network retains all layers up to the fourth block of ResNet-101, excluding the final fully connected layer. These layers extract hierarchical features, serving as a robust base for further processing by the model.
+
+Custom bottleneck layers were implemented to allow working with fewer parameters while still being effective by reducing the dimensionality and then expanding it again. Each bottleneck layer includes Convolutional Layer to perform feature transformations; Batch Normalization to stabilize training by normalizing intermediate feature distributions; Dropout Layers: introduced after each convolution to reduce overfitting; Residual Connections to ensure efficient gradient flow by adding the input feature maps back to the output of the block.
+
+The ASPP (Atrous Spatial Pyramid Pooling) module designed to capture multi-scale context. It consists of four parallel convolutional layers with different atrous (dilated) rates allowing the model to aggregate contextual information from multiple scales. Outputs from these layers are summed together to form a unified feature representation.
+For ASPP weights, initialization techniques are applied to ensure stable and effective training, in particular the weights are initialized using Normal Initialization while biases are initialized with Constant Initialization.
+
+
+After the ASPP module, the feature maps are passed through a Classifier Layer: A 1x1 convolution maps the aggregated features to the required number of semantic classes.
+and trough an Upsampling Layer: a bilinear interpolation operation that scales the output back to the original image resolution, ensuring pixel-level alignment for segmentation predictions.
+
+
+The evaluation metrics used in understanding different aspects of the model's performance are: mIoU, to assess accuracy in segmentation tasks, FLOP to quantify its computational cost, latency to measure its speed, and the number of parameters to give insight into its complexity and memory usage. The experiments section shows the results with different configurations of optimizer, loss and learning rates. 
+
 
 \subsection{PIDNet implementation}
 
@@ -114,6 +136,11 @@ To improve performance and apply Domain Adaptation, we have implemented three di
 All these techniques are followed by a normalization of the images. The results of the experiments with the data augmentation techniques are shown in the Experimental and Result section (\ref{sec:experiments}).
 
 \subsection{Adversarial Learning}
+In our domain adaptation approach for semantic segmentation, we extended the PIDNet \cite{feng2021pidnet} architecture by incorporating a multi-level adversarial learning framework \cite{tsai2018advlearning}. The proposed model consists of a segmentation network G based on PIDNet and two discriminators Di, where i indicates the discriminator level in adversarial learning. Specifically, we extracted feature maps from both the last and penultimate layers of the network, applying an ASPP (Atrous Spatial Pyramid Pooling) module as an auxiliary classifier to generate segmentation predictions at different levels. The discriminators, implemented as fully-convolutional networks composed of 5 convolutional layers with 4x4 kernels and stride 2, classify whether the input comes from the source domain (LoveDA-Urban) or target domain (LoveDA-Rural) \cite{wang2021loveda}.
+
+The overall objective function of our framework is defined as:
+$$\mathcal{L}(I_s, I_t) = \sum_i \lambda_{seg}^i \mathcal{L}_{seg}^i(I_s) + \sum_i \lambda_{adv}^i \mathcal{L}_{adv}^i(I_t)$$
+where $$\mathcal{L}_{seg}$$ represents the cross-entropy loss calculated using ground truth annotations from the source domain, while $$\mathcal{L}_{adv}$$ is the adversarial loss that adapts target domain predictions to the source prediction distribution. The weights $$\lambda_{seg}^i$$ and $$\lambda_{adv}^i$$ balance the contributions of different levels, with lower values assigned to the lower feature level as it contains less semantic information. During optimization, the framework is trained end-to-end by minimizing the segmentation loss and maximizing the probability that target predictions are classified as coming from the source domain.
 
 \subsection{Domain Adaptation via Cross-domain Mixed Sampling (DACS)}
 
@@ -124,7 +151,14 @@ In our implementation, the urban domain serves as the source domain, while the r
 To compute the training loss, we combined the source loss and the mixed loss, weighted by a factor. This iterative approach ensures the model learns robust, domain-invariant features. Detailed experimental results, along with an evaluation of the impact of DACS, are presented in the Experimental and Results section (\ref{sec:experiments}).
 
 
+
 \subsection{Prototype-based Efficient MaskFormer (PEM)}
+The transition from convolutional neural networks (CNNs) to transformer-based architectures in image segmentation marks a significant paradigm shift in computer vision. CNNs, historically the backbone of segmentation models, excel at capturing local patterns through convolutional layers with limited receptive fields. This localized focus, however, poses challenges in modeling long-range dependencies and contextual relationships within an image, particularly for complex scenes or objects with varying scales. Transformers, by contrast, leverage self-attention mechanisms to process entire images or patches as sequences, enabling them to capture global dependencies and intricate spatial relationships in a single pass. This holistic approach not only enhances the ability to model distant interactions but also streamlines feature extraction by replacing hierarchical convolutional operations with unified attention-based representations. Models such as Vision Transformers (ViTs) and their derivatives, like MaskFormer \cite{cheng2021maskformer} and Mask2Former \cite{cheng2021mask2former}, have demonstrated the potential of transformers to outperform CNNs in tasks like semantic and panoptic segmentation by addressing these limitations.
+Building on this momentum, we explored Prototype-based Efficient MaskFormer (PEM) \cite{cavagnero2024pem} as an alternative real-time architecture for segmentation. 
+PEM innovates over traditional transformer-based models by introducing a *prototype-based cross-attention mechanism* that significantly reduces computational overhead while maintaining high segmentation accuracy. This mechanism leverages the redundancy in visual features by selecting representative prototypes for each object, thereby limiting the number of tokens processed in the attention layers. This design not only enhances scalability with increasing image resolutions but also ensures that computational resources are used efficiently.
+Additionally, PEM incorporates an optimized feature pyramid network (FPN) with deformable convolutions and context-based self-modulation modules. These components enable the extraction of high-resolution semantic features while preserving global contextual information, thus achieving a balance between efficiency and accuracy. Unlike heavy transformer-based decoders, PEM’s lightweight FPN maintains competitive performance with reduced latency, making it suitable for real-time applications. 
+
+
 
 \subsection{Unpaired Image-to-Image Translation with CycleGAN}
 
@@ -134,6 +168,47 @@ To compute the training loss, we combined the source loss and the mixed loss, we
 In this section, we present the experimental results obtained by evaluating the performance of the models in domain adaptation scenarios. We analyze the impact of different techniques, such as data augmentation, adversarial learning, DACS, PEM, and CycleGAN, on segmentation quality and domain adaptation capabilities. All the tests are done considering 20 epochs for the training phase. The fixed parameters for all the experiments are the learning rate for ADAM optimizer, that is 0.001, the learning rate for SGD optimizer, that is 0.01, and the batch size for GPUs that is equal to 6.  The results are discussed in terms of mean Intersection over Union, latency, FLOPs and number of parameters. 
 
 \subsection{DeepLabv2 Experiments}
+For the experiments, we have chosen bottleneck layer with Convolutional Layer that use 1x1 and 3x3 kernels; for the Dropout layers a default dropout rate of 0.5. For the four ASPP filters we have chosen the following rates: 6, 12, 18, and 24. For ASPP weights the weights are initialized using a Gaussian distribution with a mean of 0 and a small standard deviation (Normal Initialization) while biases are initialized to zero (Constant Initialization).
+
+We evaluated the performance of the DeepLabV2 model on the LoveDA-Urban dataset using both the training and validation splits for 20 epochs. The experiments focused on testing various combinations of optimizers, loss functions, learning rates while maintaining a fixed input image size of 
+720×720 pixels. The performance metric used for evaluation were the mean Intersection over Union (mIoU), the latency as time (in seconds) required to process a single batch during validation, FLOPs to estimate the total number of floating-point operations required for a forward pass through the network, Parameters as the total number of trainable parameters in the model.
+
+The configurations and results are summarized in the Table. We conducted experiments using two optimizers: Adam and SGD, with four loss functions: Cross Entropy (CE), Dice Loss, Focal Loss, and Optimized Cross Entropy (OCE). All experiments used a learning rate scheduler to adjust the learning rate dynamically during training. Two learning rates were tested: 0.001 and 0.01.
+
+\begin{table}[h!]
+\centering
+\caption{DeepLab V2 on LoveDA-Urban (Train \& Val), 20 epochs}
+\label{tab:deeplab_loveda}
+\resizebox{0.49\textwidth}{!}{ % Adjust width to fit half-column
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Optimizer} & \textbf{Loss} & \textbf{Scheduler} & \textbf{Picture Size} & \textbf{mIoU} & \textbf{bestIoU} & \textbf{lr} & \textbf{Latency (s)} & \textbf{FLOPs} & \textbf{Params} \\ \hline
+Adam & CE & True & 720x720 & 0.2514 & 0.2734 & 0.001 & 0.032039 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+Adam & DICE & True & 720x720 & 0.1323 & 0.1274 & 0.001 & 0.031418 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+Adam & FOCAL & True & 720x720 & 0.2151 & 0.2559 & 0.001 & 0.034404 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+Adam & OCE & True & 720x720 & - & - & 0.001 & - & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+SGD & CE & True & 720x720 & 0.3318 & 0.3364 & 0.01 & 0.030374 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+SGD & DICE & True & 720x720 & 0.1822 & 0.3112 & 0.01 & 0.030979 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+SGD & FOCAL & True & 720x720 & 0.2466 & 0.2761 & 0.01 & 0.030632 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+SGD & OCE & True & 720x720 & 0.3267 & 0.3473 & 0.01 & 0.028466 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+SGD & DICE & True & 720x720 & 0.3501 & 0.3610 & 0.001 & 0.029606 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+SGD & CE & True & 720x720 & 0.3428 & 0.3526 & 0.001 & 0.031390 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+SGD & OCE & True & 720x720 & 0.3412 & 0.3422 & 0.001 & 0.032534 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
+\end{tabular}
+}
+\end{table}
+
+For ADAM optimizer, among the loss functions tested, the Cross Entropy loss achieved the highest bestIoU (0.2734). The Dice Loss performed the worst with an mIoU of 0.1323.
+
+SGD consistently outperformed Adam in terms of mIoU, likely due to Adam’s sensitivity to hyperparameters. SGD, particularly with Dice Loss and a learning rate of 0.001, achieved the highest bestIoU of 0.3610, demonstrating better generalization across configurations. For SGD the worst perfomance are for the Focal with a learning rate of 0.2761
+
+The learning rate played a crucial role in performance: SGD benefited from a higher learning rate (0.01), while Adam required a lower rate (0.001) to avoid instability. Overall, SGD was the superior optimizer for this task, especially when paired with Dice Loss or OCE Loss, suggesting it is a more robust choice for semantic segmentation for DeepLabV2 on this dataset.
+ 
+
+
+
+
+
 
 \subsection{PIDNet Experiments}
 
@@ -153,7 +228,9 @@ As described in the Methodology section, we have implemented three different dat
 
 The result obtained with the DACS technique, done on the optimal configuration 
 
+
 \subsection{PEM Experiments}
+We applied the Prototype-based Efficient MaskFormer (PEM) architecture to the LoveDA \cite{wang2021loveda} dataset to evaluate its performance in a domain adaptation setting. Specifically, PEM was trained on the LoveDA-Urban dataset, leveraging its urban domain imagery as the source domain, and tested on the LoveDA-Rural dataset, which represents the target domain. This experimental setup allowed us to assess the model's ability to generalize across domains with distinct characteristics, such as differences in class distributions, object scales, and background complexity. The results highlight PEM's potential in addressing domain adaptation challenges in real-time semantic segmentation tasks, demonstrating its capacity to maintain competitive accuracy while operating efficiently in cross-domain scenarios. This study underlines the importance of exploring lightweight and effective architectures for segmentation tasks that require robustness to domain shifts.
 
 \subsection{CycleGAN Experiments}
 

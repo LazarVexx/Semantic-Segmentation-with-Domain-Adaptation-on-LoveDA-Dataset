@@ -86,6 +86,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
 def validate(config, testloader, model, writer_dict):
     model.eval()
+    inference_times = []
     ave_loss = AverageMeter()
     nums = config.MODEL.NUM_OUTPUTS
     confusion_matrix = np.zeros(
@@ -101,7 +102,8 @@ def validate(config, testloader, model, writer_dict):
             
             start_time = time.time()
             losses, pred, _, _ = model(image, label, bd_gts)
-            inference_time = time.time() - start_time / config.TEST.BATCH_SIZE
+            inference_time = (time.time() - start_time) / config.TEST.BATCH_SIZE_PER_GPU
+            inference_times.append(inference_time)
             
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
@@ -133,7 +135,8 @@ def validate(config, testloader, model, writer_dict):
         mean_IoU = IoU_array[1:].mean()
         
         logging.info('{} {} {}'.format(i, IoU_array, mean_IoU))
-
+        
+    inference_time = np.mean(inference_times)
     writer = writer_dict['writer']
     global_steps = writer_dict['valid_global_steps']
     writer.add_scalar('valid_loss', ave_loss.average(), global_steps)
@@ -365,6 +368,7 @@ def train_adv(config, epoch, num_epoch,
     
 def validate_adv(config, testloader, model, writer_dict):
     model.eval()
+    inference_times = []
     ave_loss = AverageMeter()
     nums = config.MODEL.NUM_OUTPUTS
     confusion_matrix = np.zeros(
@@ -380,7 +384,8 @@ def validate_adv(config, testloader, model, writer_dict):
             
             start_time = time.time()
             losses, pred, _, _ = model(image, label, bd_gts)
-            inference_time = time.time() - start_time / config.TEST.BATCH_SIZE
+            inference_time = (time.time() - start_time) / config.TEST.BATCH_SIZE_PER_GPU
+            inference_times.append(inference_time)
             
             pred = pred[:2]
 
@@ -414,7 +419,7 @@ def validate_adv(config, testloader, model, writer_dict):
         mean_IoU = IoU_array[1:].mean()
         
         logging.info('{} {} {}'.format(i, IoU_array, mean_IoU))
-
+    inference_time = np.mean(inference_times)
     writer = writer_dict['writer']
     global_steps = writer_dict['valid_global_steps']
     writer.add_scalar('valid_loss', ave_loss.average(), global_steps)

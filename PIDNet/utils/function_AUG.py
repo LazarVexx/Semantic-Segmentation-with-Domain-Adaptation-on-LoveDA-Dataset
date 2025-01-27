@@ -125,6 +125,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
 def validate(config, testloader, model, writer_dict):
     model.eval()
+    inference_times = []
     ave_loss = AverageMeter()
     nums = config.MODEL.NUM_OUTPUTS
     confusion_matrix = np.zeros(
@@ -157,7 +158,8 @@ def validate(config, testloader, model, writer_dict):
             
             start_time = time.time()
             losses, pred, pseudo_label, confidence_mask = model(image, label, bd_gts)
-            inference_time = time.time() - start_time / config.TEST.BATCH_SIZE
+            inference_time = (time.time() - start_time) / config.TEST.BATCH_SIZE_PER_GPU
+            inference_times.append(inference_time)
 
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
@@ -212,7 +214,7 @@ def validate(config, testloader, model, writer_dict):
             {f'class_{c}': IoU for c, IoU in enumerate(IoU_arrays[i])},
             global_steps
         )
-
+    inference_time = np.mean(inference_times)
     writer_dict['valid_global_steps'] = global_steps + 1
 
     # Return validation metrics

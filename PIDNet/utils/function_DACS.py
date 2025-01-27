@@ -185,6 +185,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
 def validate(config, testloader, model, writer_dict):
     model.eval()
+    inference_times = []
     ave_loss = AverageMeter()
     nums = config.MODEL.NUM_OUTPUTS
     confusion_matrix = np.zeros(
@@ -207,7 +208,8 @@ def validate(config, testloader, model, writer_dict):
             
             start_time = time.time()
             losses, pred, _, _ = model(image, label, bd_gts)
-            inference_time = time.time() - start_time / config.TEST.BATCH_SIZE
+            inference_time = (time.time() - start_time) / config.TEST.BATCH_SIZE_PER_GPU
+            inference_times.append(inference_time)
 
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
@@ -258,7 +260,7 @@ def validate(config, testloader, model, writer_dict):
     # Calculate Pixel Accuracy and Mean Accuracy
     pixel_acc = total_correct_pixels / total_pixels
     mean_acc = (total_class_correct / np.maximum(1.0, total_class_pixels)).mean()
-
+    inference_time = np.mean(inference_times)
     # Log validation results to TensorBoard
     writer = writer_dict['writer']
     global_steps = writer_dict['valid_global_steps']

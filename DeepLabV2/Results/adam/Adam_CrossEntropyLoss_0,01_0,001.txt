@@ -77,122 +77,33 @@ Epoch [14/20] - Loss: 0.7332
 Validation: 100%|██████████| 166/166 [02:10<00:00,  1.28it/s]
 Validation - Loss: 1.4318, IoU: 0.2350, Latency: 0.029768 sec
 FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 15/20: 100%|██████████| 228/228 [04:38<00:00,  1.22s/it]
-Epoch [15/20] - Loss: 0.7226
-Validation:  87%|████████▋ | 145/166 [01:53<00:16,  1.24it/s]
-
-
-
-
-
-
--------------------------------DIFFERENT LOSS-------------------------
-
-
-batch_size = 6
-lr = 0.01
-Optimizer: Adam
-Criterion: OhemCrossEntropy
-Scheduler: CosineAnnealingLR
-Epoch 1/20: 100%|██████████| 228/228 [04:51<00:00,  1.28s/it]
-Epoch [1/20] - Loss: 2.3547
-Validation: 100%|██████████| 166/166 [02:14<00:00,  1.24it/s]
-/usr/local/lib/python3.10/dist-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
-  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
-Validation - Loss: 0.9255, IoU: 0.0559, Latency: 0.037122 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 2/20: 100%|██████████| 228/228 [04:50<00:00,  1.27s/it]
-Epoch [2/20] - Loss: 0.6794
-Validation: 100%|██████████| 166/166 [02:13<00:00,  1.24it/s]
-Validation - Loss: 0.9516, IoU: 0.1028, Latency: 0.034912 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 3/20: 100%|██████████| 228/228 [04:50<00:00,  1.27s/it]
-Epoch [3/20] - Loss: 0.6586
-Validation: 100%|██████████| 166/166 [02:14<00:00,  1.23it/s]
-Validation - Loss: 1.2682, IoU: 0.1147, Latency: 0.032324 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 4/20: 100%|██████████| 228/228 [04:50<00:00,  1.27s/it]
-Epoch [4/20] - Loss: 0.6461
-Validation: 100%|██████████| 166/166 [02:14<00:00,  1.24it/s]
-Validation - Loss: 0.9248, IoU: 0.1514, Latency: 0.033652 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 5/20: 100%|██████████| 228/228 [04:50<00:00,  1.27s/it]
-Epoch [5/20] - Loss: 0.6498
-Validation: 100%|██████████| 166/166 [02:14<00:00,  1.23it/s]
-Validation - Loss: 0.8921, IoU: 0.1706, Latency: 0.031933 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 6/20: 100%|██████████| 228/228 [04:50<00:00,  1.27s/it]
-Epoch [6/20] - Loss: 0.6333
-Validation: 100%|██████████| 166/166 [02:14<00:00,  1.23it/s]
-Validation - Loss: 1.1838, IoU: 0.1450, Latency: 0.032404 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 7/20: 100%|██████████| 228/228 [04:50<00:00,  1.28s/it]
-Epoch [7/20] - Loss: 0.6297
-Validation: 100%|██████████| 166/166 [02:15<00:00,  1.23it/s]
-Validation - Loss: 0.6785, IoU: 0.1679, Latency: 0.033139 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 8/20: 100%|██████████| 228/228 [04:50<00:00,  1.28s/it]
-Epoch [8/20] - Loss: 0.6225
-Validation: 100%|██████████| 166/166 [02:14<00:00,  1.23it/s]
-Validation - Loss: 0.7894, IoU: 0.1937, Latency: 0.033325 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 9/20: 100%|██████████| 228/228 [04:50<00:00,  1.27s/it]
-Epoch [9/20] - Loss: 0.6238
-Validation: 100%|██████████| 166/166 [02:14<00:00,  1.24it/s]
-Validation - Loss: 1.1971, IoU: 0.1666, Latency: 0.031041 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 10/20: 100%|██████████| 228/228 [04:50<00:00,  1.27s/it]
-Epoch [10/20] - Loss: 0.6205
-Validation: 100%|██████████| 166/166 [02:14<00:00,  1.24it/s]
-Validation - Loss: 0.8302, IoU: 0.1631, Latency: 0.032894 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 11/20: 100%|██████████| 228/228 [04:50<00:00,  1.27s/it]
-Epoch [11/20] - Loss: 0.6269
-Validation: 100%|██████████| 166/166 [02:13<00:00,  1.24it/s]
-Validation - Loss: 1.0828, IoU: 0.1700, Latency: 0.031432 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 12/20: 100%|██████████| 228/228 [04:49<00:00,  1.27s/it]
-Epoch [12/20] - Loss: 0.6199
-Validation: 100%|██████████| 166/166 [02:14<00:00,  1.24it/s]
-Validation - Loss: 0.8762, IoU: 0.1630, Latency: 0.032495 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 13/20: 100%|██████████| 228/228 [04:49<00:00,  1.27s/it]
-Epoch [13/20] - Loss: 0.6149
-Validation: 100%|██████████| 166/166 [02:14<00:00,  1.24it/s]
-Validation - Loss: 0.8449, IoU: 0.1509, Latency: 0.032897 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
-Epoch 14/20: 100%|██████████| 228/228 [04:48<00:00,  1.27s/it]
-Epoch [14/20] - Loss: 0.6197
-Validation: 100%|██████████| 166/166 [02:13<00:00,  1.24it/s]
-Validation - Loss: 0.8957, IoU: 0.1527, Latency: 0.031228 sec
-FLOPs: 1.10e+12, Params: 6.14e+07
 Epoch 15/20: 100%|██████████| 228/228 [04:49<00:00,  1.27s/it]
 Epoch [15/20] - Loss: 0.6227
 Validation: 100%|██████████| 166/166 [02:13<00:00,  1.24it/s]
-Validation - Loss: 1.6372, IoU: 0.1042, Latency: 0.030721 sec
+Validation - Loss: 1.6372, IoU: 0.2442, Latency: 0.030721 sec
 FLOPs: 1.10e+12, Params: 6.14e+07
 Epoch 16/20: 100%|██████████| 228/228 [04:48<00:00,  1.27s/it]
 Epoch [16/20] - Loss: 0.6189
 Validation: 100%|██████████| 166/166 [02:13<00:00,  1.24it/s]
-Validation - Loss: 0.7048, IoU: 0.1679, Latency: 0.031945 sec
+Validation - Loss: 0.7048, IoU: 0.2679, Latency: 0.031945 sec
 FLOPs: 1.10e+12, Params: 6.14e+07
 Epoch 17/20: 100%|██████████| 228/228 [04:48<00:00,  1.27s/it]
 Epoch [17/20] - Loss: 0.6165
 Validation: 100%|██████████| 166/166 [02:13<00:00,  1.24it/s]
-Validation - Loss: 1.0664, IoU: 0.1234, Latency: 0.030134 sec
+Validation - Loss: 1.0664, IoU: 0.2634, Latency: 0.030134 sec
 FLOPs: 1.10e+12, Params: 6.14e+07
 Epoch 18/20: 100%|██████████| 228/228 [04:48<00:00,  1.27s/it]
 Epoch [18/20] - Loss: 0.6137
 Validation: 100%|██████████| 166/166 [02:13<00:00,  1.24it/s]
-Validation - Loss: 0.7502, IoU: 0.1633, Latency: 0.030294 sec
+Validation - Loss: 0.7502, IoU: 0.2633, Latency: 0.030294 sec
 FLOPs: 1.10e+12, Params: 6.14e+07
 Epoch 19/20: 100%|██████████| 228/228 [04:48<00:00,  1.26s/it]
 Epoch [19/20] - Loss: 0.6172
 Validation: 100%|██████████| 166/166 [02:13<00:00,  1.24it/s]
-Validation - Loss: 1.0386, IoU: 0.1378, Latency: 0.031629 sec
+Validation - Loss: 1.0386, IoU: 0.2712, Latency: 0.031629 sec
 FLOPs: 1.10e+12, Params: 6.14e+07
 Epoch 20/20: 100%|██████████| 228/228 [04:48<00:00,  1.27s/it]
 Epoch [20/20] - Loss: 0.6248
 Validation: 100%|██████████| 166/166 [02:13<00:00,  1.25it/s]
-Validation - Loss: 1.5266, IoU: 0.0823, Latency: 0.032039 sec
+Validation - Loss: 1.5266, IoU: 0.2514, Latency: 0.032039 sec
 FLOPs: 1.10e+12, Params: 6.14e+07

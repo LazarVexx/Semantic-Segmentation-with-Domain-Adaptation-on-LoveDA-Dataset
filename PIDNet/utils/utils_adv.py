@@ -49,17 +49,16 @@ class FullModel(nn.Module):
         ph, pw = outputs[0].size(2), outputs[0].size(3)
         
         if ph != h or pw != w:
-            # Interpola tutti gli output tranne x_layer4 (che è outputs[2])
             outputs = [
                 F.interpolate(output, size=(h, w), mode='bilinear', 
                             align_corners=config.MODEL.ALIGN_CORNERS)
-                if i != 2 else output  # non interpolare x_layer4
                 for i, output in enumerate(outputs)
             ]
 
         # x_extra_p è outputs[0], x_ è outputs[1], x_layer4 è outputs[2], x_extra_d è outputs[3]
         acc = self.pixel_acc(outputs[1], labels)  # usa x_ per accuracy
         loss_s = self.sem_loss(outputs[:2], labels)  # loss semantica su x_extra_p e x_
+        loss_s4 = self.sem_loss([outputs[2]], labels)  # loss semantica su x_layer4
         loss_b = self.bd_loss(outputs[3], bd_gt)  # loss boundary su x_extra_d
 
         filler = torch.ones_like(labels) * config.TRAIN.IGNORE_LABEL
@@ -72,7 +71,7 @@ class FullModel(nn.Module):
         loss = loss_s + loss_b + loss_sb
 
         # Ritorna tutto tranne x_extra_d
-        return torch.unsqueeze(loss,0), outputs[:3], acc, [loss_s, loss_b]
+        return torch.unsqueeze(loss,0), outputs[:3], acc, [loss_s, loss_b,loss_s4]
 
 
 

@@ -261,17 +261,12 @@ def train_adv(config, epoch, num_epoch,
 
         losses_source, pred_source, acc_source, loss_list_source = model(images, labels, bd_gts)
 
-        # Interpolate source predictions
-        pred_source[1] = F.interpolate(pred_source[1], size=(h, w), 
-                                    mode='bilinear', 
-                                    align_corners=config.MODEL.ALIGN_CORNERS)
-        pred_source[2] = F.interpolate(pred_source[2], size=(h, w), 
-                                    mode='bilinear', 
-                                    align_corners=config.MODEL.ALIGN_CORNERS)
-
-        loss_seg = losses_source.mean() 
+        loss_seg_1 = losses_source.mean() 
+        loss_seg_2 = loss_list_source[2].mean()
+        loss_seg = loss_seg_1 + config.TRAIN.LAMBDA_SEG2 * loss_seg_2
         loss_seg.backward()
-        loss_seg_value1 += loss_seg.item()
+        loss_seg_value1 += loss_seg_1.item()
+        loss_seg_value2 += loss_seg_2.item()
 
         # Train with target domain
         images_target, _, _, _, _ = target_batch
@@ -279,13 +274,6 @@ def train_adv(config, epoch, num_epoch,
 
         _, pred_target, _, _ = model(images_target, labels, bd_gts)
 
-        # Interpolate target predictions
-        pred_target[1] = F.interpolate(pred_target[1], size=(h, w), 
-                                    mode='bilinear', 
-                                    align_corners=config.MODEL.ALIGN_CORNERS)
-        pred_target[2] = F.interpolate(pred_target[2], size=(h, w), 
-                                    mode='bilinear', 
-                                    align_corners=config.MODEL.ALIGN_CORNERS)
 
         # Adversarial loss on target
         D_out_target_conv5 = model_D1(F.softmax(pred_target[1], dim=1))

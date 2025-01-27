@@ -40,6 +40,7 @@ TRAIN:
   LR_D1 : 1e-4
   LR_D2 : 1e-4
   GAN : 'Vanilla'
+  LAMBDA_SEG2: 0.01
   LAMBDA_ADV1: 0.001
   LAMBDA_ADV2: 0.0002
   LR: 0.001

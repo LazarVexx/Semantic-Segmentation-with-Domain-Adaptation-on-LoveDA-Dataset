@@ -154,7 +154,10 @@ def validate(config, testloader, model, writer_dict):
             bd_gts = bd_gts.float().cuda(non_blocking=True)
 
             # Forward pass
+            
+            start_time = time.time()
             losses, pred, pseudo_label, confidence_mask = model(image, label, bd_gts)
+            inference_time = time.time() - start_time / config.TEST.BATCH_SIZE
 
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
@@ -190,7 +193,7 @@ def validate(config, testloader, model, writer_dict):
         res = confusion_matrix[..., i].sum(0)
         tp = np.diag(confusion_matrix[..., i])
         IoU_array = tp / np.maximum(1.0, pos + res - tp)
-        mean_IoU = IoU_array.mean()
+        mean_IoU = IoU_array[1:].mean()
 
         IoU_arrays.append(IoU_array)
         mean_IoUs.append(mean_IoU)
@@ -213,7 +216,7 @@ def validate(config, testloader, model, writer_dict):
     writer_dict['valid_global_steps'] = global_steps + 1
 
     # Return validation metrics
-    return ave_loss.average(), mean_IoUs, IoU_arrays
+    return ave_loss.average(), mean_IoUs, IoU_arrays, inference_time
 
 
 

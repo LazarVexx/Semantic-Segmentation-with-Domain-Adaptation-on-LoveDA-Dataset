@@ -249,7 +249,7 @@ def main():
         )
          # Validation and saving checkpoints
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
-            mean_IoU, IoU_array, pixel_acc, mean_acc = validate(config, testloader, model, writer_dict)
+            mean_IoU, IoU_array, pixel_acc, mean_acc, inference_time = validate(config, testloader, model, writer_dict)
         
         if flag_rm == 1:
             flag_rm = 0
@@ -279,7 +279,7 @@ def main():
             torch.save(model.module.state_dict(), os.path.join(final_output_dir, 'best.pt'))
 
         # Log validation metrics
-        msg = f"Epoch [{epoch}], Loss: {train_metrics['total_loss']:.3f}, MeanIoU: {mean_IoU:.4f}, best_mIoU: {best_mIoU:.4f}"
+        msg = f"Epoch [{epoch}], Loss: {train_metrics['total_loss']:.3f}, MeanIoU: {mean_IoU:.4f}, best_mIoU: {best_mIoU:.4f}, inference_time: {inference_time:.4f} sec"
         f"Pixel_Acc: {pixel_acc:.4f}, Mean_Acc: {mean_acc:.4f}"
         logging.info(msg)
         logging.info(f"IoU per class: {IoU_array}")

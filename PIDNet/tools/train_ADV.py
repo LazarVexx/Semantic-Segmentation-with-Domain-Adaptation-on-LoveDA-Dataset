@@ -259,7 +259,7 @@ def main():
         
 
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
-            valid_loss, mean_IoU, IoU_array = validate_adv(config, 
+            valid_loss, mean_IoU, IoU_array,inference_time = validate_adv(config, 
                         testloader, model, writer_dict)
         if flag_rm == 1:
             flag_rm = 0
@@ -276,8 +276,8 @@ def main():
             best_mIoU = mean_IoU
             torch.save(model.module.state_dict(),
                     os.path.join(final_output_dir, 'best.pt'))
-        msg = 'Loss: {:.3f}, MeanIU: {: 4.4f}, Best_mIoU: {: 4.4f}'.format(
-                    valid_loss, mean_IoU, best_mIoU)
+        msg = 'Loss: {:.3f}, MeanIU: {: 4.4f}, Best_mIoU: {: 4.4f}, Inference time: {:.3f} sec '.format(
+                    valid_loss, mean_IoU, best_mIoU, inference_time)
         logging.info(msg)
         logging.info(IoU_array)
 

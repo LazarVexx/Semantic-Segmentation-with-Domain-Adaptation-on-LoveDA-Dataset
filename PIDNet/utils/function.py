@@ -98,7 +98,11 @@ def validate(config, testloader, model, writer_dict):
             label = label.long().cuda()
             bd_gts = bd_gts.float().cuda()
 
+            
+            start_time = time.time()
             losses, pred, _, _ = model(image, label, bd_gts)
+            inference_time = time.time() - start_time / config.TEST.BATCH_SIZE
+            
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
             for i, x in enumerate(pred):
@@ -135,7 +139,7 @@ def validate(config, testloader, model, writer_dict):
     writer.add_scalar('valid_loss', ave_loss.average(), global_steps)
     writer.add_scalar('valid_mIoU', mean_IoU, global_steps)
     writer_dict['valid_global_steps'] = global_steps + 1
-    return ave_loss.average(), mean_IoU, IoU_array
+    return ave_loss.average(), mean_IoU, IoU_array,inference_time
 
 
 def testval(config, test_dataset, testloader, model,
@@ -373,7 +377,11 @@ def validate_adv(config, testloader, model, writer_dict):
             label = label.long().cuda()
             bd_gts = bd_gts.float().cuda()
 
+            
+            start_time = time.time()
             losses, pred, _, _ = model(image, label, bd_gts)
+            inference_time = time.time() - start_time / config.TEST.BATCH_SIZE
+            
             pred = pred[:2]
 
             if not isinstance(pred, (list, tuple)):
@@ -412,5 +420,5 @@ def validate_adv(config, testloader, model, writer_dict):
     writer.add_scalar('valid_loss', ave_loss.average(), global_steps)
     writer.add_scalar('valid_mIoU', mean_IoU, global_steps)
     writer_dict['valid_global_steps'] = global_steps + 1
-    return ave_loss.average(), mean_IoU, IoU_array
+    return ave_loss.average(), mean_IoU, IoU_array,inference_time
 

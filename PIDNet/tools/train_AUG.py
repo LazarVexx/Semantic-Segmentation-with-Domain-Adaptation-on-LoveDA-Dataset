@@ -176,7 +176,7 @@ def main():
 
       # Perform validation periodically
       if epoch > 0 and (epoch % config.TRAIN.EVAL_INTERVAL == 0 or epoch == config.TRAIN.END_EPOCH - 1):
-          valid_loss, mean_IoU, IoU_array = validate(
+          valid_loss, mean_IoU, IoU_array , inference_time = validate(
               config, testloader, model, writer_dict)
 
           # Calculate average mean IoU
@@ -187,7 +187,7 @@ def main():
               torch.save(model.state_dict(),
                         os.path.join(final_output_dir, 'best_model.pth'))
 
-          logger.info(f'Epoch {epoch + 1}: Loss={valid_loss}, Mean IoU={avg_mean_IoU}')
+          logger.info(f'Epoch {epoch + 1}: Loss={valid_loss}, Mean IoU={avg_mean_IoU}, Inference Time={inference_time} sec')
 
       # Save checkpoint
       checkpoint_path = os.path.join(final_output_dir, 'checkpoint.pth.tar')

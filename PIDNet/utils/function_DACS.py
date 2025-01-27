@@ -151,9 +151,6 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # --- Update average loss ---
         ave_loss.update(loss_value.mean().item())
         ave_acc.update(acc.item())
-
-        # --- Update learning rate ---
-        lr = adjust_learning_rate(optimizer, base_lr, num_iters, i_iter + cur_iters)
         
         # --- Backpropagation and optimization ---
         model.zero_grad()       

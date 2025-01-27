@@ -134,7 +134,7 @@ class Loveda(BaseDataset):
         label = cv2.imread(os.path.join(self.root,'loveDa',item["label"]),
                            cv2.IMREAD_GRAYSCALE)
         
-       # Applicazione delle augmentation
+        # Applicazione delle augmentation
         if config.TRAIN.AUG and "val" not in self.list_path:  # Controlla se le augmentazioni sono abilitate
             transformed = self.transform(image=image, mask=label)
             image = transformed['image']

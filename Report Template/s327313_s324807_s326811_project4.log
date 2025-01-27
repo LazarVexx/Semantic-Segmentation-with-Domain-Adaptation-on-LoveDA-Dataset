@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  25 JAN 2025 12:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  27 JAN 2025 17:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -338,7 +338,27 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 86--86
+
+[1{C:/Users/lucai/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
+
+
+]
+
+
+Underfull \hbox (badness 2617) in paragraph at lines 88--89
+\OT1/cmr/m/n/10 chal-leng-ing ex-am-ples, Ohem en-hances the
+ []
+
+
+
+[2]
+
+
+
+[3]
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 150--150
 []\OT1/cmr/bx/n/12 Adversarial Learn-ing Ex-per-i-
  []
 
@@ -347,14 +367,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 86--86
 \openout4 = `s327313_s324807_s326811_project4.brf'.
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[1{C:/Users/lucai/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
-
-
-]
 Underfull \hbox (badness 10000) in paragraph at lines 8--8
 []\OT1/cmr/m/n/10 Niccolo Cav-agnero, Gabriele Rosi, Clau-
  []
@@ -375,8 +387,6 @@ Underfull \hbox (badness 5417) in paragraph at lines 8--8
  []
 
 
-
-
 Underfull \hbox (badness 1275) in paragraph at lines 32--32
 []\OT1/cmr/m/n/10 Wilhelm Tran-heden, Vik-tor Ols-son, Ju-liano
  []
@@ -387,6 +397,8 @@ Underfull \hbox (badness 1033) in paragraph at lines 32--32
  []
 
 
+
+[4]
 Underfull \hbox (badness 1215) in paragraph at lines 51--51
 \OT1/cmr/m/n/10 la-tion us-ing cycle-consistent ad-ver-sar-ial net-
  []
@@ -398,7 +410,11 @@ Underfull \hbox (badness 1852) in paragraph at lines 51--51
 
 )
 
-[2] (s327313_s324807_s326811_project4.aux)
+
+
+[5
+
+] (s327313_s324807_s326811_project4.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -406,20 +422,20 @@ L3 programming layer <2024-11-02>
 Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.out' has not changed.
 (rerunfilecheck)             Checksum: 23F909585B309246A3B24FBCE01A6397;3679.
 Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.brf' has not changed.
-(rerunfilecheck)             Checksum: D5F9E2C5633E256A6777FC966B5436B3;378.
+(rerunfilecheck)             Checksum: 8DE27C74D11260A3BCBC879E315CFDFA;591.
  ) 
 Here is how much of TeX's memory you used:
- 11860 strings out of 473682
- 197576 string characters out of 5719216
- 621145 words of memory out of 5000000
- 34773 multiletter control sequences out of 15000+600000
- 565223 words of font info for 62 fonts, out of 8000000 for 9000
+ 11874 strings out of 473682
+ 197797 string characters out of 5719216
+ 625145 words of memory out of 5000000
+ 34783 multiletter control sequences out of 15000+600000
+ 565558 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,8n,93p,981b,463s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on s327313_s324807_s326811_project4.pdf (2 pages, 138308 bytes).
+ 90i,8n,93p,1457b,554s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\lucai\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on s327313_s324807_s326811_project4.pdf (5 pages, 154613 bytes).
 PDF statistics:
- 170 PDF objects out of 1000 (max. 8388607)
- 34 named destinations out of 1000 (max. 500000)
+ 199 PDF objects out of 1000 (max. 8388607)
+ 37 named destinations out of 1000 (max. 500000)
  177 words of extra memory for PDF output out of 10000 (max. 10000000)
 

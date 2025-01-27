@@ -16,25 +16,24 @@ DeepLab V2 on LoveDA-Urban (Train & Val) , 20 epochs
 PIDNet on LoveDA-Urban (Train & Val) , 20 epochs 
 
 
-| Numero | Optimizer | Loss  | Scheduler | Picture Size |  mIoU  | bestIoU | modified mIoU |
-|--------|-----------|-------|-----------|--------------|--------|---------|---------------|
-| 01_01  | Adam      | CE    | False     | 720x720      | 0.3165 | 0.3165  | 0.3617        |
-| 02_00  | Adam      | CE    | False     | 1024x1024    | 0.3407 | 0.3417  | 0.3906        |
-| 02_01  | Adam      | CE    | False     | 1024x1024    | 0.3254 | 0.3562  | 0.4071        |
-| 03     | Adam      | CE    | False     | 720x720      | 0.3131 | 0.3261  | 0.3727        |
-| 4      | Adam      | CE    | True      | 1024x1024    | 0.3245 | 0.3406  | 0.3893        |
-| 5      | Adam      | OCE   | False     | 720x720      | 0.2895 | 0.2895  | 0.3318        |
-| 7      | Adam      | OCE   | True      | 1024x1024    | 0.3421 | 0.3421  | 0.3910        |
-| 8      | Adam      | OCE   | True      | 720x720      | 0.3381 | 0.3426  | 0.3915        |
-| 9      | SDG       | OHEM  | False     | 720x720      | 0.3332 | 0.3385  | 0.3868        |
-| 10     | SDG       | OHEM  | False     | 1024x1024    | 0.2588 | 0.2677  | 0.3059        |
-| 11     | SDG       | CE    | False     | 720x720      | 0.2097 | 0.2301  | 0.2630        |
-| 12     | SDG       | OHEM  | False     | 720x720      | 0.2896 | 0.2896  | 0.3310        |
-| 13     | SDG       | DICE  | False     | 720x720      | 0.2387 | 0.2387  | 0.3442        |
-| 14     | SDG       | FOCAL | False     | 720x720      | 0.1865 | 0.1958  | 0.2245        |
-| 15     | SDG       | CE    | True      | 1024x1024    | 0.2943 | 0.3110  | 0.3554        |
-| 16     | Adam      | DICE  | True      | 720x720      | 0.2289 |         | 0.3663        |
-| 17     | Adam      | FOCAL | True      | 720x720      | 0.4113 |         | 0.4233        |
+| Numero | Optimizer | Loss  | Scheduler | Picture Size | mIoU          | Latency | FLOPs     | Parameters |
+|--------|-----------|-------|-----------|--------------|---------------|---------|-----------|------------|
+| 1     | Adam      | CE    | False     | 720x720      | 0.3617        | 2:45 hours | 1.10e+12  | 6.14e+07   |
+| 2     | Adam      | CE    | False     | 1024x1024    | 0.3906        | 2:59 hours        | 1.10e+12  | 6.14e+07   |
+| 3     | Adam      | CE    | True      | 720x720      | 0.3727        | 2:41 hours        | 1.10e+12  | 6.14e+07   |
+| 4      | Adam      | CE    | True      | 1024x1024    | 0.3893        | 2:51 hours        | 1.10e+12  | 6.14e+07   |
+| 5      | Adam      | OCE   | False     | 720x720      | 0.3318        | 2:42 hours        | 1.10e+12  | 6.14e+07   |
+| 7      | Adam      | OCE   | True      | 1024x1024    | 0.3910        |         | 1.10e+12  | 6.14e+07   |
+| 8      | Adam      | OCE   | True      | 720x720      | 0.3915        | 2:40 hours        | 1.10e+12  | 6.14e+07   |
+| 9      | SDG       | OHEM  | False     | 720x720      | 0.3868        | 1:23 hours        | 1.10e+12  | 6.14e+07   |
+| 10     | SDG       | OHEM  | False     | 1024x1024    | 0.3059        |         | 1.10e+12  | 6.14e+07   |
+| 11     | SDG       | CE    | False     | 720x720      | 0.2630        |         | 1.10e+12  | 6.14e+07   |
+| 12     | SDG       | OHEM  | False     | 720x720      | 0.3310        |         | 1.10e+12  | 6.14e+07   |
+| 13     | SDG       | DICE  | False     | 720x720      | 0.3442        |         | 1.10e+12  | 6.14e+07   |
+| 14     | SDG       | FOCAL | False     | 720x720      | 0.2245        |         | 1.10e+12  | 6.14e+07   |
+| 15     | SDG       | CE    | True      | 1024x1024    | 0.3554        |         | 1.10e+12  | 6.14e+07   |
+| 16     | Adam      | DICE  | True      | 720x720      | 0.3663        |         | 1.10e+12  | 6.14e+07   |
+| 17     | Adam      | FOCAL | True      | 720x720      | 0.4233        |         | 1.10e+12  | 6.14e+07   |
 
 
 ### Candidato
@@ -51,7 +50,7 @@ PIDNet on LoveDA-Urban (Train & Val) , 20 epochs
 
 | Numero | AUG_CHANCE | AUG1  | AUG2  | AUG3  |  mIoU  | bestIoU | modified mIoU |
 |--------|------------|-------|-------|-------|--------|---------|---------------|
-| 1      | TRUE       | False | False | False | 0.2656 | 0.2753  | 0.3146        |
+| 1      | TRUE       | False | False | False | 0.2656 | 0.2753  | 0.2951      |
 | 2      | TRUE       | True  | False | False | 0.3011 |         | 0.3042        |
 | 3      | TRUE       | False | True  | False | 0.3089 |         | 0.3108        |
 | 4      | TRUE       | True  | True  | False | 0.2672 | 0.2750  | 0.3143        |

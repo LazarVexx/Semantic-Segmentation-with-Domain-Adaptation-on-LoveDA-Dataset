@@ -52,40 +52,106 @@ Domain adaptation aims to bridge the performance gap between source and target d
 This project investigates real-time domain adaptation techniques for semantic segmentation, focusing on the LoveDA dataset. We evaluate state-of-the-art models, such as DeepLabv2 and PIDNet, under various domain adaptation scenarios. Specifically, we analyze the challenges of adapting models from rural to urban domains and vice versa, and we explore solutions including data augmentation, adversarial training \cite{tsai2018advlearning}, image-to-image translation approaches (DACS) \cite{tranheden2021dacs}, real-time networks (PEM) \cite{cavagnero2024pem}, and style transfer preprocessing models, like CycleGAN \cite{zhu2020cyclegan}. By experimenting with these approaches, we aim to identify effective methods for improving domain adaptation performance while maintaining real-time capabilities.
 
 \section{Related Work}
+\label{sec:related}
+
+In this section, we provide an overview of the state-of-the-art models and techniques for semantic segmentation and domain adaptation used to implement the basic structure of our project.
 
 \subsection{DeepLabv2}
 
+DeepLab has played a pivotal role in advancing semantic segmentation by overcoming key challenges in traditional deep convolutional neural networks (DCNNs), including resolution loss, scale variability, and poor boundary localization \cite{chen2017deeplab}. DeepLab V2 specifically addresses these issues through three major contributions: atrous convolution, Atrous Spatial Pyramid Pooling (ASPP), and Fully Connected Conditional Random Fields (CRFs).
+Atrous convolution, or dilated convolution, mitigates resolution loss by expanding the receptive field without increasing computational costs or reducing spatial resolution. This enables accurate pixel-level predictions while preserving fine details. To tackle scale variability, the ASPP module aggregates multi-scale contextual information using parallel atrous convolutions with varying dilation rates, ensuring robustness to objects appearing at different sizes. Finally, Fully Connected CRFs refine segmentation results by modeling pixel relationships based on spatial proximity and color similarity. This post-processing step enhances boundary delineation and recovers intricate object edges.
+By addressing these core challenges, DeepLab V2 has become a benchmark framework in semantic segmentation, achieving high-resolution predictions, robust multi-scale representations, and precise boundary localization. Its innovations have significantly influenced subsequent research, setting a new standard for segmentation methodologies.
+DeepLabv2 was used in our project in the first experiments to evaluate its performance in domain adaptation scenarios and to better understand the behaviour of a classic segmentation network.
+
 \subsection{PIDNet}
+
+PIDNet is a real-time semantic segmentation network inspired by Proportional-Integral-Derivative (PID) controllers, which are commonly used in control systems to achieve precision and stability \cite{feng2021pidnet}. By drawing from PID control theory, PIDNet introduces a unique architecture with three specialized branches—P (proportional), I (integral), and D (derivative)—each capturing distinct and complementary information. The P-branch focuses on preserving spatial details, the I-branch aggregates global contextual information, and the D-branch enhances boundary precision. This design allows PIDNet to achieve a balance between low-latency processing and high segmentation quality. Particularly effective in real-time applications such as autonomous driving and robotics, PIDNet delivers state-of-the-art performance while maintaining a lightweight structure. This efficiency makes it suitable for resource-constrained environments without significant compromise in accuracy, showcasing its versatility and practical utility across diverse domains. PIDNet is the basic model we will use for our experiments and we have also implemented some changes to improve its performance in domain adaptation scenarios. These changes will be discussed in the following sections.
 
 \subsection{LoveDa Dataset}
 
+The dataset used in our experiments is the LoveDA dataset. The LoveDA dataset is a novel benchmark for domain adaptation in semantic segmentation, featuring distinct rural and urban domains with varying environmental characteristics \cite{wang2021loveda}. This dataset provides a challenging testbed for evaluating the generalization capabilities of segmentation models across diverse settings. By encompassing rural and urban scenes, LoveDA captures the complexity of real-world applications, where domain shifts are prevalent and pose significant challenges to model performance. The dataset's diverse landscapes, lighting conditions, and object distributions necessitate robust adaptation techniques to ensure accurate segmentation results.
+
 \section{Methodology}
+\label{sec:methodology}
+
+In this section we describe the methodology used to implement the project. We will discuss the models used, the techniques applied, and the implemented variation conducted to evaluate the performance of the models in domain adaptation scenarios.
 
 \subsection{DeepLab2 implementation}
 
 \subsection{PIDNet implementation}
 
+The PIDNet model used in this project was originally proposed by \cite{feng2021pidnet} and was adapted by us for use with the LoveDA dataset. For our implementation, we selected the PIDNet small model, utilizing a pretrained ImageNet model for initialization. While the core structure of PIDNet remained unchanged, we introduced several modifications to enhance its performance in domain adaptation scenarios. Specifically, we experimented with various loss functions, optimizers, and the integration of a learning rate scheduler. These adjustments were aimed at improving the model's ability to generalize across domains and better handle the inherent challenges of domain shifts in the dataset.
+
+The different losses we have implemented are the following:
+\begin{itemize}
+    \item Cross Entropy: This is the standard loss function for semantic segmentation tasks. It calculates the pixel-wise difference between the predicted and true class probabilities, penalizing incorrect classifications. While effective, it may struggle with class imbalance in datasets. This loss function was just defined in the PIDNet model. 
+    \item OHEM Cross Entropy : This variant of the cross entropy loss prioritizes hard-to-classify pixels during training. By focusing on these challenging examples, Ohem enhances the model’s ability to learn from difficult cases, improving overall segmentation quality. Also this loss function was just defined in the PIDNet model.
+    \item Boundary Loss: This loss function focuses on the boundary regions of objects, enhancing the model’s ability to capture fine details and object edges. By emphasizing boundary pixels, the model can achieve more precise segmentation results. 
+    \item Focal Loss:  Focal Loss further addresses class imbalance by reducing the impact of well-classified pixels and focusing on hard-to-classify ones. This dynamic adjustment of loss contributions makes it especially effective in datasets with highly imbalanced classes.
+    \item Dice Loss: This type of loss was also used in the DeepLabV2 implementation. Designed to handle class imbalance, Dice Loss measures the overlap between predicted and ground truth masks. By optimizing the Dice coefficient, this loss improves performance on underrepresented classes and ensures a balanced segmentation output.
+\end{itemize}
+
+The different optimizers we have implemented are the following:
+\begin{itemize}
+    \item Stochastic Gradient Descent (SGD): This classic optimizer updates model parameters based on the gradient of the loss function. While effective, SGD may struggle with noisy gradients and slow convergence. To address these limitations, PIDNet leverages SGD with momentum, which accumulates gradients over time to stabilize updates and accelerate learning. This scheduler was used in the standard PIDNet model implementation thanks the optimizer library of PyTorch.
+    \item ADAM: This adaptive optimizer dynamically adjusts the learning rate for each parameter based on moment estimates. It is particularly effective in scenarios where the learning rate needs to adapt quickly. 
+\end{itemize}
+
+In addition, we have defined a Cosine Annealing Learning Rate Scheduler to dynamically adjust the learning rate throughout training. This scheduler gradually reduces the learning rate following a cosine curve, from an initial maximum value to a defined minimum value. To enhance the training process, a warm-up phase is incorporated at the start, where the learning rate linearly increases to the base learning rate over a specified number of epochs. In our case, we choose five epochs considering that all the training done was on 20 epochs. Beyond the warm-up phase, the cosine annealing strategy begins, promoting smooth convergence by allowing the learning rate to decrease progressively. This approach ensures that the model benefits from rapid initial learning, followed by gradual fine-tuning as training progresses, avoiding abrupt changes that could destabilize optimization. This combination of flexibility and stability contributes to improved generalization and segmentation performance.
+
+In the experiments and result section we will discuss the performance of the model with the different loss functions, with different optimizer and the impact of the learning rate scheduler on the performance of the model. 
+
 \subsection{Data Augmentation}
+
+Data augmentation is a crucial technique in semantic segmentation, particularly when dealing with domain adaptation. It involves generating additional training data by applying various transformations to the existing dataset. In our specific project, we have trained PIDNet in the source urban domain and evaluated it in the target rural domain. The results are shown in the Experimental and Result section (\ref{sec:experiments}). 
+To improve performance and apply Domain Adaptation, we have implemented three different data augmentation techniques:
+\begin{itemize}
+    \item The first type of data augmentation is composed by a Random Brightness and Contrast transformation and a Random Shadow. The first technique randomly adjusts the brightness and contrast of images, simulating variations in lighting conditions. The second technique introduces random shadows to images, enhancing the model’s ability to detect objects under different illumination settings. 
+    \item The second type of data augmentation is composed by a Hue Saturation Value (HSV) transformation and a Gaussian Blur. The first technique randomly alters the hue, saturation, and value of images, creating diverse color variations. The second technique applies Gaussian blur to images, smoothing out pixel noise and enhancing object contours.
+    \item The third type of data augmentation is focused on geometrical augmentation. This technique includes a Horizontal Flip, a Vertical Flip and a Random Rotation of 90 degrees. The first two techniques flip images horizontally and vertically, respectively, to introduce spatial variations. The third technique rotates images randomly by 90 degrees, simulating different orientations of objects in the scene.
+\end{itemize}
+
+All these techniques are followed by a normalization of the images. The results of the experiments with the data augmentation techniques are shown in the Experimental and Result section (\ref{sec:experiments}).
 
 \subsection{Adversarial Learning}
 
 \subsection{Domain Adaptation via Cross-domain Mixed Sampling (DACS)}
+
+Another way to improve the performance of the model in domain adaptation scenarios is to use the Domain Adaptation via Cross-domain Mixed Sampling (DACS) technique. This approach encourages the model to learn domain-invariant features that are robust to domain shifts, thereby reducing the domain gap between the source and target domains. By combining source and target domain samples, DACS enables seamless adaptation to new environments.
+
+In our implementation, the urban domain serves as the source domain, while the rural domain is treated as the target domain. We applied DACS by mixing source images and labels with target images and pseudo-labels during training. The pseudo-labels for the target domain are derived by applying the argmax operation on the logits generated by the basic model. This mixing strategy ensures the model learns transferable features across diverse environments.
+
+To compute the training loss, we combined the source loss and the mixed loss, weighted by a factor. This iterative approach ensures the model learns robust, domain-invariant features. Detailed experimental results, along with an evaluation of the impact of DACS, are presented in the Experimental and Results section (\ref{sec:experiments}).
+
 
 \subsection{Prototype-based Efficient MaskFormer (PEM)}
 
 \subsection{Unpaired Image-to-Image Translation with CycleGAN}
 
 \section{Experiments and results}
+\label{sec:experiments}
+
+In this section, we present the experimental results obtained by evaluating the performance of the models in domain adaptation scenarios. We analyze the impact of different techniques, such as data augmentation, adversarial learning, DACS, PEM, and CycleGAN, on segmentation quality and domain adaptation capabilities. All the tests are done considering 20 epochs for the training phase. The fixed parameters for all the experiments are the learning rate for ADAM optimizer, that is 0.001, the learning rate for SGD optimizer, that is 0.01, and the batch size for GPUs that is equal to 6.  The results are discussed in terms of mean Intersection over Union, latency, FLOPs and number of parameters. 
 
 \subsection{DeepLabv2 Experiments}
 
 \subsection{PIDNet Experiments}
 
+As described in the Methodology section, we have implemented different loss functions, optimizers and a learning rate scheduler to improve the performance of the PIDNet model in domain adaptation scenarios. In this subsection we report all the results obtained with different combination of The results of the experiments are shown in the following tables.
+
+
+
 \subsection{Data Augmentation Experiments}
+
+Considering the previous better performing model, we have trained the found PIDNet con
+
+As described in the Methodology section, we have implemented three different data augmentation techniques to improve the performance of the PIDNet model in domain adaptation scenarios. In this subsection we report all the results obtained with the different data augmentation techniques. The results of the experiments are shown in the following tables.
 
 \subsection{Adversarial Learning Experiments}
 
 \subsection{DACS Experiments}
+
+The result obtained with the DACS technique, done on the optimal configuration 
 
 \subsection{PEM Experiments}
 

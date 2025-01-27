@@ -80,3 +80,13 @@ PIDNet on LoveDA-Urban (Train & Val) , 20 epochs
 | Numero | AUG_CHANCE | AUG1  | AUG2  | AUG3  |  mIoU  | bestIoU | modified mIoU |
 |--------|------------|-------|-------|-------|--------|---------|---------------|
 | 7      | TRUE       | False | True  | True  | 0.3133 |         | 0.3151        |
+
+
+
+
+### CycleGAN: 2b Best on Fake Images, 20 epochs
+miou : 0.39008033876408
+
+### CycleGAN: 3b Best on Fake Images, 20 epochs
+miou : 0.2850493589319477
+

@@ -14,6 +14,8 @@
 \Crefname{section}{Section}{Sections}
 \Crefname{table}{Table}{Tables}
 \crefname{table}{Tab.}{Tabs.}
+\usepackage{subcaption}  % Add this package for subfigures
+
 
 \begin{document}
 
@@ -56,7 +58,7 @@ This project investigates real-time domain adaptation techniques for semantic se
 
 In this section, we provide an overview of the state-of-the-art models and techniques for semantic segmentation and domain adaptation used to implement the basic structure of our project.
 
-\subsection{DeepLabv2}
+\subsection{DeepLabV2}
 
 DeepLab has played a pivotal role in advancing semantic segmentation by overcoming key challenges in traditional deep convolutional neural networks (DCNNs), including resolution loss, scale variability, and poor boundary localization \cite{chen2017deeplab}. DeepLab V2 specifically addresses these issues through three major contributions: atrous convolution, Atrous Spatial Pyramid Pooling (ASPP), and Fully Connected Conditional Random Fields (CRFs).
 Atrous convolution, or dilated convolution, mitigates resolution loss by expanding the receptive field without increasing computational costs or reducing spatial resolution. This enables accurate pixel-level predictions while preserving fine details. To tackle scale variability, the ASPP module aggregates multi-scale contextual information using parallel atrous convolutions with varying dilation rates, ensuring robustness to objects appearing at different sizes. Finally, Fully Connected CRFs refine segmentation results by modeling pixel relationships based on spatial proximity and color similarity. This post-processing step enhances boundary delineation and recovers intricate object edges.
@@ -78,10 +80,9 @@ The dataset used in our experiments is the LoveDA dataset. The LoveDA dataset is
 In this section we describe the methodology used to implement the project. We will discuss the models used, the techniques applied, and the implemented variation conducted to evaluate the performance of the models in domain adaptation scenarios.
 
 
-\subsection{DeepLab2 implementation}
+\subsection{DeepLabV2 implementation}
 One of the methodologies adopted in this work is centered around the implementation and utilization of the DeepLabV2 model for semantic segmentation tasks. 
-The original model was proposed by \cite{chen2017deeplab}
-
+The original model was proposed by \cite{chen2017deeplab}, that we fine-tuned.
 The dataset used for the training and for the evaluation is the LoveDA Urban. 
 
 
@@ -161,6 +162,25 @@ Additionally, PEM incorporates an optimized feature pyramid network (FPN) with d
 
 
 \subsection{Unpaired Image-to-Image Translation with CycleGAN}
+The model used for generating the images of Urban domain that resemble to the ones of Rural domain, has been proposed originally by \cite{zhu2020cyclegan}. We fine tuned this model to obtain at the end the "fake" images of Urban in order to use them to train PidNet.
+The goal of CycleGAN is to learn mapping functions between two domains, \(X\) and \(Y\), given training samples \(\{ x_i \}_{i=1}^N\), where \(x_i \in X\), and \(\{ y_j \}_{j=1}^M\), where \(y_j \in Y\). The data distributions are denoted as \(x \sim p_{\text{data}}(x)\) and \(y \sim p_{\text{data}}(y)\). The model consists of two mappings: \(G: X \rightarrow Y\) and \(F: Y \rightarrow X\). Additionally, there are two adversarial discriminators, \(D_X\) and \(D_Y\), where \(D_X\) discriminates between the images \(\{ x \}\) and the translated images \(\{ F(y) \}\), while \(D_Y\) discriminates between \(\{ y \}\) and the translated images \(\{ G(x) \}\). The objective of the model contains two types of terms: adversarial losses to align the distribution of generated images with the data distribution in the target domain, and cycle consistency losses to ensure that the learned mappings \(G\) and \(F\) do not contradict each other.
+
+Adversarial losses are applied to both mapping functions. For the mapping function \(G: X \rightarrow Y\) and its corresponding discriminator \(D_Y\), the objective is defined as:
+\[
+L_{\text{GAN}}(G, D_Y, X, Y) = \mathbb{E}_{y \sim p_{\text{data}}(y)} \left[ \log D_Y(y) \right] + \mathbb{E}_{x \sim p_{\text{data}}(x)} \left[ \log(1 - D_Y(G(x))) \right],
+\]
+where \(G\) aims to generate images \(G(x)\) that resemble real images from domain \(Y\), while \(D_Y\) seeks to distinguish between the translated samples \(G(x)\) and the real samples \(y\). \(G\) attempts to minimize this objective against an adversarial discriminator \(D_Y\) that tries to maximize it.
+Similarly, is used an adversarial loss for the mapping function \(F: Y \rightarrow X\) and its discriminator \(D_X\).
+ 
+There is also a forward cycle consistency. Similarly, for each image \( y \) from domain \( Y \), the mappings \( G \) and \( F \) should satisfy backward cycle consistency:
+\[
+y \xrightarrow{F} F(y) \xrightarrow{G} G(F(y)) \approx y.
+\]
+To incentivize this behavior, is used a cycle consistency loss:
+\[
+L_{\text{cyc}}(G, F) = \mathbb{E}_{x \sim p_{\text{data}}(x)} \left[ \| F(G(x)) - x \|_1 \right] + \mathbb{E}_{y \sim p_{\text{data}}(y)} \left[ \| G(F(y)) - y \|_1 \right].
+\]
+
 
 \section{Experiments and results}
 \label{sec:experiments}
@@ -168,10 +188,10 @@ Additionally, PEM incorporates an optimized feature pyramid network (FPN) with d
 In this section, we present the experimental results obtained by evaluating the performance of the models in domain adaptation scenarios. We analyze the impact of different techniques, such as data augmentation, adversarial learning, DACS, PEM, and CycleGAN, on segmentation quality and domain adaptation capabilities. All the tests are done considering 20 epochs for the training phase. The fixed parameters for all the experiments are the learning rate for ADAM optimizer, that is 0.001, the learning rate for SGD optimizer, that is 0.01, and the batch size for GPUs that is equal to 6.  The results are discussed in terms of mean Intersection over Union, latency, FLOPs and number of parameters. 
 
 \subsection{DeepLabv2 Experiments}
-For the experiments, we have chosen bottleneck layer with Convolutional Layer that use 1x1 and 3x3 kernels; for the Dropout layers a default dropout rate of 0.5. For the four ASPP filters we have chosen the following rates: 6, 12, 18, and 24. For ASPP weights the weights are initialized using a Gaussian distribution with a mean of 0 and a small standard deviation (Normal Initialization) while biases are initialized to zero (Constant Initialization).
+For the experiments, we have chosen bottleneck layer with Convolutional Layer that use 1x1 and 3x3 kernels; for the Dropout layers a default dropout rate of 0.5. For the four ASPP filters we have chosen the following rates: 6, 12, 18, and 24. For ASPP weights the weights are initialized using a Gaussian distribution with a mean of 0 and a small standard deviation (Normal Initialization) while biases are initialized to zero (Constant Initialization). The Batch size is chosen to be 6.
 
 We evaluated the performance of the DeepLabV2 model on the LoveDA-Urban dataset using both the training and validation splits for 20 epochs. The experiments focused on testing various combinations of optimizers, loss functions, learning rates while maintaining a fixed input image size of 
-720×720 pixels. The performance metric used for evaluation were the mean Intersection over Union (mIoU), the latency as time (in seconds) required to process a single batch during validation, FLOPs to estimate the total number of floating-point operations required for a forward pass through the network, Parameters as the total number of trainable parameters in the model.
+720×720 pixels. The performance metric used for evaluation were the mean Intersection over Union (mIoU), the latency as time (in seconds) required to process a single image during validation, FLOPs to estimate the total number of floating-point operations required for a forward pass through the network, Parameters as the total number of trainable parameters in the model.
 
 The configurations and results are summarized in the Table. We conducted experiments using two optimizers: Adam and SGD, with four loss functions: Cross Entropy (CE), Dice Loss, Focal Loss, and Optimized Cross Entropy (OCE). All experiments used a learning rate scheduler to adjust the learning rate dynamically during training. Two learning rates were tested: 0.001 and 0.01.
 
@@ -223,6 +243,7 @@ Considering the previous better performing model, we have trained the found PIDN
 As described in the Methodology section, we have implemented three different data augmentation techniques to improve the performance of the PIDNet model in domain adaptation scenarios. In this subsection we report all the results obtained with the different data augmentation techniques. The results of the experiments are shown in the following tables.
 
 \subsection{Adversarial Learning Experiments}
+The experimental results demonstrate that the baseline PIDNet model achieves an mIoU of 0.3509 when tested on the LoveDA-Rural domain, while the adversarial multi-state variant (PIDNet-ADV) shows a decrease in performance with an mIoU of 0.2770. The class-wise analysis reveals that PIDNet maintains superior performance across most categories, with notable advantages in Barren (+10.88\%), Water (+7.28\%), and particularly Grassland (+22.80\%). However, PIDNet-ADV exhibits marginally better performance in Forest class (+2.34\%). This performance degradation in the adversarial variant suggests that while adversarial training might enhance robustness, it could potentially compromise the model's ability to generalize effectively across domain shifts, particularly in the challenging urban-to-rural transfer scenario characteristic of the LoveDA dataset.
 
 \subsection{DACS Experiments}
 
@@ -230,9 +251,33 @@ The result obtained with the DACS technique, done on the optimal configuration
 
 
 \subsection{PEM Experiments}
-We applied the Prototype-based Efficient MaskFormer (PEM) architecture to the LoveDA \cite{wang2021loveda} dataset to evaluate its performance in a domain adaptation setting. Specifically, PEM was trained on the LoveDA-Urban dataset, leveraging its urban domain imagery as the source domain, and tested on the LoveDA-Rural dataset, which represents the target domain. This experimental setup allowed us to assess the model's ability to generalize across domains with distinct characteristics, such as differences in class distributions, object scales, and background complexity. The results highlight PEM's potential in addressing domain adaptation challenges in real-time semantic segmentation tasks, demonstrating its capacity to maintain competitive accuracy while operating efficiently in cross-domain scenarios. This study underlines the importance of exploring lightweight and effective architectures for segmentation tasks that require robustness to domain shifts.
+The PEM model achieves an mIoU of 46.85\% when trained on CycleGAN-transformed LoveDA-Urban data and tested on LoveDA-Rural, outperforming both PIDNet variants in the same cross-domain scenario. Specifically, PIDNet with CycleGAN-transformed training data achieves an mIoU of 28.80\%, while the augmented PIDNet reaches an mIoU of 35.09\%. This suggests that PEM's architecture might be more effective at leveraging CycleGAN-transformed data for domain adaptation compared to PIDNet. For reference, PEM's performance on single-domain scenarios shows an mIoU of 64.44\% for urban and 44.59\% for rural environments, highlighting the inherent challenges in rural scene segmentation regardless of the adaptation strategy employed.
 
 \subsection{CycleGAN Experiments}
+The Generators model are based on ResNet architecture, to mitigate Vanishing Gradient. The Discriminator Networks are built using a basic CNN architecture. As adversarial loss function the least-squares loss is used. To stabilize the training of the discriminators are used image pools to store previously generated fake images, rather than always using the most recent generated fake image, to prevent the discriminators from overfitting to recent examples. The optimizer used is Adam, the batch size is equal to 1, and learning rate equal to 0.0002. The model was trained for 27 epochs. 
+After training, only the Generator $Urban \Rightarrow Rural$
+it taken and applied on just the Urban train images to obtain the transformed fake dataset.
+
+!!! FAKE IMAGES EXAMPLES !!!
+
+We use the fake images dataset to train the PidNet with the configurations of the (REFERENCE TO CONFIGURATION OF 2b and of 3b). Here are the results of the validation.
+
+
+\begin{table}[ht]
+\centering
+\resizebox{1\columnwidth}{!}{
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model} & \textbf{Epochs} & \textbf{mIoU} \\ \hline
+CycleGAN: 2b Best on Fake Images & 20 & 0.39008033876408 \\ \hline
+CycleGAN: 3b Best on Fake Images & 20 & 0.2850493589319477 \\ \hline
+\end{tabular}
+}
+\caption{Performance of PIDNet on Fake Images}
+\end{table}
+
+
+
 
 \section{Conclusion}
 %%%%%%%%% REFERENCES

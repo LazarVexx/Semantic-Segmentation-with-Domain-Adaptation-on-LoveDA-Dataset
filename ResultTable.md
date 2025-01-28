@@ -55,38 +55,70 @@ PIDNet on LoveDA-Urban (Train & Val) , 20 epochs
 ### Candidato
 | 8      | Adam      | OCE   | True      | 720x720      | 0.3381 | 0.3426  | 0.3915        |
 
-### 3A Result
+### 3a Result
 
-| Numero | Optimizer | Loss  | Scheduler | Picture Size |  mIoU  | bestIoU | modified mIoU |
-|--------|-----------|-------|-----------|--------------|--------|---------|---------------|
-| 8      | Adam      | OCE   | True      | 720x720      | 0.1805 | 0.2009  | 0.2296        |
+| Numero | Optimizer | Loss  | Scheduler | Picture Size | modified mIoU | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
+|--------|-----------|-------|-----------|--------------|---------------|----------|--------|--------|--------|---------|-----------|----------|
+| 8      | Adam      | OCE   | True      | 720x720      | 0.2296        | 0.4158   | 0.2176 | 0.1666 | 0.3349 | 0.0590  | 0.1415    | 0.2716   |
+
 
 
 ### 3b Results
 
-| Numero | AUG_CHANCE | AUG1  | AUG2  | AUG3  |  mIoU  | bestIoU | modified mIoU |
-|--------|------------|-------|-------|-------|--------|---------|---------------|
-| 1      | TRUE       | False | False | False | 0.2656 | 0.2753  | 0.2951      |
-| 2      | TRUE       | True  | False | False | 0.3011 |         | 0.3042        |
-| 3      | TRUE       | False | True  | False | 0.3089 |         | 0.3108        |
-| 4      | TRUE       | True  | True  | False | 0.2672 | 0.2750  | 0.3143        |
-| 5      | TRUE       | False | False | True  | 0.2568 | 0.2642  | 0.3020        |
-| 6      | TRUE       | True  | False | True  | 0.2599 | 0.2632  | 0.3008        |
-| 7      | TRUE       | False | True  | True  | 0.3133 |         | 0.3151        |
-| 8      | TRUE       | True  | True  | True  | 0.2926 |         | 0.3014        |
+| Numero | AUG_CHANCE | AUG1  | AUG2  | AUG3  | modified mIoU | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
+|--------|------------|-------|-------|-------|---------------|----------|--------|--------|--------|---------|-----------|----------|
+| 1      | TRUE       | False | False | False | 0.2951        | 0.5217   | 0.3381 | 0.3098 | 0.3188 | 0.0673  | 0.0839    | 0.4262   |
+| 2      | TRUE       | True  | False | False | 0.3042        | 0.5255   | 0.3789 | 0.3074 | 0.4121 | 0.0377  | 0.0265    | 0.4417   |
+| 3      | TRUE       | False | True  | False | 0.3108        | 0.4900   | 0.3403 | 0.3097 | 0.4075 | 0.0582  | 0.1526    | 0.4170   |
+| 4      | TRUE       | True  | True  | False | 0.3143        | 0.4766   | 0.3495 | 0.3304 | 0.3810 | 0.0682  | 0.1779    | 0.4165   |
+| 5      | TRUE       | False | False | True  | 0.3020        | 0.5257   | 0.3998 | 0.2933 | 0.3413 | 0.0708  | 0.0574    | 0.4257   |
+| 6      | TRUE       | True  | False | True  | 0.3008        | 0.5102   | 0.3952 | 0.3130 | 0.3587 | 0.0457  | 0.0505    | 0.4324   |
+| 7      | TRUE       | False | True  | True  | 0.3509        | 0.5306   | 0.2683 | 0.3407 | 0.4896 | 0.1072  | 0.2865    | 0.4332   |
+| 8      | TRUE       | True  | True  | True  | 0.3014        | 0.4877   | 0.3868 | 0.3008 | 0.3700 | 0.0586  | 0.1589    | 0.3472   |
+
 
 ### Best 3b result
 
-| Numero | AUG_CHANCE | AUG1  | AUG2  | AUG3  |  mIoU  | bestIoU | modified mIoU |
-|--------|------------|-------|-------|-------|--------|---------|---------------|
-| 7      | TRUE       | False | True  | True  | 0.3133 |         | 0.3151        |
+| Numero | AUG_CHANCE | AUG1  | AUG2  | AUG3  | modified mIoU | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
+|--------|------------|-------|-------|-------|---------------|----------|--------|--------|--------|---------|-----------|----------|
+| 7      | TRUE       | False | True  | True  | 0.3509        | 0.5306   | 0.2683 | 0.3407 | 0.4896 | 0.1072  | 0.2865    | 0.4332   |
 
+## 4th STEP DOMAIN ADAPTATION
+
+### 4a Adversarial approach
+
+| Modello               | mIoU   | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
+|-----------------------|--------|----------|--------|--------|--------|---------|-----------|----------|
+| PIDNet ADV            | 0.2770 | 0.5145   | 0.2651 | 0.2679 | 0.3808 | 0.1306  | 0.0585    | 0.3217   |
+
+### 4b Image-to-image approach
+
+| Modello               | mIoU   | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
+|-----------------------|--------|----------|--------|--------|--------|---------|-----------|----------|
+| PIDNet  DACS          | 0.2250 | 0.5053   | 0.3278 | 0.1862 | 0.4031 | 0.0849  | 0.0466    | 0.2459   |
 
 
 
 ### CycleGAN: 2b Best on Fake Images, 20 epochs
-miou : 0.39008033876408
+
+| Modello      | Training Set          | Target Set     | Test Set             | mIoU   | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
+|--------------|-----------------------|----------------|----------------------|--------|----------|--------|--------|--------|---------|-----------|----------|
+| PIDNet       | CycleGAN LoveDa-Urban | LoveDa-Rural   | CycleGAN LoveDa-Urban| 0.4035 | 0.3508   | 0.4845 | 0.5442 | 0.6434 | 0.0919  | 0.3659    | 0.3440   |
+
+
 
 ### CycleGAN: 3b Best on Fake Images, 20 epochs
-miou : 0.2850493589319477
 
+| Modello       | Training Set          | Target Set     | Test Set             | mIoU   | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
+|---------------|-----------------------|----------------|----------------------|--------|----------|--------|--------|--------|---------|-----------|----------|
+| PIDNet        | CycleGAN LoveDa-Urban | LoveDa-Rural   | LoveDa-Rural         | 0.2880 | 0.5127   | 0.1962 | 0.3027 | 0.4716 | 0.0625  | 0.0353    | 0.4349   |
+
+
+
+## Result PEM
+
+| Codice | Modello               | Training Set          | Test Set          | mIoU    | fwIoU   | mACC    | pACC    |
+|--------|-----------------------|-----------------------|-------------------|---------|---------|---------|---------|
+| 01     | PEM-URBAN             | LoveDa-Urban          | LoveDa-Urban      | 64.4429 | 60.3522 | 75.1795 | 74.5604 |
+| 02     | PEM-RURAL             | LoveDa-Rural          | LoveDa-Rural      | 44.5885 | 56.3823 | 54.6906 | 71.6951 |
+| 03     | PEM-CycleGAN-RURAL    | CycleGAN LoveDa-Urban | LoveDa-Rural      | 46.8514 | 54.9652 | 62.2863 | 68.8383 |

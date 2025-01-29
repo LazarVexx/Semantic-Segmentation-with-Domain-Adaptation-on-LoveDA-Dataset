@@ -232,22 +232,38 @@ The learning rate played a crucial role in performance: SGD benefited from a hig
 
 \subsection{PIDNet Experiments}
 
-As described in the Methodology section, we have implemented different loss functions, optimizers and a learning rate scheduler to improve the performance of the PIDNet model in domain adaptation scenarios. In this subsection we report all the results obtained with different combination of The results of the experiments are shown in the following tables.
+As described in the Methodology section, we implemented various loss functions, optimizers, and a learning rate scheduler to enhance the performance of the PidNet model in domain adaptation scenarios. Table 2 presents the results obtained across different configurations.
 
+Overall, the Adam optimizer consistently outperforms SDG, particularly when combined with OCE and FOCAL losses. The best performance is achieved with Adam + OCE + Scheduler at 720×720 resolution, reaching an mIoU of 0.4368, while the worst result (0.2245 mIoU) is observed with SDG and FOCAL loss, highlighting the inefficacy of this combination for the task. The use of a learning rate scheduler generally improves performance, particularly in Adam + OCE at 1024×1024 resolution (0.4275 mIoU).
+
+These trends can be attributed to PidNet’s architecture, which effectively preserves spatial details while maintaining a balance between efficiency and accuracy. Adam’s adaptive learning rate stabilizes training and improves convergence, making it better suited for the complex urban and rural environments found in the LoveDA dataset. Additionally, OCE and FOCAL losses help address class imbalance and emphasize hard-to-classify pixels, which is crucial in heterogeneous landscapes. In contrast, SDG struggles due to its fixed learning rate, resulting in suboptimal segmentation performance.
+
+While higher resolutions generally yield better results by capturing finer details and providing better contextual understanding, an exception is observed in the Adam + OCE + Scheduler configuration. Surprisingly, this setup performs best at 720×720 resolution rather than 1024×1024. This can be attributed to the aggressive nature of the optimization strategy, which emphasizes hard-to-classify pixels. At higher resolutions, this may lead to optimization instability, making it harder for the model to converge effectively.
+
+Based on this analysis, we have selected PidNet with Adam optimizer, OCE loss, and a learning rate scheduler at 720×720 resolution as our main model for domain adaptation experiments. This configuration has demonstrated the best trade-off between performance, stability, and generalization, and will be used in all subsequent experiments.
 
 
 \subsection{Data Augmentation Experiments}
 
-Considering the previous better performing model, we have trained the found PIDNet con
+The previous optimal model was initially tested using LoveDA-Urban as both the source and target domain. However, since this project primarily focuses on Domain Adaptation, we further evaluated the model by training it on the LoveDA-Urban domain and validating it on the LoveDA-Rural domain. The results of this cross-domain evaluation are presented in Table 3.
 
-As described in the Methodology section, we have implemented three different data augmentation techniques to improve the performance of the PIDNet model in domain adaptation scenarios. In this subsection we report all the results obtained with the different data augmentation techniques. The results of the experiments are shown in the following tables.
+As outlined in the Methodology section, we implemented three different data augmentation techniques to enhance the PidNet model’s performance in domain adaptation scenarios. Table 3 summarizes the results obtained when applying these techniques to PidNet with the optimal configuration.
+
+The baseline model, trained without any augmentation, achieves a mIoU of 0.2296. Introducing AUG\_CHANCE alone significantly improves performance to 0.2951, demonstrating that increasing dataset diversity helps mitigate domain shift. Among the different augmentation techniques, AUG1, which applies brightness and shadow transformations, enhances road segmentation (0.3789) and farmland (0.4417) but slightly reduces forest performance (0.0377). AUG2, incorporating color shifts and Gaussian blur, achieves an overall mIoU of 0.3108, with notable improvements in barren (0.4075) and grassland (0.1526) classes. AUG3, which consists of geometric transformations, improves building (0.5257) and road (0.3998) segmentation but slightly lowers performance for other classes. 
+
+When augmentations are combined, mixed results are observed. AUG1 combined with AUG2 leads to the best water segmentation (0.3304) and improves grassland (0.1779). The best overall performance is achieved by combining AUG2 and AUG3, resulting in an mIoU of 0.3509, with significant gains in barren (0.4896) and forest (0.1072). On the other hand, applying all augmentation strategies together does not yield significant improvements, suggesting that certain transformations might interfere with each other. 
+
+After analyzing the results, we conclude that AUG2 and AUG3 are the most effective augmentation techniques for enhancing domain adaptation performance in the LoveDA dataset. This configuration will be used for next two experiments, the Adversarial Learning and the DACS.
 
 \subsection{Adversarial Learning Experiments}
 The experimental results demonstrate that the baseline PIDNet model achieves an mIoU of 0.3509 when tested on the LoveDA-Rural domain, while the adversarial multi-state variant (PIDNet-ADV) shows a decrease in performance with an mIoU of 0.2770. The class-wise analysis reveals that PIDNet maintains superior performance across most categories, with notable advantages in Barren (+10.88\%), Water (+7.28\%), and particularly Grassland (+22.80\%). However, PIDNet-ADV exhibits marginally better performance in Forest class (+2.34\%). This performance degradation in the adversarial variant suggests that while adversarial training might enhance robustness, it could potentially compromise the model's ability to generalize effectively across domain shifts, particularly in the challenging urban-to-rural transfer scenario characteristic of the LoveDA dataset.
 
 \subsection{DACS Experiments}
 
-The result obtained with the DACS technique, done on the optimal configuration 
+The same experiments done on Adversarial Learning was done also on Image-to-Image approach with DACS. Despite the promising results obtained with data augmentation techniques and the optimized configuration, the application of Domain Adaptive Contrastive Separation (DACS) led to a significant performance drop, resulting in a mIoU of 0.2250. While DACS is designed to enhance domain adaptation by leveraging pseudo-labeling and feature alignment, its effectiveness is highly dependent on the quality of pseudo-labels. Our hypothesis is that the LoveDA dataset presents a substantial domain gap between urban and rural environments, leading to unreliable pseudo-labels that introduce noise rather than improving generalization.  Additionally, the aggressive data augmentation strategy combined with DACS may have exacerbated inconsistencies in feature distribution, further destabilizing the adaptation process. The observed degradation across all classes, particularly in grassland (0.0466) and farmland (0.2459), suggests that DACS struggles to differentiate complex, fine-grained textures in rural landscapes, ultimately hindering segmentation performance instead of enhancing it. These findings indicate that while DACS has shown success in other domain adaptation tasks, its application to LoveDA requires further refinement, potentially through improved pseudo-label filtering or adaptive consistency constraints tailored to large-scale domain shifts. 
+
+
+The picture 4 show the obtained pseudolabels and the mixing result considering source and target images. 
 
 
 \subsection{PEM Experiments}

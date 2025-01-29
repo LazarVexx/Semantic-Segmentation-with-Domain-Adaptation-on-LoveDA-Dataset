@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{cavagnero2024pem}
 Niccolo Cavagnero, Gabriele Rosi, Claudia Cuttano, Francesca Pistilli, Marco
@@ -12,6 +12,18 @@ Liang-Chieh Chen, George Papandreou, Kevin Murphy, and Alan~L Yuille.
   atrous convolution, and fully connected crfs.
 \newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
   2017.
+
+\bibitem{cheng2021mask2former}
+Bowen Cheng, Ishan Misra, Alexander~G. Schwing, Alexander Kirillov, and Rohit
+  Girdhar.
+\newblock Masked-attention mask transformer for universal image segmentation.
+\newblock {\em CVPR}, 2022.
+
+\bibitem{cheng2021maskformer}
+Bowen Cheng, Alexander~G. Schwing, and Alexander Kirillov.
+\newblock Per-pixel classification is not all you need for semantic
+  segmentation.
+\newblock {\em NeurIPS}, 2021.
 
 \bibitem{feng2021pidnet}
 Hao Feng et~al.

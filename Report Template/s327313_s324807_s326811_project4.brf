@@ -9,4 +9,12 @@
 \backcite {chen2017deeplab}{{1}{2.1}{subsection.2.1}}
 \backcite {feng2021pidnet}{{2}{2.2}{subsection.2.2}}
 \backcite {wang2021loveda}{{2}{2.3}{subsection.2.3}}
-\backcite {feng2021pidnet}{{2}{3.2}{subsection.3.2}}
+\backcite {chen2017deeplab}{{2}{3.1}{subsection.3.1}}
+\backcite {feng2021pidnet}{{3}{3.2}{subsection.3.2}}
+\backcite {feng2021pidnet}{{4}{3.4}{subsection.3.4}}
+\backcite {tsai2018advlearning}{{4}{3.4}{subsection.3.4}}
+\backcite {wang2021loveda}{{4}{3.4}{subsection.3.4}}
+\backcite {cheng2021maskformer}{{5}{3.6}{subsection.3.6}}
+\backcite {cheng2021mask2former}{{5}{3.6}{subsection.3.6}}
+\backcite {cavagnero2024pem}{{5}{3.6}{subsection.3.6}}
+\backcite {zhu2020cyclegan}{{5}{3.7}{subsection.3.7}}

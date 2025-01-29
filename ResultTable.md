@@ -32,32 +32,32 @@ DeepLab V2 on LoveDA-Urban (Train & Val) , 20 epochs
 PIDNet on LoveDA-Urban (Train & Val) , 20 epochs 
 
 
-| Numero | Optimizer | Loss  | Scheduler | Picture Size | mIoU          | Latency | FLOPs     | Parameters |
-|--------|-----------|-------|-----------|--------------|---------------|---------|-----------|------------|
-| 1     | Adam      | CE    | False     | 720x720      | 0.3617        | 2:45 hours | 1.10e+12  | 6.14e+07   |
-| 2     | Adam      | CE    | False     | 1024x1024    | 0.3906        | 2:59 hours        | 1.10e+12  | 6.14e+07   |
-| 3     | Adam      | CE    | True      | 720x720      | 0.3727        | 2:41 hours        | 1.10e+12  | 6.14e+07   |
-| 4      | Adam      | CE    | True      | 1024x1024    | 0.3893        | 2:51 hours        | 1.10e+12  | 6.14e+07   |
-| 5      | Adam      | OCE   | False     | 720x720      | 0.3318        | 2:42 hours        | 1.10e+12  | 6.14e+07   |
-| 6      | Adam      | OCE   | True      | 1024x1024    | 0.4275        |         | 1.10e+12  | 6.14e+07   |
-| 7    | Adam      | OCE   | True      | 720x720      | 0.3915        | 2:40 hours        | 1.10e+12  | 6.14e+07   |
-| 8     | SDG       | OHEM  | False     | 720x720      | 0.3868        | 1:23 hours        | 1.10e+12  | 6.14e+07   |
-| 9     | SDG       | OHEM  | False     | 1024x1024    | 0.3059        |         | 1.10e+12  | 6.14e+07   |
-| 10    | SDG       | CE    | False     | 720x720      | 0.2630        |         | 1.10e+12  | 6.14e+07   |
-| 11    | SDG       | OHEM  | False     | 720x720      | 0.3310        |         | 1.10e+12  | 6.14e+07   |
-| 12    | SDG       | DICE  | False     | 720x720      | 0.3442        |         | 1.10e+12  | 6.14e+07   |
-| 13    | SDG       | FOCAL | False     | 720x720      | 0.2245        |         | 1.10e+12  | 6.14e+07   |
-| 14    | SDG       | CE    | True      | 1024x1024    | 0.3554        |         | 1.10e+12  | 6.14e+07   |
-| 15    | Adam      | DICE  | True      | 720x720      | 0.3663        |         | 1.10e+12  | 6.14e+07   |
-| 16     | Adam      | FOCAL | True      | 720x720      | 0.4233        |         | 1.10e+12  | 6.14e+07   |
+| Numero | Optimizer | Loss  | Scheduler | Picture Size | mIoU   | Latency (sec) | FLOPs     | Parameters |
+|--------|-----------|-------|-----------|--------------|--------|---------------|-----------|------------|
+| 1      | Adam      | CE    | False     | 720x720      | 0.3617 |  0.029        | 1.10e+12  | 6.14e+07   |
+| 2      | Adam      | CE    | False     | 1024x1024    | 0.3906 |   0.027            | 1.10e+12  | 6.14e+07   |
+| 3      | Adam      | CE    | True      | 720x720      | 0.3727 |     0.029          | 1.10e+12  | 6.14e+07   |
+| 4      | Adam      | CE    | True      | 1024x1024    | 0.3893 |               | 1.10e+12  | 6.14e+07   |
+| 5      | Adam      | OCE   | False     | 720x720      | 0.3318 |               | 1.10e+12  | 6.14e+07   |
+| 6      | Adam      | OCE   | True      | 1024x1024    | 0.4275 |               | 1.10e+12  | 6.14e+07   |
+| 7      | Adam      | OCE   | True      | 720x720      | 0.4368 | 0.030         | 1.10e+12  | 6.14e+07   |
+| 8      | SDG       | OHEM  | False     | 720x720      | 0.3868 |               | 1.10e+12  | 6.14e+07   |
+| 9      | SDG       | OHEM  | False     | 1024x1024    | 0.3059 |               | 1.10e+12  | 6.14e+07   |
+| 10     | SDG       | CE    | False     | 720x720      | 0.2630 |               | 1.10e+12  | 6.14e+07   |
+| 11     | SDG       | OHEM  | False     | 720x720      | 0.3310 |               | 1.10e+12  | 6.14e+07   |
+| 12     | SDG       | DICE  | False     | 720x720      | 0.3442 |               | 1.10e+12  | 6.14e+07   |
+| 13     | SDG       | FOCAL | False     | 720x720      | 0.2245 |               | 1.10e+12  | 6.14e+07   |
+| 14     | SDG       | CE    | True      | 1024x1024    | 0.3554 |               | 1.10e+12  | 6.14e+07   |
+| 15     | Adam      | DICE  | True      | 720x720      | 0.3663 |               | 1.10e+12  | 6.14e+07   |
+| 16     | Adam      | FOCAL | True      | 720x720      | 0.4233 |               | 1.10e+12  | 6.14e+07   |
 
 
 ### Candidato
-| 8      | Adam      | OCE   | True      | 720x720      | 0.3381 | 0.3426  | 0.3915        |
+| 7      | Adam      | OCE   | True      | 720x720      | 0.3381 | 0.3426  | 0.3915        |
 
 ### 3a Result
 
-| Numero | Optimizer | Loss  | Scheduler | Picture Size | modified mIoU | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
+| Numero | Optimizer | Loss  | Scheduler | Picture Size | mIoU | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
 |--------|-----------|-------|-----------|--------------|---------------|----------|--------|--------|--------|---------|-----------|----------|
 | 8      | Adam      | OCE   | True      | 720x720      | 0.2296        | 0.4158   | 0.2176 | 0.1666 | 0.3349 | 0.0590  | 0.1415    | 0.2716   |
 
@@ -65,8 +65,9 @@ PIDNet on LoveDA-Urban (Train & Val) , 20 epochs
 
 ### 3b Results
 
-| Numero | AUG_CHANCE | AUG1  | AUG2  | AUG3  | modified mIoU | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
+| Numero | AUG_CHANCE | AUG1  | AUG2  | AUG3  | mIoU | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
 |--------|------------|-------|-------|-------|---------------|----------|--------|--------|--------|---------|-----------|----------|
+| Default| False      | False | False | False | 0.2296        | 0.4158   | 0.2176 | 0.1666 | 0.3349 | 0.0590  | 0.1415    | 0.2716   |
 | 1      | TRUE       | False | False | False | 0.2951        | 0.5217   | 0.3381 | 0.3098 | 0.3188 | 0.0673  | 0.0839    | 0.4262   |
 | 2      | TRUE       | True  | False | False | 0.3042        | 0.5255   | 0.3789 | 0.3074 | 0.4121 | 0.0377  | 0.0265    | 0.4417   |
 | 3      | TRUE       | False | True  | False | 0.3108        | 0.4900   | 0.3403 | 0.3097 | 0.4075 | 0.0582  | 0.1526    | 0.4170   |

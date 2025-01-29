@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  27 JAN 2025 17:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  29 JAN 2025 14:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -273,43 +273,68 @@ Package: abstract 2009/06/08 v1.2a configurable abstracts
 \absrightindent=\skip57
 \absparindent=\skip58
 \absparsep=\skip59
+) (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/caption\subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+ (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen170
+\captionmargin=\dimen171
+\caption@leftmargin=\dimen172
+\caption@rightmargin=\dimen173
+\caption@width=\dimen174
+\caption@indent=\dimen175
+\caption@parindent=\dimen176
+\caption@hangindent=\dimen177
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count299
+\c@continuedfloat=\count300
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count301
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count302
 ) (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count299
+\l__color_backend_stack_int=\count303
 \l__pdf_internal_box=\box56
 ) (s327313_s324807_s326811_project4.aux)
 \openout1 = `s327313_s324807_s326811_project4.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count300
-\scratchdimen=\dimen170
+\scratchcounter=\count304
+\scratchdimen=\dimen178
 \scratchbox=\box57
-\nofMPsegments=\count301
-\nofMParguments=\count302
+\nofMPsegments=\count305
+\nofMParguments=\count306
 \everyMPshowfont=\toks25
-\MPscratchCnt=\count303
-\MPscratchDim=\dimen171
-\MPnumerator=\count304
-\makeMPintoPDFobject=\count305
+\MPscratchCnt=\count307
+\MPscratchDim=\dimen179
+\MPnumerator=\count308
+\makeMPintoPDFobject=\count309
 \everyMPtoPDFconversion=\toks26
 ) (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -323,16 +348,18 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx))
-Package hyperref Info: Link coloring ON on input line 18.
+Package hyperref Info: Link coloring ON on input line 20.
  (s327313_s324807_s326811_project4.out) (s327313_s324807_s326811_project4.out)
 \@outlinefile=\write3
 \openout3 = `s327313_s324807_s326811_project4.out'.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 39.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 41.
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 39.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 41.
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -345,74 +372,108 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ]
 
 
-Underfull \hbox (badness 2617) in paragraph at lines 88--89
+
+[2]
+Underfull \hbox (badness 2617) in paragraph at lines 111--112
 \OT1/cmr/m/n/10 chal-leng-ing ex-am-ples, Ohem en-hances the
  []
 
 
-
-[2]
 
 
 
 [3]
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
+
+[4]
+
+
+Overfull \hbox (119.3821pt too wide) detected at line 171
+\OML/cmm/m/it/10 L[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 G; D[]; X; Y\OT1/cmr/m/n/10 ) = \U/msb/m/n/10 E[] [] \OT1/cmr/m/n/10 + \U/msb/m/n/10 E[] [] \OML/cmm/m/it/10 ;
+ []
+
+
+Overfull \hbox (92.65683pt too wide) detected at line 182
+\OML/cmm/m/it/10 L[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 G; F\OT1/cmr/m/n/10 ) = \U/msb/m/n/10 E[] [] \OT1/cmr/m/n/10 + \U/msb/m/n/10 E[] [] \OML/cmm/m/it/10 :
+ []
+
+
+
+[5]
+Overfull \hbox (5.315pt too wide) in paragraph at lines 202--219
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+
+
+
+[6]
+Underfull \hbox (badness 1496) in paragraph at lines 252--253
+\OT1/cmr/m/n/10 per-for-mance to 0.2951, demon-strat-ing that in-
+ []
+
+
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 258--258
 []\OT1/cmr/bx/n/12 Adversarial Learn-ing Ex-per-i-
  []
 
-(s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
+
+Underfull \hbox (badness 2359) in paragraph at lines 259--260
+\OT1/cmr/m/n/10 PID-Net main-tains su-pe-rior per-for-mance across
+ []
+
+
+
+[7] (s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
 \tf@brf=\write4
 \openout4 = `s327313_s324807_s326811_project4.brf'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 8--8
+
+
+Underfull \hbox (badness 5077) in paragraph at lines 8--8
 []\OT1/cmr/m/n/10 Niccolo Cav-agnero, Gabriele Rosi, Clau-
  []
 
 
-Underfull \hbox (badness 1199) in paragraph at lines 8--8
-\OT1/cmr/m/n/10 dia Cut-tano, Francesca Pis-tilli, Marco Ci-c-
+Underfull \hbox (badness 1107) in paragraph at lines 8--8
+\OT1/cmr/m/n/10 dia Cut-tano, Francesca Pis-tilli, Marco Ci-
  []
 
 
-Underfull \hbox (badness 2426) in paragraph at lines 8--8
-\OT1/cmr/m/n/10 Pem: Prototype-based ef-fi-cient mask-former
+Underfull \hbox (badness 3039) in paragraph at lines 8--8
+\OT1/cmr/m/n/10 c-cone, Giuseppe Averta, and Fabio Cer-
  []
 
 
-Underfull \hbox (badness 5417) in paragraph at lines 8--8
-\OT1/cmr/m/n/10 for im-age seg-men-ta-tion.  \OT1/cmr/m/it/10 arXiv preprint
+Underfull \hbox (badness 1308) in paragraph at lines 21--21
+[]\OT1/cmr/m/n/10 Bowen Cheng, Is-han Misra, Alexan-der G.
  []
 
 
-Underfull \hbox (badness 1275) in paragraph at lines 32--32
-[]\OT1/cmr/m/n/10 Wilhelm Tran-heden, Vik-tor Ols-son, Ju-liano
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+\OT1/cmr/m/n/10 A brief sur-vey on se-man-tic seg-men-ta-
  []
 
 
-Underfull \hbox (badness 1033) in paragraph at lines 32--32
-\OT1/cmr/m/it/10 fer-ence on Ap-pli-ca-tions of Com-puter Vi-sion
+Underfull \hbox (badness 2205) in paragraph at lines 38--38
+\OT1/cmr/m/n/10 tion with deep learn-ing.  \OT1/cmr/m/it/10 arXiv preprint
  []
 
 
 
-[4]
-Underfull \hbox (badness 1215) in paragraph at lines 51--51
-\OT1/cmr/m/n/10 la-tion us-ing cycle-consistent ad-ver-sar-ial net-
- []
-
-
-Underfull \hbox (badness 1852) in paragraph at lines 51--51
-\OT1/cmr/m/n/10 works.  \OT1/cmr/m/it/10 arXiv preprint arXiv:1703.10593v7\OT1/cmr/m/n/10 ,
- []
-
-)
+[8])
 
 
 
-[5
+[9
 
 ] (s327313_s324807_s326811_project4.aux)
  ***********
@@ -420,22 +481,22 @@ LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
  ***********
 Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.out' has not changed.
-(rerunfilecheck)             Checksum: 23F909585B309246A3B24FBCE01A6397;3679.
+(rerunfilecheck)             Checksum: 08DCE31FBA53D817A625582858C09D7D;3684.
 Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.brf' has not changed.
-(rerunfilecheck)             Checksum: 8DE27C74D11260A3BCBC879E315CFDFA;591.
+(rerunfilecheck)             Checksum: 88DEE98B596DAD6718977BE5FC74D0B6;1035.
  ) 
 Here is how much of TeX's memory you used:
- 11874 strings out of 473682
- 197797 string characters out of 5719216
- 625145 words of memory out of 5000000
- 34783 multiletter control sequences out of 15000+600000
- 565558 words of font info for 63 fonts, out of 8000000 for 9000
+ 13313 strings out of 473682
+ 225752 string characters out of 5719216
+ 639145 words of memory out of 5000000
+ 36202 multiletter control sequences out of 15000+600000
+ 567565 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,8n,93p,1457b,554s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\lucai\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on s327313_s324807_s326811_project4.pdf (5 pages, 154613 bytes).
+ 90i,11n,93p,1633b,556s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\lucai\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on s327313_s324807_s326811_project4.pdf (9 pages, 277385 bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
- 37 named destinations out of 1000 (max. 500000)
+ 285 PDF objects out of 1000 (max. 8388607)
+ 45 named destinations out of 1000 (max. 500000)
  177 words of extra memory for PDF output out of 10000 (max. 10000000)
 

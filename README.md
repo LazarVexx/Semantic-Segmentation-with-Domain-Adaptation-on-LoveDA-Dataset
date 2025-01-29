@@ -39,6 +39,7 @@ All the model are on Google Colab, ready-to-run or in locally.
 
 ### ⚡ PIDNet 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/126h9tjDoQ4w1jrmareDz9scs8UbT5VMe?usp=sharing)
+
 Locally: 
 ```
 cd PIDNet

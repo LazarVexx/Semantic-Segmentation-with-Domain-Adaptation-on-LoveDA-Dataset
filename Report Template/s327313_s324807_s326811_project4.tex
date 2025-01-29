@@ -32,8 +32,7 @@ Sirica Antonio\\}
 \begin{@twocolumnfalse}
 \begin{abstract}
 \textit{ 
-\small
-This study addresses the problem of real-time domain adaptation in semantic segmentation, focusing on bridging performance gaps between source and target domains. Leveraging the LoveDA dataset, which encompasses rural and urban domains, we evaluate the performance of state-of-the-art models, including DeepLabv2 and PIDNet, under domain adaptation settings. We explore a range of adaptation techniques, such as data augmentation, adversarial learning, domain adaptation via cross-domain mixed sampling (DACS), Prototype-based Efficient MaskFormer (PEM), and unpaired image-to-image translation with CycleGAN. Our findings reveal the strengths and limitations of these methods in improving segmentation performance across domains while preserving computational efficiency.
+This study addresses the problem of real-time domain adaptation in semantic segmentation, focusing on bridging performance gaps between source and target domains. Leveraging the LoveDA dataset, which encompasses rural and urban domains, we evaluate the performance of state-of-the-art models, including DeepLabv2 and PIDNet, under domain adaptation settings. We explore a range of adaptation techniques, such as data augmentation, adversarial learning, domain adaptation via cross-domain mixed sampling (DACS), Prototype-based Efficient MaskFormer (PEM), and unpaired image-to-image translation with CycleGAN. Our findings reveal the strengths and limitations of these methods in improving segmentation performance across domains while preserving computational efficiency. The GitHub repository can be found here: \href{https://github.com/LucaIanniello/AML2024.git}{https://github.com/LucaIanniello/AML2024.git} \cite{amlproject2024}
 }
 \end{abstract}
 \vspace{1.2em}
@@ -298,7 +297,9 @@ CycleGAN: 3b Best on Fake Images & 20 & 0.2850493589319477 \\ \hline
 \section{Conclusion}
 %%%%%%%%% REFERENCES
 
-\bibliographystyle{plain}
+In this project, we explored various methodologies to enhance the performance of semantic segmentation models in domain adaptation scenarios. We evaluated the DeepLabV2 and PIDNet models on the LoveDA dataset, focusing on urban-to-rural domain shifts. Our experiments revealed that PIDNet with Adam optimizer, OCE loss, and a learning rate scheduler at 720×720 resolution achieved the best performance, with an mIoU of 0.4368. Data augmentation techniques, particularly AUG2 and AUG3, significantly improved segmentation quality, demonstrating the importance of dataset diversity in domain adaptation. Adversarial learning and DACS, however, did not yield the expected improvements, suggesting that these techniques may not be well-suited for the LoveDA dataset. PEM, a transformer-based architecture, outperformed PIDNet in domain adaptation, achieving an mIoU of 0.4685. Finally, CycleGAN-generated fake images were used to train PIDNet, resulting in an mIoU of 0.3901, showcasing the potential of image-to-image translation for domain adaptation. 
+
+\bibliographystyle{unsrt}
 \bibliography{references}
 
 \end{document}

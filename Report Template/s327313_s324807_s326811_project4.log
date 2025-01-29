@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  29 JAN 2025 14:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  29 JAN 2025 14:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -355,11 +355,11 @@ Package hyperref Info: Link coloring ON on input line 20.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 41.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 40.
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 41.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 40.
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -374,7 +374,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 [2]
-Underfull \hbox (badness 2617) in paragraph at lines 111--112
+Underfull \hbox (badness 2617) in paragraph at lines 110--111
 \OT1/cmr/m/n/10 chal-leng-ing ex-am-ples, Ohem en-hances the
  []
 
@@ -389,19 +389,19 @@ Underfull \hbox (badness 2617) in paragraph at lines 111--112
 [4]
 
 
-Overfull \hbox (119.3821pt too wide) detected at line 171
+Overfull \hbox (119.3821pt too wide) detected at line 170
 \OML/cmm/m/it/10 L[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 G; D[]; X; Y\OT1/cmr/m/n/10 ) = \U/msb/m/n/10 E[] [] \OT1/cmr/m/n/10 + \U/msb/m/n/10 E[] [] \OML/cmm/m/it/10 ;
  []
 
 
-Overfull \hbox (92.65683pt too wide) detected at line 182
+Overfull \hbox (92.65683pt too wide) detected at line 181
 \OML/cmm/m/it/10 L[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 G; F\OT1/cmr/m/n/10 ) = \U/msb/m/n/10 E[] [] \OT1/cmr/m/n/10 + \U/msb/m/n/10 E[] [] \OML/cmm/m/it/10 :
  []
 
 
 
 [5]
-Overfull \hbox (5.315pt too wide) in paragraph at lines 202--219
+Overfull \hbox (5.315pt too wide) in paragraph at lines 201--218
  [][] 
  []
 
@@ -413,63 +413,63 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 [6]
-Underfull \hbox (badness 1496) in paragraph at lines 252--253
+Underfull \hbox (badness 1496) in paragraph at lines 251--252
 \OT1/cmr/m/n/10 per-for-mance to 0.2951, demon-strat-ing that in-
  []
 
 
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 258--258
+Underfull \hbox (badness 10000) in paragraph at lines 257--257
 []\OT1/cmr/bx/n/12 Adversarial Learn-ing Ex-per-i-
  []
 
 
-Underfull \hbox (badness 2359) in paragraph at lines 259--260
+Underfull \hbox (badness 2359) in paragraph at lines 258--259
 \OT1/cmr/m/n/10 PID-Net main-tains su-pe-rior per-for-mance across
  []
 
 
 
-[7] (s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
+[7]
+
+(s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
 \tf@brf=\write4
 \openout4 = `s327313_s324807_s326811_project4.brf'.
 
 
-
-
-Underfull \hbox (badness 5077) in paragraph at lines 8--8
-[]\OT1/cmr/m/n/10 Niccolo Cav-agnero, Gabriele Rosi, Clau-
- []
-
-
-Underfull \hbox (badness 1107) in paragraph at lines 8--8
-\OT1/cmr/m/n/10 dia Cut-tano, Francesca Pis-tilli, Marco Ci-
- []
-
-
-Underfull \hbox (badness 3039) in paragraph at lines 8--8
-\OT1/cmr/m/n/10 c-cone, Giuseppe Averta, and Fabio Cer-
- []
-
-
-Underfull \hbox (badness 1308) in paragraph at lines 21--21
-[]\OT1/cmr/m/n/10 Bowen Cheng, Is-han Misra, Alexan-der G.
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 38--38
+Underfull \hbox (badness 10000) in paragraph at lines 12--12
 \OT1/cmr/m/n/10 A brief sur-vey on se-man-tic seg-men-ta-
  []
 
 
-Underfull \hbox (badness 2205) in paragraph at lines 38--38
+Underfull \hbox (badness 2205) in paragraph at lines 12--12
 \OT1/cmr/m/n/10 tion with deep learn-ing.  \OT1/cmr/m/it/10 arXiv preprint
  []
 
 
 
-[8])
+[8]
+Underfull \hbox (badness 5077) in paragraph at lines 50--50
+[]\OT1/cmr/m/n/10 Niccolo Cav-agnero, Gabriele Rosi, Clau-
+ []
+
+
+Underfull \hbox (badness 1107) in paragraph at lines 50--50
+\OT1/cmr/m/n/10 dia Cut-tano, Francesca Pis-tilli, Marco Ci-
+ []
+
+
+Underfull \hbox (badness 3039) in paragraph at lines 50--50
+\OT1/cmr/m/n/10 c-cone, Giuseppe Averta, and Fabio Cer-
+ []
+
+
+Underfull \hbox (badness 1308) in paragraph at lines 68--68
+[]\OT1/cmr/m/n/10 Bowen Cheng, Is-han Misra, Alexan-der G.
+ []
+
+)
 
 
 
@@ -483,20 +483,20 @@ L3 programming layer <2024-11-02>
 Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.out' has not changed.
 (rerunfilecheck)             Checksum: 08DCE31FBA53D817A625582858C09D7D;3684.
 Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.brf' has not changed.
-(rerunfilecheck)             Checksum: 88DEE98B596DAD6718977BE5FC74D0B6;1035.
+(rerunfilecheck)             Checksum: BE28706F10D00387D12EE6CCA61F4326;1090.
  ) 
 Here is how much of TeX's memory you used:
- 13313 strings out of 473682
- 225752 string characters out of 5719216
- 639145 words of memory out of 5000000
- 36202 multiletter control sequences out of 15000+600000
- 567565 words of font info for 72 fonts, out of 8000000 for 9000
+ 13321 strings out of 473682
+ 225871 string characters out of 5719216
+ 638145 words of memory out of 5000000
+ 36208 multiletter control sequences out of 15000+600000
+ 567733 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,11n,93p,1633b,556s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\lucai\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on s327313_s324807_s326811_project4.pdf (9 pages, 277385 bytes).
+ 90i,11n,93p,1633b,554s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\lucai\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on s327313_s324807_s326811_project4.pdf (9 pages, 294886 bytes).
 PDF statistics:
- 285 PDF objects out of 1000 (max. 8388607)
- 45 named destinations out of 1000 (max. 500000)
+ 296 PDF objects out of 1000 (max. 8388607)
+ 46 named destinations out of 1000 (max. 500000)
  177 words of extra memory for PDF output out of 10000 (max. 10000000)
 

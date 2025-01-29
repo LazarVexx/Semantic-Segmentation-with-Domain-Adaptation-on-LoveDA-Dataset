@@ -1,10 +1,14 @@
 \begin{thebibliography}{10}
 
-\bibitem{cavagnero2024pem}
-Niccolo Cavagnero, Gabriele Rosi, Claudia Cuttano, Francesca Pistilli, Marco
-  Ciccone, Giuseppe Averta, and Fabio Cermelli.
-\newblock Pem: Prototype-based efficient maskformer for image segmentation.
-\newblock {\em arXiv preprint arXiv:2402.19422v3}, 2024.
+\bibitem{amlproject2024}
+Luca Ianniello.
+\newblock Advanced machine learning 2024.
+\newblock \url{https://github.com/LucaIanniello/AML2024}, 2024.
+
+\bibitem{hao2020brief}
+Shijie Hao, Yuan Zhou, and Yanrong Guo.
+\newblock A brief survey on semantic segmentation with deep learning.
+\newblock {\em arXiv preprint arXiv:2007.04063}, 2020.
 
 \bibitem{chen2017deeplab}
 Liang-Chieh Chen, George Papandreou, Kevin Murphy, and Alan~L Yuille.
@@ -13,34 +17,17 @@ Liang-Chieh Chen, George Papandreou, Kevin Murphy, and Alan~L Yuille.
 \newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
   2017.
 
-\bibitem{cheng2021mask2former}
-Bowen Cheng, Ishan Misra, Alexander~G. Schwing, Alexander Kirillov, and Rohit
-  Girdhar.
-\newblock Masked-attention mask transformer for universal image segmentation.
-\newblock {\em CVPR}, 2022.
-
-\bibitem{cheng2021maskformer}
-Bowen Cheng, Alexander~G. Schwing, and Alexander Kirillov.
-\newblock Per-pixel classification is not all you need for semantic
-  segmentation.
-\newblock {\em NeurIPS}, 2021.
-
 \bibitem{feng2021pidnet}
 Hao Feng et~al.
 \newblock Pidnet: A real-time semantic segmentation network inspired by pid
   controllers.
 \newblock {\em arXiv preprint arXiv:2103.12370}, 2021.
 
-\bibitem{hao2020brief}
-Shijie Hao, Yuan Zhou, and Yanrong Guo.
-\newblock A brief survey on semantic segmentation with deep learning.
-\newblock {\em arXiv preprint arXiv:2007.04063}, 2020.
-
-\bibitem{tranheden2021dacs}
-Wilhelm Tranheden, Viktor Olsson, Juliano Pinto, and Lennart Svensson.
-\newblock Dacs: Domain adaptation via cross-domain mixed sampling.
-\newblock In {\em Proceedings of the IEEE/CVF Winter Conference on Applications
-  of Computer Vision (WACV)}, 2021.
+\bibitem{wang2021loveda}
+Yucheng Wang et~al.
+\newblock Loveda: A remote sensing land-cover dataset for domain adaptive
+  semantic segmentation.
+\newblock {\em arXiv preprint arXiv:2110.08733}, 2021.
 
 \bibitem{tsai2018advlearning}
 Yi-Hsuan Tsai, Wei-Chih Hung, Samuel Schulter, Kihyuk Sohn, Ming-Hsuan Yang,
@@ -49,16 +36,34 @@ Yi-Hsuan Tsai, Wei-Chih Hung, Samuel Schulter, Kihyuk Sohn, Ming-Hsuan Yang,
 \newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
   Pattern Recognition (CVPR)}, 2018.
 
-\bibitem{wang2021loveda}
-Yucheng Wang et~al.
-\newblock Loveda: A remote sensing land-cover dataset for domain adaptive
-  semantic segmentation.
-\newblock {\em arXiv preprint arXiv:2110.08733}, 2021.
+\bibitem{tranheden2021dacs}
+Wilhelm Tranheden, Viktor Olsson, Juliano Pinto, and Lennart Svensson.
+\newblock Dacs: Domain adaptation via cross-domain mixed sampling.
+\newblock In {\em Proceedings of the IEEE/CVF Winter Conference on Applications
+  of Computer Vision (WACV)}, 2021.
+
+\bibitem{cavagnero2024pem}
+Niccolo Cavagnero, Gabriele Rosi, Claudia Cuttano, Francesca Pistilli, Marco
+  Ciccone, Giuseppe Averta, and Fabio Cermelli.
+\newblock Pem: Prototype-based efficient maskformer for image segmentation.
+\newblock {\em arXiv preprint arXiv:2402.19422v3}, 2024.
 
 \bibitem{zhu2020cyclegan}
 Jun-Yan Zhu, Taesung Park, Phillip Isola, and Alexei~A. Efros.
 \newblock Unpaired image-to-image translation using cycle-consistent
   adversarial networks.
 \newblock {\em arXiv preprint arXiv:1703.10593v7}, 2020.
+
+\bibitem{cheng2021maskformer}
+Bowen Cheng, Alexander~G. Schwing, and Alexander Kirillov.
+\newblock Per-pixel classification is not all you need for semantic
+  segmentation.
+\newblock {\em NeurIPS}, 2021.
+
+\bibitem{cheng2021mask2former}
+Bowen Cheng, Ishan Misra, Alexander~G. Schwing, Alexander Kirillov, and Rohit
+  Girdhar.
+\newblock Masked-attention mask transformer for universal image segmentation.
+\newblock {\em CVPR}, 2022.
 
 \end{thebibliography}

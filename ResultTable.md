@@ -97,7 +97,7 @@ PIDNet on LoveDA-Urban (Train & Val) , 20 epochs
 
 | Modello               | mIoU   | Building | Road   | Water  | Barren | Forest  | Grassland | Farmland |
 |-----------------------|--------|----------|--------|--------|--------|---------|-----------|----------|
-| PIDNet  DACS          | 0.2250 | 0.5053   | 0.3278 | 0.1862 | 0.4031 | 0.0849  | 0.0466    | 0.2459   |
+| PIDNet  DACS          | 0.2918 | 0.5454   | 0.3345 | 0.2913 | 0.4343 | 0.1016  | 0.2310    | 0.3959  |
 
 
 

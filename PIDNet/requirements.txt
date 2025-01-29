@@ -1,0 +1,8 @@
+torch
+numpy
+tensorboardX
+opencv-python
+Pillow
+yacs
+tqdm
+thop

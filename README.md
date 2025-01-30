@@ -1,17 +1,66 @@
-# AML2024
+# Semantic Segmentation with Domain Adaptation on LoveDA Dataset
 
-Github repository used for the Advanced Machine Learning Project 2024. 
+This repository implements and benchmarks advanced semantic segmentation architectures with domain adaptation strategies on the **LoveDA** remote sensing dataset. Focused on urban-to-rural domain shift challenges, we provide a unified framework for comparing:
 
-# Useful Link
-- Dataset informations: https://github.com/Junjue-Wang/LoveDA
-- PidNet model: https://github.com/XuJiacong/PIDNet
-- DeepLabV2_ResNet101: https://github.com/rulixiang/deeplab-pytorch
+- **PIDNet** (Real-time segmentation)
+- **DeepLabV2** (Atrous spatial pyramid pooling)
+- **CycleGAN** (Domain translation)
+- **PEM** (Prototype-based segmentation)
 
-# DeadLine
-- 02/01/2025 - 04/01/2025: Fine 2.0
-    - PidNet: Bisogna fare una classe per il LoveDa dataset, inserito all'interno del repository Data
-    - PidNet: Comprendere se i file train e eval del modello sono validi + aggiungere le metriche richieste
-- 04/01/2025 - 07/01/2025: Fine 3.0
-- 07/01/2025 - 10/01/2025: Fine 4.0 + Uno inizia a lavorare al paper
-- 10/01/2025 - 13/01/2025: Estensioni e paper
+In ResultTable.md you will find the result of our experiments. 
+
+### For additional information:     [![Paper](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2110.08733) 
+
+
+
+## Installation
+
+### Basic Setup
+```
+git clone https://github.com/LucaIanniello/AML2024
+cd AML2024
+```
+
+**System Requirements**:
+- Python 3.8+ with pip
+- NVIDIA GPU (16GB+ VRAM recommended)
+- CUDA 11.3+ and cuDNN 8.2+
+
+For manual installation: [Download ZIP](https://github.com/LucaIanniello/AML2024/archive/refs/heads/main.zip)
+
+## Implemented Architectures
+All the model are on Google Colab, ready-to-run or in locally. 
+
+### 🎯 DeepLabV2 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ywc1VuXIAH3tmSfRn8ev3yvSJDGAvSxF?usp=sharing)
+- Atrous convolutions for dense feature extraction
+- ASPP module for multi-scale context
+- CRF post-processing
+
+### ⚡ PIDNet 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/126h9tjDoQ4w1jrmareDz9scs8UbT5VMe?usp=sharing)
+
+Locally: 
+```
+cd PIDNet
+pip install -r requirements.txt
+python tools/importDataset.py
+```
+In run.sh  you will find all the commands to start the trainings. 
+
+- Triple-branch architecture (P/I/D)
+- Boundary-aware loss function
+- Real-time inference capabilities
+
+### 🔄 CycleGAN 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1coAv3KDPPzsrPN3k-t6qIDQ5AKYw-kEP?usp=sharing)
+- Unpaired image-to-image translation
+- Cycle-consistency loss
+- Semantic-guided style transfer
+
+### 🎭 PEM 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KbzvDoGrSK90cJrAZCP5IxDz6apq-0DR?usp=sharing)
+- Deformable transformer architecture
+- Prototype-based cross-attention
+- Panoptic segmentation support
 

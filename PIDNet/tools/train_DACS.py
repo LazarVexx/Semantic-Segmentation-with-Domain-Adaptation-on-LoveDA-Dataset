@@ -38,14 +38,6 @@ def parse_args():
     update_config(config, args)
     return args
 
-# Strong augmentations for DACS
-strong_augmentations = transforms.Compose([
-    transforms.RandomResizedCrop(size=(1024, 1024), scale=(0.5, 2.0)),
-    transforms.RandomHorizontalFlip(),
-    transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4, hue=0.2),
-    transforms.ToTensor()
-])
-
 # Function to adjust the learning rate during the warm-up phase
 def adjust_learning_rate(optimizer, epoch, warmup_epochs, base_lr):
     """Linear warm-up."""
@@ -244,7 +236,6 @@ def main():
             optimizer=optimizer,
             model=model,
             writer_dict=writer_dict,
-            augmentations=strong_augmentations,
             criterion=sem_criterion
         )
          # Validation and saving checkpoints

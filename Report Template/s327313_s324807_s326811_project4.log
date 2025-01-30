@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  30 JAN 2025 17:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  30 JAN 2025 18:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -411,65 +411,65 @@ Underfull \hbox (badness 1496) in paragraph at lines 410--411
 
 
 
-<images/1410.png, id=169, 1027.84pt x 1027.84pt>
-File: images/1410.png Graphic file (type png)
-<use images/1410.png>
-Package pdftex.def Info: images/1410.png  used on input line 411.
-(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1410_fake.png, id=170, 1027.84pt x 1027.84pt>
-File: images/1410_fake.png Graphic file (type png)
-<use images/1410_fake.png>
-Package pdftex.def Info: images/1410_fake.png  used on input line 411.
-(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1457.png, id=171, 1027.84pt x 1027.84pt>
-File: images/1457.png Graphic file (type png)
-<use images/1457.png>
-Package pdftex.def Info: images/1457.png  used on input line 411.
-(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1457_fake.png, id=172, 1027.84pt x 1027.84pt>
-File: images/1457_fake.png Graphic file (type png)
-<use images/1457_fake.png>
-Package pdftex.def Info: images/1457_fake.png  used on input line 411.
-(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1508.png, id=173, 1027.84pt x 1027.84pt>
-File: images/1508.png Graphic file (type png)
-<use images/1508.png>
-Package pdftex.def Info: images/1508.png  used on input line 411.
-(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1508_fake.png, id=174, 1027.84pt x 1027.84pt>
-File: images/1508_fake.png Graphic file (type png)
-<use images/1508_fake.png>
-Package pdftex.def Info: images/1508_fake.png  used on input line 411.
-(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_source_im.png, id=175, 1027.84pt x 1027.84pt>
+<images/dacs_source_im.png, id=169, 1027.84pt x 1027.84pt>
 File: images/dacs_source_im.png Graphic file (type png)
 <use images/dacs_source_im.png>
 Package pdftex.def Info: images/dacs_source_im.png  used on input line 411.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_source_lb.png, id=177, 1027.84pt x 1027.84pt>
+<images/dacs_source_lb.png, id=171, 1027.84pt x 1027.84pt>
 File: images/dacs_source_lb.png Graphic file (type png)
 <use images/dacs_source_lb.png>
 Package pdftex.def Info: images/dacs_source_lb.png  used on input line 411.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_target_im.png, id=178, 1027.84pt x 1027.84pt>
+<images/dacs_target_im.png, id=172, 1027.84pt x 1027.84pt>
 File: images/dacs_target_im.png Graphic file (type png)
 <use images/dacs_target_im.png>
 Package pdftex.def Info: images/dacs_target_im.png  used on input line 411.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_target_lb.png, id=179, 1027.84pt x 1027.84pt>
+<images/dacs_target_lb.png, id=173, 1027.84pt x 1027.84pt>
 File: images/dacs_target_lb.png Graphic file (type png)
 <use images/dacs_target_lb.png>
 Package pdftex.def Info: images/dacs_target_lb.png  used on input line 411.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_mixed_im.png, id=180, 1027.84pt x 1027.84pt>
+<images/dacs_mixed_im.png, id=174, 1027.84pt x 1027.84pt>
 File: images/dacs_mixed_im.png Graphic file (type png)
 <use images/dacs_mixed_im.png>
 Package pdftex.def Info: images/dacs_mixed_im.png  used on input line 411.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_mixed_lb.png, id=181, 1027.84pt x 1027.84pt>
+<images/dacs_mixed_lb.png, id=175, 1027.84pt x 1027.84pt>
 File: images/dacs_mixed_lb.png Graphic file (type png)
 <use images/dacs_mixed_lb.png>
 Package pdftex.def Info: images/dacs_mixed_lb.png  used on input line 411.
+(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
+<images/1410.png, id=176, 1027.84pt x 1027.84pt>
+File: images/1410.png Graphic file (type png)
+<use images/1410.png>
+Package pdftex.def Info: images/1410.png  used on input line 411.
+(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
+<images/1410_fake.png, id=177, 1027.84pt x 1027.84pt>
+File: images/1410_fake.png Graphic file (type png)
+<use images/1410_fake.png>
+Package pdftex.def Info: images/1410_fake.png  used on input line 411.
+(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
+<images/1457.png, id=178, 1027.84pt x 1027.84pt>
+File: images/1457.png Graphic file (type png)
+<use images/1457.png>
+Package pdftex.def Info: images/1457.png  used on input line 411.
+(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
+<images/1457_fake.png, id=179, 1027.84pt x 1027.84pt>
+File: images/1457_fake.png Graphic file (type png)
+<use images/1457_fake.png>
+Package pdftex.def Info: images/1457_fake.png  used on input line 411.
+(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
+<images/1508.png, id=180, 1027.84pt x 1027.84pt>
+File: images/1508.png Graphic file (type png)
+<use images/1508.png>
+Package pdftex.def Info: images/1508.png  used on input line 411.
+(pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
+<images/1508_fake.png, id=181, 1027.84pt x 1027.84pt>
+File: images/1508_fake.png Graphic file (type png)
+<use images/1508_fake.png>
+Package pdftex.def Info: images/1508_fake.png  used on input line 411.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -487,15 +487,17 @@ Underfull \vbox (badness 7308) has occurred while \output is active []
 
 
 
+Underfull \hbox (badness 1845) in paragraph at lines 429--430
+\OT1/cmr/m/n/10 seen in Ta-ble 6. The PEM model achieves
+ []
+
+
 
 [8]
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-
-
-[9 <./images/1410.png (PNG copy)> <./images/1410_fake.png (PNG copy)> <./images/1457.png (PNG copy)> <./images/1457_fake.png (PNG copy)> <./images/1508.png (PNG copy)> <./images/1508_fake.png (PNG copy)> <./images/dacs_source_im.png> <./images/dacs_source_lb.png> <./images/dacs_target_im.png> <./images/dacs_target_lb.png> <./images/dacs_mixed_im.png> <./images/dacs_mixed_lb.png>] (s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
+[9 <./images/dacs_source_im.png> <./images/dacs_source_lb.png> <./images/dacs_target_im.png> <./images/dacs_target_lb.png> <./images/dacs_mixed_im.png> <./images/dacs_mixed_lb.png> <./images/1410.png (PNG copy)> <./images/1410_fake.png (PNG copy)> <./images/1457.png (PNG copy)> <./images/1457_fake.png (PNG copy)> <./images/1508.png (PNG copy)> <./images/1508_fake.png (PNG copy)>] (s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
 \tf@brf=\write4
 \openout4 = `s327313_s324807_s326811_project4.brf'.
 
@@ -552,7 +554,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  90i,12n,93p,1457b,632s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\lucai\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on s327313_s324807_s326811_project4.pdf (10 pages, 14389232 bytes).
+Output written on s327313_s324807_s326811_project4.pdf (10 pages, 14389729 bytes).
 PDF statistics:
  337 PDF objects out of 1000 (max. 8388607)
  54 named destinations out of 1000 (max. 500000)

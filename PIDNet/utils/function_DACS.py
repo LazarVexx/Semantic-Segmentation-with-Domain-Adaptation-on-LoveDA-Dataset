@@ -51,7 +51,7 @@ def classmix_fn(source_images, source_labels, target_images, pseudo_labels, sour
     
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr,
-          num_iters, source_loader, target_loader, optimizer, model, writer_dict, augmentations, criterion):
+          num_iters, source_loader, target_loader, optimizer, model, writer_dict, criterion):
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -276,75 +276,3 @@ def validate(config, testloader, model, writer_dict):
 
 
 
-def testval(config, test_dataset, testloader, model,
-            sv_dir='./', sv_pred=False):
-    model.eval()
-    confusion_matrix = np.zeros((config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES))
-    with torch.no_grad():
-        for index, batch in enumerate(tqdm(testloader)):
-            image, label, _, _, name = batch
-            size = label.size()
-            pred = test_dataset.single_scale_inference(config, model, image.cuda())
-
-            if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
-                pred = F.interpolate(
-                    pred, size[-2:],
-                    mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
-                )
-            
-            confusion_matrix += get_confusion_matrix(
-                label,
-                pred,
-                size,
-                config.DATASET.NUM_CLASSES,
-                config.TRAIN.IGNORE_LABEL)
-
-            if sv_pred:
-                sv_path = os.path.join(sv_dir, 'val_results')
-                if not os.path.exists(sv_path):
-                    os.mkdir(sv_path)
-                test_dataset.save_pred(pred, sv_path, name)
-
-            if index % 100 == 0:
-                logging.info('processing: %d images' % index)
-                pos = confusion_matrix.sum(1)
-                res = confusion_matrix.sum(0)
-                tp = np.diag(confusion_matrix)
-                IoU_array = (tp / np.maximum(1.0, pos + res - tp))
-                mean_IoU = IoU_array.mean()
-                logging.info('mIoU: %.4f' % (mean_IoU))
-
-    pos = confusion_matrix.sum(1)
-    res = confusion_matrix.sum(0)
-    tp = np.diag(confusion_matrix)
-    pixel_acc = tp.sum()/pos.sum()
-    mean_acc = (tp/np.maximum(1.0, pos)).mean()
-    IoU_array = (tp / np.maximum(1.0, pos + res - tp))
-    mean_IoU = IoU_array.mean()
-
-    return mean_IoU, IoU_array, pixel_acc, mean_acc
-
-
-def test(config, test_dataset, testloader, model,
-         sv_dir='./', sv_pred=True):
-    model.eval()
-    with torch.no_grad():
-        for _, batch in enumerate(tqdm(testloader)):
-            image, size, name = batch
-            size = size[0]
-            pred = test_dataset.single_scale_inference(
-                config,
-                model,
-                image.cuda())
-
-            if pred.size()[-2] != size[0] or pred.size()[-1] != size[1]:
-                pred = F.interpolate(
-                    pred, size[-2:],
-                    mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
-                )
-                
-            if sv_pred:
-                sv_path = os.path.join(sv_dir,'test_results')
-                if not os.path.exists(sv_path):
-                    os.mkdir(sv_path)
-                test_dataset.save_pred(pred, sv_path, name)

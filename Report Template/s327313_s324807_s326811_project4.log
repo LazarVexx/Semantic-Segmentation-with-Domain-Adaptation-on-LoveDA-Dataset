@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  30 JAN 2025 16:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  30 JAN 2025 16:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -307,7 +307,38 @@ Package caption Info: New subtype `subtable' on input line 238.
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count303
 \l__pdf_internal_box=\box58
-) (s327313_s324807_s326811_project4.aux)
+) (s327313_s324807_s326811_project4.aux
+
+LaTeX Warning: Label `fig:image1410CycleGan' multiply defined.
+
+
+LaTeX Warning: Label `fig:image1410CycleGan@cref' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:image1410CycleGan' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:image1410CycleGan@cref' multiply defined.
+
+
+LaTeX Warning: Label `fig:image1410CycleGan' multiply defined.
+
+
+LaTeX Warning: Label `fig:image1410CycleGan@cref' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:image1410CycleGan' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:image1410CycleGan@cref' multiply defined.
+
+
+LaTeX Warning: Label `fig:four_images' multiply defined.
+
+
+LaTeX Warning: Label `fig:four_images@cref' multiply defined.
+
+)
 \openout1 = `s327313_s324807_s326811_project4.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
@@ -405,7 +436,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [6]
 
 
-Underfull \hbox (badness 1496) in paragraph at lines 372--373
+Underfull \hbox (badness 1496) in paragraph at lines 344--345
 \OT1/cmr/m/n/10 per-for-mance to 0.2951, demon-strat-ing that in-
  []
 
@@ -415,61 +446,25 @@ Underfull \hbox (badness 1496) in paragraph at lines 372--373
 <images/1410.png, id=177, 1027.84pt x 1027.84pt>
 File: images/1410.png Graphic file (type png)
 <use images/1410.png>
-Package pdftex.def Info: images/1410.png  used on input line 376.
-(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
+Package pdftex.def Info: images/1410.png  used on input line 348.
+(pdftex.def)             Requested size: 112.56258pt x 112.56087pt.
 <images/1410_fake.png, id=178, 1027.84pt x 1027.84pt>
 File: images/1410_fake.png Graphic file (type png)
 <use images/1410_fake.png>
-Package pdftex.def Info: images/1410_fake.png  used on input line 376.
-(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 376--376
-[]\OT1/cmr/m/n/9 (b) |Cy-cle-GAN im-age
- []
-
+Package pdftex.def Info: images/1410_fake.png  used on input line 348.
+(pdftex.def)             Requested size: 112.56258pt x 112.56087pt.
 <images/1457.png, id=179, 1027.84pt x 1027.84pt>
 File: images/1457.png Graphic file (type png)
 <use images/1457.png>
-Package pdftex.def Info: images/1457.png  used on input line 376.
-(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
+Package pdftex.def Info: images/1457.png  used on input line 348.
+(pdftex.def)             Requested size: 112.56258pt x 112.56087pt.
 <images/1457_fake.png, id=180, 1027.84pt x 1027.84pt>
 File: images/1457_fake.png Graphic file (type png)
 <use images/1457_fake.png>
-Package pdftex.def Info: images/1457_fake.png  used on input line 376.
-(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
+Package pdftex.def Info: images/1457_fake.png  used on input line 348.
+(pdftex.def)             Requested size: 112.56258pt x 112.56087pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 376--376
-[]\OT1/cmr/m/n/9 (d) |Cy-cle-GAN im-age
- []
-
-File: images/1410.png Graphic file (type png)
-<use images/1410.png>
-Package pdftex.def Info: images/1410.png  used on input line 376.
-(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
-File: images/1410_fake.png Graphic file (type png)
-<use images/1410_fake.png>
-Package pdftex.def Info: images/1410_fake.png  used on input line 376.
-(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 376--376
-[]\OT1/cmr/m/n/9 (b) |Cy-cle-GAN im-age
- []
-
-File: images/1457.png Graphic file (type png)
-<use images/1457.png>
-Package pdftex.def Info: images/1457.png  used on input line 376.
-(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
-File: images/1457_fake.png Graphic file (type png)
-<use images/1457_fake.png>
-Package pdftex.def Info: images/1457_fake.png  used on input line 376.
-(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 376--376
-[]\OT1/cmr/m/n/9 (d) |Cy-cle-GAN im-age
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 378--378
+Underfull \hbox (badness 10000) in paragraph at lines 350--350
 []\OT1/cmr/bx/n/12 Adversarial Learn-ing Ex-per-i-
  []
 
@@ -478,17 +473,44 @@ Underfull \hbox (badness 10000) in paragraph at lines 378--378
 
 
 [8]
+File: images/1410.png Graphic file (type png)
+<use images/1410.png>
+Package pdftex.def Info: images/1410.png  used on input line 392.
+(pdftex.def)             Requested size: 67.35068pt x 67.34518pt.
+File: images/1410_fake.png Graphic file (type png)
+<use images/1410_fake.png>
+Package pdftex.def Info: images/1410_fake.png  used on input line 398.
+(pdftex.def)             Requested size: 67.35068pt x 67.34518pt.
 
-(s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
+Underfull \hbox (badness 10000) in paragraph at lines 399--399
+[]\OT1/cmr/m/n/9 (b) |Cy-cle-GAN
+ []
+
+File: images/1457.png Graphic file (type png)
+<use images/1457.png>
+Package pdftex.def Info: images/1457.png  used on input line 404.
+(pdftex.def)             Requested size: 67.35068pt x 67.34518pt.
+File: images/1457_fake.png Graphic file (type png)
+<use images/1457_fake.png>
+Package pdftex.def Info: images/1457_fake.png  used on input line 410.
+(pdftex.def)             Requested size: 67.35068pt x 67.34518pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 411--411
+[]\OT1/cmr/m/n/9 (d) |Cy-cle-GAN
+ []
+
+
+Underfull \vbox (badness 4013) has occurred while \output is active []
+
+
+
+
+
+[9 <./images/1410.png (PNG copy)> <./images/1410_fake.png (PNG copy)> <./images/1457.png (PNG copy)> <./images/1457_fake.png (PNG copy)>] (s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
 \tf@brf=\write4
 \openout4 = `s327313_s324807_s326811_project4.brf'.
 
 
-Underfull \vbox (badness 1264) has occurred while \output is active []
-
-
-
-[9 <./images/1410.png (PNG copy)> <./images/1410_fake.png (PNG copy)> <./images/1457.png (PNG copy)> <./images/1457_fake.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 12--12
 \OT1/cmr/m/n/10 A brief sur-vey on se-man-tic seg-men-ta-
  []
@@ -497,6 +519,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 12--12
 Underfull \hbox (badness 2205) in paragraph at lines 12--12
 \OT1/cmr/m/n/10 tion with deep learn-ing.  \OT1/cmr/m/it/10 arXiv preprint
  []
+
+
 
 
 Underfull \hbox (badness 5077) in paragraph at lines 50--50
@@ -518,32 +542,36 @@ Underfull \hbox (badness 1308) in paragraph at lines 68--68
 []\OT1/cmr/m/n/10 Bowen Cheng, Is-han Misra, Alexan-der G.
  []
 
-
-
 )
 
-[10] (s327313_s324807_s326811_project4.aux)
+[10
+
+] (s327313_s324807_s326811_project4.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.out' has not changed.
 (rerunfilecheck)             Checksum: 08DCE31FBA53D817A625582858C09D7D;3684.
 Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.brf' has not changed.
 (rerunfilecheck)             Checksum: BE28706F10D00387D12EE6CCA61F4326;1090.
  ) 
 Here is how much of TeX's memory you used:
- 13427 strings out of 473682
- 228184 string characters out of 5719216
+ 13435 strings out of 473682
+ 228357 string characters out of 5719216
  653145 words of memory out of 5000000
- 36303 multiletter control sequences out of 15000+600000
+ 36310 multiletter control sequences out of 15000+600000
  567733 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,12n,93p,1457b,606s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,12n,93p,1457b,549s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\lucai\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on s327313_s324807_s326811_project4.pdf (10 pages, 7443982 bytes).
+Output written on s327313_s324807_s326811_project4.pdf (10 pages, 7443525 bytes).
 PDF statistics:
- 316 PDF objects out of 1000 (max. 8388607)
- 53 named destinations out of 1000 (max. 500000)
+ 317 PDF objects out of 1000 (max. 8388607)
+ 54 named destinations out of 1000 (max. 500000)
  197 words of extra memory for PDF output out of 10000 (max. 10000000)
 

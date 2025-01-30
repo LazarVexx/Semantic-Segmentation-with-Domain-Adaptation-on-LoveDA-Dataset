@@ -305,59 +305,31 @@ PIDNet DACS & 0.2918 & 0.5454 & 0.3345 & 0.2913 & 0.4343 & 0.1016 & 0.2310 & 0.3
 \afterpage{
     \begin{figure*}[t]
         \centering
-        \begin{minipage}{0.48\textwidth} % Left block
-            \centering
-            \begin{subfigure}[b]{0.45\textwidth}
-                \includegraphics[width=\textwidth]{images/1410.png}
-                \caption{Original Source Image 1410}
-                \label{fig:image1}
-            \end{subfigure}
-            \hspace{2mm}
-            \begin{subfigure}[b]{0.45\textwidth}
-                \includegraphics[width=\textwidth]{images/1410_fake.png}
-                \caption{CycleGAN image 1410}
-                \label{fig:image2}
-            \end{subfigure}
-            \vskip\baselineskip
-            \begin{subfigure}[b]{0.45\textwidth}
-                \includegraphics[width=\textwidth]{images/1457.png}
-                \caption{Original Source Image 1457}
-                \label{fig:image3}
-            \end{subfigure}
-            \hspace{2mm}
-            \begin{subfigure}[b]{0.45\textwidth}
-                \includegraphics[width=\textwidth]{images/1457_fake.png}
-                \caption{CycleGAN image 1457}
-                \label{fig:image4}
-            \end{subfigure}
-            \caption{Comparison between original images and CycleGAN-generated images (Left Block).}
-            \label{fig:left_block}
-        \end{minipage}
-        \hfill
-        \begin{minipage}{0.48\textwidth} % Right block
-            \centering
-            \begin{subfigure}[b]{0.45\textwidth}
-                \includegraphics[width=\textwidth]{images/1410.png}
-                \caption{Original Source Image 1410}
-            \end{subfigure}
-            \hspace{2mm}
-            \begin{subfigure}[b]{0.45\textwidth}
-                \includegraphics[width=\textwidth]{images/1410_fake.png}
-                \caption{CycleGAN image 1410}
-            \end{subfigure}
-            \vskip\baselineskip
-            \begin{subfigure}[b]{0.45\textwidth}
-                \includegraphics[width=\textwidth]{images/1457.png}
-                \caption{Original Source Image 1457}
-            \end{subfigure}
-            \hspace{2mm}
-            \begin{subfigure}[b]{0.45\textwidth}
-                \includegraphics[width=\textwidth]{images/1457_fake.png}
-                \caption{CycleGAN image 1457}
-            \end{subfigure}
-            \caption{Another set of comparisons (Right Block).}
-            \label{fig:right_block}
-        \end{minipage}
+        \begin{subfigure}[b]{0.24\textwidth}
+            \includegraphics[width=\textwidth]{images/1410.png}
+            \caption{Source Image 1410}
+            \label{fig:image1}
+        \end{subfigure}
+        \hspace{2mm}
+        \begin{subfigure}[b]{0.24\textwidth}
+            \includegraphics[width=\textwidth]{images/1410_fake.png}
+            \caption{CycleGAN image 1410}
+            \label{fig:image2}
+        \end{subfigure}
+        \vskip\baselineskip
+        \begin{subfigure}[b]{0.24\textwidth}
+            \includegraphics[width=\textwidth]{images/1457.png}
+            \caption{Source Image 1457}
+            \label{fig:image3}
+        \end{subfigure}
+        \hspace{2mm}
+        \begin{subfigure}[b]{0.24\textwidth}
+            \includegraphics[width=\textwidth]{images/1457_fake.png}
+            \caption{CycleGAN image 1457}
+            \label{fig:image4}
+        \end{subfigure}
+        \caption{Comparison between original source images and CycleGAN-generated fake images}
+        \label{fig:four_images}
     \end{figure*}
 }
 
@@ -413,9 +385,37 @@ CycleGAN: 3b Best on Fake Images & 20 & 0.2850493589319477 \\ \hline
 \caption{Performance of PIDNet on Fake Images}
 \end{table}
 
+\vspace{4cm}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.3\columnwidth}
+        \includegraphics[width=\columnwidth]{images/1410.png}
+        \caption{Source Image 1410}
+        \label{fig:image1410}
+    \end{subfigure}
+    \hspace{2mm}
+    \begin{subfigure}[b]{0.3\columnwidth}
+        \includegraphics[width=\columnwidth]{images/1410_fake.png}
+        \caption{CycleGAN image 1410}
+        \label{fig:image1410CycleGan}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}[b]{0.3\columnwidth}
+        \includegraphics[width=\columnwidth]{images/1457.png}
+        \caption{Source Image 1457}
+        \label{fig:image1410CycleGan}
+    \end{subfigure}
+    \hspace{2mm}
+    \begin{subfigure}[b]{0.3\columnwidth}
+        \includegraphics[width=\columnwidth]{images/1457_fake.png}
+        \caption{CycleGAN image 1457}
+        \label{fig:image1410CycleGan}
+    \end{subfigure}
+    \caption{Comparison between original source images and CycleGAN-generated fake images}
+    \label{fig:four_images}
+\end{figure}
 
-
-
+\clearpage
 \section{Conclusion}
 %%%%%%%%% REFERENCES
 

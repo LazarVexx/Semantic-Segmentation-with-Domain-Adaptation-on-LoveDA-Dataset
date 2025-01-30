@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  30 JAN 2025 18:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  30 JAN 2025 22:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -388,13 +388,21 @@ Underfull \hbox (badness 2142) in paragraph at lines 64--68
 
 
 [3]
+Underfull \hbox (badness 4859) in paragraph at lines 129--130
+\OT1/cmr/m/n/10 dataset. This is done con-sid-er-ing the
+ []
+
+
 
 
 
 [4]
+Underfull \vbox (badness 1132) has occurred while \output is active []
 
 
-Overfull \hbox (24.27954pt too wide) detected at line 173
+
+
+Overfull \hbox (24.27954pt too wide) detected at line 175
 []
  []
 
@@ -405,99 +413,112 @@ Overfull \hbox (24.27954pt too wide) detected at line 173
 
 
 [6]
-Underfull \hbox (badness 1496) in paragraph at lines 410--411
+
+
+Underfull \hbox (badness 1496) in paragraph at lines 415--416
 \OT1/cmr/m/n/10 per-for-mance to 0.2951, demon-strat-ing that in-
  []
 
 
 
-<images/dacs_source_im.png, id=169, 1027.84pt x 1027.84pt>
+[7]
+<images/dacs_source_im.png, id=179, 1027.84pt x 1027.84pt>
 File: images/dacs_source_im.png Graphic file (type png)
 <use images/dacs_source_im.png>
-Package pdftex.def Info: images/dacs_source_im.png  used on input line 411.
+Package pdftex.def Info: images/dacs_source_im.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_source_lb.png, id=171, 1027.84pt x 1027.84pt>
+<images/dacs_source_lb.png, id=181, 1027.84pt x 1027.84pt>
 File: images/dacs_source_lb.png Graphic file (type png)
 <use images/dacs_source_lb.png>
-Package pdftex.def Info: images/dacs_source_lb.png  used on input line 411.
+Package pdftex.def Info: images/dacs_source_lb.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_target_im.png, id=172, 1027.84pt x 1027.84pt>
+<images/dacs_target_im.png, id=182, 1027.84pt x 1027.84pt>
 File: images/dacs_target_im.png Graphic file (type png)
 <use images/dacs_target_im.png>
-Package pdftex.def Info: images/dacs_target_im.png  used on input line 411.
+Package pdftex.def Info: images/dacs_target_im.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_target_lb.png, id=173, 1027.84pt x 1027.84pt>
+<images/dacs_target_lb.png, id=183, 1027.84pt x 1027.84pt>
 File: images/dacs_target_lb.png Graphic file (type png)
 <use images/dacs_target_lb.png>
-Package pdftex.def Info: images/dacs_target_lb.png  used on input line 411.
+Package pdftex.def Info: images/dacs_target_lb.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_mixed_im.png, id=174, 1027.84pt x 1027.84pt>
+<images/dacs_mixed_im.png, id=184, 1027.84pt x 1027.84pt>
 File: images/dacs_mixed_im.png Graphic file (type png)
 <use images/dacs_mixed_im.png>
-Package pdftex.def Info: images/dacs_mixed_im.png  used on input line 411.
+Package pdftex.def Info: images/dacs_mixed_im.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/dacs_mixed_lb.png, id=175, 1027.84pt x 1027.84pt>
+<images/dacs_mixed_lb.png, id=185, 1027.84pt x 1027.84pt>
 File: images/dacs_mixed_lb.png Graphic file (type png)
 <use images/dacs_mixed_lb.png>
-Package pdftex.def Info: images/dacs_mixed_lb.png  used on input line 411.
+Package pdftex.def Info: images/dacs_mixed_lb.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1410.png, id=176, 1027.84pt x 1027.84pt>
+<images/1410.png, id=186, 1027.84pt x 1027.84pt>
 File: images/1410.png Graphic file (type png)
 <use images/1410.png>
-Package pdftex.def Info: images/1410.png  used on input line 411.
+Package pdftex.def Info: images/1410.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1410_fake.png, id=177, 1027.84pt x 1027.84pt>
+<images/1410_fake.png, id=187, 1027.84pt x 1027.84pt>
 File: images/1410_fake.png Graphic file (type png)
 <use images/1410_fake.png>
-Package pdftex.def Info: images/1410_fake.png  used on input line 411.
+Package pdftex.def Info: images/1410_fake.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1457.png, id=178, 1027.84pt x 1027.84pt>
+<images/1457.png, id=188, 1027.84pt x 1027.84pt>
 File: images/1457.png Graphic file (type png)
 <use images/1457.png>
-Package pdftex.def Info: images/1457.png  used on input line 411.
+Package pdftex.def Info: images/1457.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1457_fake.png, id=179, 1027.84pt x 1027.84pt>
+<images/1457_fake.png, id=189, 1027.84pt x 1027.84pt>
 File: images/1457_fake.png Graphic file (type png)
 <use images/1457_fake.png>
-Package pdftex.def Info: images/1457_fake.png  used on input line 411.
+Package pdftex.def Info: images/1457_fake.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1508.png, id=180, 1027.84pt x 1027.84pt>
+<images/1508.png, id=190, 1027.84pt x 1027.84pt>
 File: images/1508.png Graphic file (type png)
 <use images/1508.png>
-Package pdftex.def Info: images/1508.png  used on input line 411.
+Package pdftex.def Info: images/1508.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
-<images/1508_fake.png, id=181, 1027.84pt x 1027.84pt>
+<images/1508_fake.png, id=191, 1027.84pt x 1027.84pt>
 File: images/1508_fake.png Graphic file (type png)
 <use images/1508_fake.png>
-Package pdftex.def Info: images/1508_fake.png  used on input line 411.
+Package pdftex.def Info: images/1508_fake.png  used on input line 416.
 (pdftex.def)             Requested size: 90.04582pt x 90.03929pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 421--421
+[]\OT1/cmr/bx/n/12 Adversarial Learn-ing Ex-per-i-
+ []
+
+
+
+
+
+[8]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--441
+[]\OT1/cmr/m/n/10 The re-sults demon-strate that CycleGAN-
+ []
+
+
+Underfull \hbox (badness 1281) in paragraph at lines 440--441
+\OT1/cmr/m/n/10 cap-ture the unique char-ac-ter-is-tics of the ru-ral
+ []
+
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[7]
-Underfull \hbox (badness 10000) in paragraph at lines 416--416
-[]\OT1/cmr/bx/n/12 Adversarial Learn-ing Ex-per-i-
- []
-
-
-Underfull \vbox (badness 7308) has occurred while \output is active []
-
-
-
-
-Underfull \hbox (badness 1845) in paragraph at lines 429--430
+[9 <./images/dacs_source_im.png> <./images/dacs_source_lb.png> <./images/dacs_target_im.png> <./images/dacs_target_lb.png> <./images/dacs_mixed_im.png> <./images/dacs_mixed_lb.png> <./images/1410.png (PNG copy)> <./images/1410_fake.png (PNG copy)> <./images/1457.png (PNG copy)> <./images/1457_fake.png (PNG copy)> <./images/1508.png (PNG copy)> <./images/1508_fake.png (PNG copy)>]
+Underfull \hbox (badness 1845) in paragraph at lines 448--449
 \OT1/cmr/m/n/10 seen in Ta-ble 6. The PEM model achieves
  []
 
 
 
-[8]
-
-
-
-[9 <./images/dacs_source_im.png> <./images/dacs_source_lb.png> <./images/dacs_target_im.png> <./images/dacs_target_lb.png> <./images/dacs_mixed_im.png> <./images/dacs_mixed_lb.png> <./images/1410.png (PNG copy)> <./images/1410_fake.png (PNG copy)> <./images/1457.png (PNG copy)> <./images/1457_fake.png (PNG copy)> <./images/1508.png (PNG copy)> <./images/1508_fake.png (PNG copy)>] (s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
+(s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
 \tf@brf=\write4
 \openout4 = `s327313_s324807_s326811_project4.brf'.
 
@@ -510,8 +531,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 12--12
 Underfull \hbox (badness 2205) in paragraph at lines 12--12
 \OT1/cmr/m/n/10 tion with deep learn-ing.  \OT1/cmr/m/it/10 arXiv preprint
  []
-
-
 
 
 Underfull \hbox (badness 5077) in paragraph at lines 50--50
@@ -529,34 +548,40 @@ Underfull \hbox (badness 3039) in paragraph at lines 50--50
  []
 
 
+
+[10]
 Underfull \hbox (badness 1308) in paragraph at lines 68--68
 []\OT1/cmr/m/n/10 Bowen Cheng, Is-han Misra, Alexan-der G.
  []
 
 )
 
-[10] (s327313_s324807_s326811_project4.aux)
+
+
+[11
+
+] (s327313_s324807_s326811_project4.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
  ***********
 Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.out' has not changed.
-(rerunfilecheck)             Checksum: 08DCE31FBA53D817A625582858C09D7D;3684.
+(rerunfilecheck)             Checksum: 3E5983205D597B2C1F5CC300321C7FB2;3684.
 Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.brf' has not changed.
 (rerunfilecheck)             Checksum: BE28706F10D00387D12EE6CCA61F4326;1090.
  ) 
 Here is how much of TeX's memory you used:
- 13493 strings out of 473682
- 230119 string characters out of 5719216
- 675145 words of memory out of 5000000
+ 13494 strings out of 473682
+ 230126 string characters out of 5719216
+ 662145 words of memory out of 5000000
  36368 multiletter control sequences out of 15000+600000
  567733 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,12n,93p,1457b,632s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,12n,93p,1769b,632s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\lucai\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on s327313_s324807_s326811_project4.pdf (10 pages, 14389729 bytes).
+Output written on s327313_s324807_s326811_project4.pdf (11 pages, 14392554 bytes).
 PDF statistics:
- 337 PDF objects out of 1000 (max. 8388607)
- 54 named destinations out of 1000 (max. 500000)
+ 343 PDF objects out of 1000 (max. 8388607)
+ 55 named destinations out of 1000 (max. 500000)
  237 words of extra memory for PDF output out of 10000 (max. 10000000)
 

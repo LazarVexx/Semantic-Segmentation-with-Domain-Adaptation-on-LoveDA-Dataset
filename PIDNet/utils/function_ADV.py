@@ -1,3 +1,24 @@
+# ------------------------------------------------------------------------------
+# Modified based on https://github.com/HRNet/HRNet-Semantic-Segmentation
+# ------------------------------------------------------------------------------
+
+import logging
+import os
+import time
+
+import numpy as np
+import torch.nn as nn
+from tqdm import tqdm
+
+import torch
+from torch.nn import functional as F
+from torch.autograd import Variable
+
+from utils.utils import AverageMeter
+from utils.utils import get_confusion_matrix
+from utils.utils import adjust_learning_rate
+from configs import config
+
 
 def train_adv(config, epoch, num_epoch, 
           epoch_iters, base_lr, num_iters,

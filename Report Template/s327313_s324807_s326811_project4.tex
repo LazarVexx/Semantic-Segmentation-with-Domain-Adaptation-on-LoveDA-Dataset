@@ -7,6 +7,8 @@
 \usepackage[pagebackref,breaklinks,colorlinks]{hyperref}
 \usepackage[capitalize]{cleveref}
 \usepackage{abstract} % Add this package for abstract formatting
+\usepackage{afterpage}
+\usepackage{subcaption}  % Add this package for subfigures
 \setlength{\topmargin}{-0.7in}
 \setlength{\textheight}{9.5in} 
 \setlength{\columnsep}{20pt}
@@ -14,7 +16,7 @@
 \Crefname{section}{Section}{Sections}
 \Crefname{table}{Table}{Tables}
 \crefname{table}{Tab.}{Tabs.}
-\usepackage{subcaption}  % Add this package for subfigures
+
 
 
 \begin{document}
@@ -107,7 +109,7 @@ The PIDNet model used in this project was originally proposed by \cite{feng2021p
 The different losses we have implemented are the following:
 \begin{itemize}
     \item Cross Entropy: This is the standard loss function for semantic segmentation tasks. It calculates the pixel-wise difference between the predicted and true class probabilities, penalizing incorrect classifications. While effective, it may struggle with class imbalance in datasets. This loss function was just defined in the PIDNet model. 
-    \item OHEM Cross Entropy : This variant of the cross entropy loss prioritizes hard-to-classify pixels during training. By focusing on these challenging examples, Ohem enhances the model’s ability to learn from difficult cases, improving overall segmentation quality. Also this loss function was just defined in the PIDNet model.
+    \item Ohem Cross Entropy : This variant of the cross entropy loss prioritizes hard-to-classify pixels during training. By focusing on these challenging examples, Ohem enhances the model’s ability to learn from difficult cases, improving overall segmentation quality. Also this loss function was just defined in the PIDNet model.
     \item Boundary Loss: This loss function focuses on the boundary regions of objects, enhancing the model’s ability to capture fine details and object edges. By emphasizing boundary pixels, the model can achieve more precise segmentation results. 
     \item Focal Loss:  Focal Loss further addresses class imbalance by reducing the impact of well-classified pixels and focusing on hard-to-classify ones. This dynamic adjustment of loss contributions makes it especially effective in datasets with highly imbalanced classes.
     \item Dice Loss: This type of loss was also used in the DeepLabV2 implementation. Designed to handle class imbalance, Dice Loss measures the overlap between predicted and ground truth masks. By optimizing the Dice coefficient, this loss improves performance on underrepresented classes and ensures a balanced segmentation output.
@@ -165,21 +167,75 @@ The model used for generating the images of Urban domain that resemble to the on
 The goal of CycleGAN is to learn mapping functions between two domains, \(X\) and \(Y\), given training samples \(\{ x_i \}_{i=1}^N\), where \(x_i \in X\), and \(\{ y_j \}_{j=1}^M\), where \(y_j \in Y\). The data distributions are denoted as \(x \sim p_{\text{data}}(x)\) and \(y \sim p_{\text{data}}(y)\). The model consists of two mappings: \(G: X \rightarrow Y\) and \(F: Y \rightarrow X\). Additionally, there are two adversarial discriminators, \(D_X\) and \(D_Y\), where \(D_X\) discriminates between the images \(\{ x \}\) and the translated images \(\{ F(y) \}\), while \(D_Y\) discriminates between \(\{ y \}\) and the translated images \(\{ G(x) \}\). The objective of the model contains two types of terms: adversarial losses to align the distribution of generated images with the data distribution in the target domain, and cycle consistency losses to ensure that the learned mappings \(G\) and \(F\) do not contradict each other.
 
 Adversarial losses are applied to both mapping functions. For the mapping function \(G: X \rightarrow Y\) and its corresponding discriminator \(D_Y\), the objective is defined as:
-\[
-L_{\text{GAN}}(G, D_Y, X, Y) = \mathbb{E}_{y \sim p_{\text{data}}(y)} \left[ \log D_Y(y) \right] + \mathbb{E}_{x \sim p_{\text{data}}(x)} \left[ \log(1 - D_Y(G(x))) \right],
-\]
+\begin{align}
+L_{\text{GAN}}(G, D_Y, X, Y) &= \mathbb{E}_{y \sim p_{\text{data}}(y)} \left[ \log D_Y(y) \right] \nonumber \\
+&\quad + \mathbb{E}_{x \sim p_{\text{data}}(x)} \left[ \log(1 - D_Y(G(x))) \right],
+\end{align}
 where \(G\) aims to generate images \(G(x)\) that resemble real images from domain \(Y\), while \(D_Y\) seeks to distinguish between the translated samples \(G(x)\) and the real samples \(y\). \(G\) attempts to minimize this objective against an adversarial discriminator \(D_Y\) that tries to maximize it.
-Similarly, is used an adversarial loss for the mapping function \(F: Y \rightarrow X\) and its discriminator \(D_X\).
- 
+Similarly, an adversarial loss is used for the mapping function \(F: Y \rightarrow X\) and its discriminator \(D_X\).
+
 There is also a forward cycle consistency. Similarly, for each image \( y \) from domain \( Y \), the mappings \( G \) and \( F \) should satisfy backward cycle consistency:
 \[
 y \xrightarrow{F} F(y) \xrightarrow{G} G(F(y)) \approx y.
 \]
-To incentivize this behavior, is used a cycle consistency loss:
-\[
-L_{\text{cyc}}(G, F) = \mathbb{E}_{x \sim p_{\text{data}}(x)} \left[ \| F(G(x)) - x \|_1 \right] + \mathbb{E}_{y \sim p_{\text{data}}(y)} \left[ \| G(F(y)) - y \|_1 \right].
-\]
+To incentivize this behavior, a cycle consistency loss is used:
+\begin{align}
+L_{\text{cyc}}(G, F) &= \mathbb{E}_{x \sim p_{\text{data}}(x)} \left[ \| F(G(x)) - x \|_1 \right] \nonumber \\
+&\quad + \mathbb{E}_{y \sim p_{\text{data}}(y)} \left[ \| G(F(y)) - y \|_1 \right].
+\end{align}
 
+\begin{table*}[t]
+    \centering
+    \resizebox{1\textwidth}{!}{
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+     \textbf{Number} & \textbf{Optimizer} & \textbf{Loss}  & \textbf{Scheduler} & \textbf{Picture Size} &  \textbf{mIoU}  & \textbf{bestIoU} & \textbf{lr}  & \textbf{Latency (s)} & \textbf{FLOPs}      & \textbf{Params}    \\
+        \hline
+        1  & Adam  & CE    & True  & 720x720  & 0.2514 & 0.2734  & 0.001 & 0.005340 & 1.10e+12  & 6.14e+07  \\
+        2  & Adam  & DICE  & True  & 720x720  & 0.1323 & 0.1274  & 0.001 & 0.005236 & 1.10e+12  & 6.14e+07  \\
+        3  & Adam  & FOCAL & True  & 720x720  & 0.2151 & 0.2559  & 0.001 & 0.005734 & 1.10e+12  & 6.14e+07  \\
+        4  & Adam  & OCE   & True  & 720x720  & 0.2408 & 0.2687  & 0.001 & 0.005383 & 1.10e+12  & 6.14e+07  \\
+        5  & SGD   & CE    & True  & 720x720  & 0.3318 & 0.3364  & 0.01  & 0.005062 & 1.10e+12  & 6.14e+07  \\
+        6  & SGD   & DICE  & True  & 720x720  & 0.1822 & 0.3112  & 0.01  & 0.005163 & 1.10e+12  & 6.14e+07  \\
+        7  & SGD   & FOCAL & True  & 720x720  & 0.2466 & 0.2761  & 0.01  & 0.005105 & 1.10e+12  & 6.14e+07  \\
+        8  & SGD   & OCE   & True  & 720x720  & 0.3267 & 0.3473  & 0.01  & 0.004744 & 1.10e+12  & 6.14e+07  \\
+        9  & SGD   & DICE  & True  & 720x720  & 0.3501 & 0.3610  & 0.001 & 0.004934 & 1.10e+12  & 6.14e+07  \\
+        10 & SGD   & CE    & True  & 720x720  & 0.3428 & 0.3526  & 0.001 & 0.005232 & 1.10e+12  & 6.14e+07  \\
+        11 & SGD   & OCE   & True  & 720x720  & 0.3412 & 0.3422  & 0.001 & 0.005422 & 1.10e+12  & 6.14e+07  \\
+    \hline
+    \end{tabular}}
+    \caption{Performance of DeepLabV2 with Different Configurations}
+\end{table*}
+
+\begin{table*}[t]
+    \centering
+    \resizebox{1\textwidth}{!}{
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \hline
+     \textbf{Number} & \textbf{Optimizer} & \textbf{Loss}  & \textbf{Scheduler} & \textbf{Picture Size} & \textbf{mIoU}   & \textbf{Latency (s)} & \textbf{FLOPs}     & \textbf{Params} \\
+        \hline
+        1  & Adam  & CE    & False  & 720x720   & 0.3617 & 0.029  & 1.10e+12  & 6.14e+07  \\
+        2  & Adam  & CE    & False  & 1024x1024 & 0.3906 & 0.027  & 1.10e+12  & 6.14e+07  \\
+        3  & Adam  & CE    & True   & 720x720   & 0.3727 & 0.029  & 1.10e+12  & 6.14e+07  \\
+        4  & Adam  & CE    & True   & 1024x1024 & 0.3893 & 0.027  & 1.10e+12  & 6.14e+07  \\
+        5  & Adam  & OHEM  & False  & 720x720   & 0.3318 & 0.034  & 1.10e+12  & 6.14e+07  \\
+        6  & Adam  & OHEM  & True   & 1024x1024 & 0.4275 & 0.033  & 1.10e+12  & 6.14e+07  \\
+        7  & Adam  & OHEM  & True   & 720x720   & 0.4368 & 0.030  & 1.10e+12  & 6.14e+07  \\
+        8  & Adam  & DICE  & True   & 720x720   & 0.3663 & 0.033  & 1.10e+12  & 6.14e+07  \\
+        9  & Adam  & FOCAL & True   & 720x720   & 0.4233 & 0.033  & 1.10e+12  & 6.14e+07  \\
+        10 & SDG   & OHEM  & False  & 720x720   & 0.3868 & 0.035  & 1.10e+12  & 6.14e+07  \\
+        11 & SDG   & OHEM  & False  & 1024x1024 & 0.3059 & 0.031  & 1.10e+12  & 6.14e+07  \\
+        12 & SDG   & CE    & False  & 720x720   & 0.2630 & 0.029  & 1.10e+12  & 6.14e+07  \\
+        13 & SDG   & OHEM  & True   & 720x720   & 0.3657 & 0.033  & 1.10e+12  & 6.14e+07  \\
+        14 & SDG   & DICE  & False  & 720x720   & 0.3442 & 0.033  & 1.10e+12  & 6.14e+07  \\
+        15 & SDG   & FOCAL & False  & 720x720   & 0.2245 & 0.033  & 1.10e+12  & 6.14e+07  \\
+        16 & SDG   & CE    & True   & 1024x1024 & 0.3554 & 0.027  & 1.10e+12  & 6.14e+07  \\
+    \hline
+    \end{tabular}}
+    \caption{Performance of PIDNet with Different Configurations}
+\end{table*}
+
+\noindent
 
 \section{Experiments and results}
 \label{sec:experiments}
@@ -189,33 +245,9 @@ In this section, we present the experimental results obtained by evaluating the 
 \subsection{DeepLabv2 Experiments}
 For the experiments, we have chosen bottleneck layer with Convolutional Layer that use 1x1 and 3x3 kernels; for the Dropout layers a default dropout rate of 0.5. For the four ASPP filters we have chosen the following rates: 6, 12, 18, and 24. For ASPP weights the weights are initialized using a Gaussian distribution with a mean of 0 and a small standard deviation (Normal Initialization) while biases are initialized to zero (Constant Initialization). The Batch size is chosen to be 6.
 
-We evaluated the performance of the DeepLabV2 model on the LoveDA-Urban dataset using both the training and validation splits for 20 epochs. The experiments focused on testing various combinations of optimizers, loss functions, learning rates while maintaining a fixed input image size of 
-720×720 pixels. The performance metric used for evaluation were the mean Intersection over Union (mIoU), the latency as time (in seconds) required to process a single image during validation, FLOPs to estimate the total number of floating-point operations required for a forward pass through the network, Parameters as the total number of trainable parameters in the model.
+We evaluated the performance of the DeepLabV2 model on the LoveDA-Urban dataset using both the training and validation splits for 20 epochs. The experiments focused on testing various combinations of optimizers, loss functions, learning rates while maintaining a fixed input image size of 720×720 pixels. The performance metric used for evaluation were the mean Intersection over Union (mIoU), the latency as time (in seconds) required to process a single image during validation, FLOPs to estimate the total number of floating-point operations required for a forward pass through the network, Parameters as the total number of trainable parameters in the model.
 
-The configurations and results are summarized in the Table. We conducted experiments using two optimizers: Adam and SGD, with four loss functions: Cross Entropy (CE), Dice Loss, Focal Loss, and Optimized Cross Entropy (OCE). All experiments used a learning rate scheduler to adjust the learning rate dynamically during training. Two learning rates were tested: 0.001 and 0.01.
-
-\begin{table}[h!]
-\centering
-\caption{DeepLab V2 on LoveDA-Urban (Train \& Val), 20 epochs}
-\label{tab:deeplab_loveda}
-\resizebox{0.49\textwidth}{!}{ % Adjust width to fit half-column
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
-\hline
-\textbf{Optimizer} & \textbf{Loss} & \textbf{Scheduler} & \textbf{Picture Size} & \textbf{mIoU} & \textbf{bestIoU} & \textbf{lr} & \textbf{Latency (s)} & \textbf{FLOPs} & \textbf{Params} \\ \hline
-Adam & CE & True & 720x720 & 0.2514 & 0.2734 & 0.001 & 0.032039 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-Adam & DICE & True & 720x720 & 0.1323 & 0.1274 & 0.001 & 0.031418 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-Adam & FOCAL & True & 720x720 & 0.2151 & 0.2559 & 0.001 & 0.034404 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-Adam & OCE & True & 720x720 & - & - & 0.001 & - & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-SGD & CE & True & 720x720 & 0.3318 & 0.3364 & 0.01 & 0.030374 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-SGD & DICE & True & 720x720 & 0.1822 & 0.3112 & 0.01 & 0.030979 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-SGD & FOCAL & True & 720x720 & 0.2466 & 0.2761 & 0.01 & 0.030632 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-SGD & OCE & True & 720x720 & 0.3267 & 0.3473 & 0.01 & 0.028466 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-SGD & DICE & True & 720x720 & 0.3501 & 0.3610 & 0.001 & 0.029606 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-SGD & CE & True & 720x720 & 0.3428 & 0.3526 & 0.001 & 0.031390 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-SGD & OCE & True & 720x720 & 0.3412 & 0.3422 & 0.001 & 0.032534 & $1.10\times10^{12}$ & $6.14\times10^7$ \\ \hline
-\end{tabular}
-}
-\end{table}
+The configurations and results are summarized in the Table 1. We conducted experiments using two optimizers: Adam and SGD, with four loss functions: Cross Entropy (CE), Dice Loss, Focal Loss, and Optimized Cross Entropy (OCE). All experiments used a learning rate scheduler to adjust the learning rate dynamically during training. Two learning rates were tested: 0.001 and 0.01.
 
 For ADAM optimizer, among the loss functions tested, the Cross Entropy loss achieved the highest bestIoU (0.2734). The Dice Loss performed the worst with an mIoU of 0.1323.
 
@@ -223,12 +255,6 @@ SGD consistently outperformed Adam in terms of mIoU, likely due to Adam’s sens
 
 The learning rate played a crucial role in performance: SGD benefited from a higher learning rate (0.01), while Adam required a lower rate (0.001) to avoid instability. Overall, SGD was the superior optimizer for this task, especially when paired with Dice Loss or OCE Loss, suggesting it is a more robust choice for semantic segmentation for DeepLabV2 on this dataset.
  
-
-
-
-
-
-
 \subsection{PIDNet Experiments}
 
 As described in the Methodology section, we implemented various loss functions, optimizers, and a learning rate scheduler to enhance the performance of the PidNet model in domain adaptation scenarios. Table 2 presents the results obtained across different configurations.
@@ -240,6 +266,101 @@ These trends can be attributed to PidNet’s architecture, which effectively pre
 While higher resolutions generally yield better results by capturing finer details and providing better contextual understanding, an exception is observed in the Adam + OCE + Scheduler configuration. Surprisingly, this setup performs best at 720×720 resolution rather than 1024×1024. This can be attributed to the aggressive nature of the optimization strategy, which emphasizes hard-to-classify pixels. At higher resolutions, this may lead to optimization instability, making it harder for the model to converge effectively.
 
 Based on this analysis, we have selected PidNet with Adam optimizer, OCE loss, and a learning rate scheduler at 720×720 resolution as our main model for domain adaptation experiments. This configuration has demonstrated the best trade-off between performance, stability, and generalization, and will be used in all subsequent experiments.
+
+\begin{table*}[t]
+    \centering
+    \resizebox{1\textwidth}{!}{
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+        \textbf{Numero} & \textbf{AUG\_CHANCE} & \textbf{AUG1}  & \textbf{AUG2}  & \textbf{AUG3}  & \textbf{mIoU} & \textbf{Building} & \textbf{Road}   & \textbf{Water}  & \textbf{Barren} & \textbf{Forest}  & \textbf{Grassland} & \textbf{Farmland} \\
+                \hline
+                Default & False      & False & False & False & 0.2296        & 0.4158   & 0.2176 & 0.1666 & 0.3349 & 0.0590  & 0.1415    & 0.2716   \\
+                1      & TRUE       & False & False & False & 0.2951        & 0.5217   & 0.3381 & 0.3098 & 0.3188 & 0.0673  & 0.0839    & 0.4262   \\
+                2      & TRUE       & True  & False & False & 0.3042        & 0.5255   & 0.3789 & 0.3074 & 0.4121 & 0.0377  & 0.0265    & 0.4417   \\
+                3      & TRUE       & False & True  & False & 0.3108        & 0.4900   & 0.3403 & 0.3097 & 0.4075 & 0.0582  & 0.1526    & 0.4170   \\
+                4      & TRUE       & True  & True  & False & 0.3143        & 0.4766   & 0.3495 & 0.3304 & 0.3810 & 0.0682  & 0.1779    & 0.4165   \\
+                5      & TRUE       & False & False & True  & 0.3020        & 0.5257   & 0.3998 & 0.2933 & 0.3413 & 0.0708  & 0.0574    & 0.4257   \\
+                6      & TRUE       & True  & False & True  & 0.3008        & 0.5102   & 0.3952 & 0.3130 & 0.3587 & 0.0457  & 0.0505    & 0.4324   \\
+                7      & TRUE       & False & True  & True  & 0.3509        & 0.5306   & 0.2683 & 0.3407 & 0.4896 & 0.1072  & 0.2865    & 0.4332   \\
+                8      & TRUE       & True  & True  & True  & 0.3014        & 0.4877   & 0.3868 & 0.3008 & 0.3700 & 0.0586  & 0.1589    & 0.3472   \\
+            \hline
+    \end{tabular}}
+    \caption{Performance of PIDNet with Different Augmentation Techniques}
+\end{table*}
+\noindent
+
+\begin{table*}[t]
+\centering
+\resizebox{1\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{mIoU} & \textbf{Building} & \textbf{Road} & \textbf{Water} & \textbf{Barren} & \textbf{Forest} & \textbf{Grassland} & \textbf{Farmland} \\ \hline
+PIDNet ADV & 0.2770 & 0.5145 & 0.2651 & 0.2679 & 0.3808 & 0.1306 & 0.0585 & 0.3217 \\ \hline
+PIDNet DACS & 0.2918 & 0.5454 & 0.3345 & 0.2913 & 0.4343 & 0.1016 & 0.2310 & 0.3959 \\ \hline
+\end{tabular}
+}
+\caption{Performance of PIDNet with Adversarial Learning and DACS}
+\end{table*}
+
+\afterpage{
+    \begin{figure*}[t]
+        \centering
+        \begin{minipage}{0.48\textwidth} % Left block
+            \centering
+            \begin{subfigure}[b]{0.45\textwidth}
+                \includegraphics[width=\textwidth]{images/1410.png}
+                \caption{Original Source Image 1410}
+                \label{fig:image1}
+            \end{subfigure}
+            \hspace{2mm}
+            \begin{subfigure}[b]{0.45\textwidth}
+                \includegraphics[width=\textwidth]{images/1410_fake.png}
+                \caption{CycleGAN image 1410}
+                \label{fig:image2}
+            \end{subfigure}
+            \vskip\baselineskip
+            \begin{subfigure}[b]{0.45\textwidth}
+                \includegraphics[width=\textwidth]{images/1457.png}
+                \caption{Original Source Image 1457}
+                \label{fig:image3}
+            \end{subfigure}
+            \hspace{2mm}
+            \begin{subfigure}[b]{0.45\textwidth}
+                \includegraphics[width=\textwidth]{images/1457_fake.png}
+                \caption{CycleGAN image 1457}
+                \label{fig:image4}
+            \end{subfigure}
+            \caption{Comparison between original images and CycleGAN-generated images (Left Block).}
+            \label{fig:left_block}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.48\textwidth} % Right block
+            \centering
+            \begin{subfigure}[b]{0.45\textwidth}
+                \includegraphics[width=\textwidth]{images/1410.png}
+                \caption{Original Source Image 1410}
+            \end{subfigure}
+            \hspace{2mm}
+            \begin{subfigure}[b]{0.45\textwidth}
+                \includegraphics[width=\textwidth]{images/1410_fake.png}
+                \caption{CycleGAN image 1410}
+            \end{subfigure}
+            \vskip\baselineskip
+            \begin{subfigure}[b]{0.45\textwidth}
+                \includegraphics[width=\textwidth]{images/1457.png}
+                \caption{Original Source Image 1457}
+            \end{subfigure}
+            \hspace{2mm}
+            \begin{subfigure}[b]{0.45\textwidth}
+                \includegraphics[width=\textwidth]{images/1457_fake.png}
+                \caption{CycleGAN image 1457}
+            \end{subfigure}
+            \caption{Another set of comparisons (Right Block).}
+            \label{fig:right_block}
+        \end{minipage}
+    \end{figure*}
+}
+
 
 
 \subsection{Data Augmentation Experiments}
@@ -255,11 +376,13 @@ When augmentations are combined, mixed results are observed. AUG1 combined with 
 After analyzing the results, we conclude that AUG2 and AUG3 are the most effective augmentation techniques for enhancing domain adaptation performance in the LoveDA dataset. This configuration will be used for next two experiments, the Adversarial Learning and the DACS.
 
 \subsection{Adversarial Learning Experiments}
+
+The Adversarial Learning technique was implemented to enhance the PIDNet model's performance in domain adaptation scenarios. The model was trained on the LoveDA-Urban domain and tested on the LoveDA-Rural domain to evaluate its ability to generalize across different environments. The results of the experiments are presented in Table 4.
 The experimental results demonstrate that the baseline PIDNet model achieves an mIoU of 0.3509 when tested on the LoveDA-Rural domain, while the adversarial multi-state variant (PIDNet-ADV) shows a decrease in performance with an mIoU of 0.2770. The class-wise analysis reveals that PIDNet maintains superior performance across most categories, with notable advantages in Barren (+10.88\%), Water (+7.28\%), and particularly Grassland (+22.80\%). However, PIDNet-ADV exhibits marginally better performance in Forest class (+2.34\%). This performance degradation in the adversarial variant suggests that while adversarial training might enhance robustness, it could potentially compromise the model's ability to generalize effectively across domain shifts, particularly in the challenging urban-to-rural transfer scenario characteristic of the LoveDA dataset.
 
 \subsection{DACS Experiments}
 
-The same experiments done on Adversarial Learning was done also on Image-to-Image approach with DACS. The results obtained with PIDNet using DACS demonstrate a notable improvement compared to some of the previous configurations without DACS. The mIoU reaches 0.2918, surpassing the baseline (0.2296) and some configurations that relied solely on data augmentation. This suggests that DACS effectively enhances domain adaptation by leveraging pseudo-labels to refine feature alignment between the source and target domains. Compared to the best augmentation-based configuration (AUG2 + AUG3, mIoU = 0.3509), DACS still underperforms slightly, particularly in barren (0.4343 vs. 0.4896) and forest (0.1016 vs. 0.1072) regions, but achieves competitive performance in water (0.2913 vs. 0.3407) and grassland (0.2310 vs. 0.2865).
+The same experiments done on Adversarial Learning was done also on Image-to-Image approach with DACS. The results obtained with PIDNet using DACS (presented in Table 4) demonstrate a notable improvement compared to some of the previous configurations without DACS. The mIoU reaches 0.2918, surpassing the baseline (0.2296) and some configurations that relied solely on data augmentation. This suggests that DACS effectively enhances domain adaptation by leveraging pseudo-labels to refine feature alignment between the source and target domains. Compared to the best augmentation-based configuration (AUG2 + AUG3, mIoU = 0.3509), DACS still underperforms slightly, particularly in barren (0.4343 vs. 0.4896) and forest (0.1016 vs. 0.1072) regions, but achieves competitive performance in water (0.2913 vs. 0.3407) and grassland (0.2310 vs. 0.2865).
 Notably, DACS significantly improves farmland segmentation (0.3959) compared to augmentation-based methods, which struggled with this class. It also yields a strong improvement in building (0.5454) and road (0.3345) segmentation, reinforcing its capability to enhance structured urban features. However, the overall performance remains below the optimal augmentation-only strategy (0.3509), indicating that pseudo-labels may still introduce some noise, especially in complex, texture-rich rural landscapes. 
 
 The picture 4 show the obtained pseudolabels and the mixing result considering source and target images. 
@@ -273,7 +396,6 @@ The Generators model are based on ResNet architecture, to mitigate Vanishing Gra
 After training, only the Generator $Urban \Rightarrow Rural$
 it taken and applied on just the Urban train images to obtain the transformed fake dataset.
 
-!!! FAKE IMAGES EXAMPLES !!!
 
 We use the fake images dataset to train the PidNet with the configurations of the (REFERENCE TO CONFIGURATION OF 2b and of 3b). Here are the results of the validation.
 

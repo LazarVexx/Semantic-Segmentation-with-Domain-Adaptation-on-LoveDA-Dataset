@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  29 JAN 2025 19:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.3)  30 JAN 2025 16:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -273,6 +273,11 @@ Package: abstract 2009/06/08 v1.2a configurable abstracts
 \absrightindent=\skip57
 \absparindent=\skip58
 \absparsep=\skip59
+) (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/tools\afterpage.sty
+Package: afterpage 2023/07/04 v1.08 After-Page Package (DPC)
+\AP@output=\toks25
+\AP@partial=\box56
+\AP@footins=\box57
 ) (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/caption\subcaption.sty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
@@ -301,41 +306,41 @@ Package caption Info: New subtype `subtable' on input line 238.
 ) (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count303
-\l__pdf_internal_box=\box56
+\l__pdf_internal_box=\box58
 ) (s327313_s324807_s326811_project4.aux)
 \openout1 = `s327313_s324807_s326811_project4.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count304
 \scratchdimen=\dimen178
-\scratchbox=\box57
+\scratchbox=\box59
 \nofMPsegments=\count305
 \nofMParguments=\count306
-\everyMPshowfont=\toks25
+\everyMPshowfont=\toks26
 \MPscratchCnt=\count307
 \MPscratchDim=\dimen179
 \MPnumerator=\count308
 \makeMPintoPDFobject=\count309
-\everyMPtoPDFconversion=\toks26
+\everyMPtoPDFconversion=\toks27
 ) (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -348,18 +353,18 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx))
-Package hyperref Info: Link coloring ON on input line 20.
+Package hyperref Info: Link coloring ON on input line 22.
  (s327313_s324807_s326811_project4.out) (s327313_s324807_s326811_project4.out)
 \@outlinefile=\write3
 \openout3 = `s327313_s324807_s326811_project4.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 40.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 42.
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 40.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 42.
  (C:\Users\lucai\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -374,11 +379,6 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 [2]
-Underfull \hbox (badness 2617) in paragraph at lines 110--111
-\OT1/cmr/m/n/10 chal-leng-ing ex-am-ples, Ohem en-hances the
- []
-
-
 
 
 
@@ -389,55 +389,106 @@ Underfull \hbox (badness 2617) in paragraph at lines 110--111
 [4]
 
 
-Overfull \hbox (119.3821pt too wide) detected at line 170
-\OML/cmm/m/it/10 L[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 G; D[]; X; Y\OT1/cmr/m/n/10 ) = \U/msb/m/n/10 E[] [] \OT1/cmr/m/n/10 + \U/msb/m/n/10 E[] [] \OML/cmm/m/it/10 ;
- []
-
-
-Overfull \hbox (92.65683pt too wide) detected at line 181
-\OML/cmm/m/it/10 L[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 G; F\OT1/cmr/m/n/10 ) = \U/msb/m/n/10 E[] [] \OT1/cmr/m/n/10 + \U/msb/m/n/10 E[] [] \OML/cmm/m/it/10 :
+Overfull \hbox (24.27954pt too wide) detected at line 173
+[]
  []
 
 
 
 [5]
-Overfull \hbox (5.315pt too wide) in paragraph at lines 201--218
- [][] 
- []
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
 [6]
-Underfull \hbox (badness 1496) in paragraph at lines 251--252
+
+
+Underfull \hbox (badness 1496) in paragraph at lines 372--373
 \OT1/cmr/m/n/10 per-for-mance to 0.2951, demon-strat-ing that in-
  []
 
 
 
+[7]
+<images/1410.png, id=177, 1027.84pt x 1027.84pt>
+File: images/1410.png Graphic file (type png)
+<use images/1410.png>
+Package pdftex.def Info: images/1410.png  used on input line 376.
+(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
+<images/1410_fake.png, id=178, 1027.84pt x 1027.84pt>
+File: images/1410_fake.png Graphic file (type png)
+<use images/1410_fake.png>
+Package pdftex.def Info: images/1410_fake.png  used on input line 376.
+(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 257--257
+Underfull \hbox (badness 10000) in paragraph at lines 376--376
+[]\OT1/cmr/m/n/9 (b) |Cy-cle-GAN im-age
+ []
+
+<images/1457.png, id=179, 1027.84pt x 1027.84pt>
+File: images/1457.png Graphic file (type png)
+<use images/1457.png>
+Package pdftex.def Info: images/1457.png  used on input line 376.
+(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
+<images/1457_fake.png, id=180, 1027.84pt x 1027.84pt>
+File: images/1457_fake.png Graphic file (type png)
+<use images/1457_fake.png>
+Package pdftex.def Info: images/1457_fake.png  used on input line 376.
+(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 376--376
+[]\OT1/cmr/m/n/9 (d) |Cy-cle-GAN im-age
+ []
+
+File: images/1410.png Graphic file (type png)
+<use images/1410.png>
+Package pdftex.def Info: images/1410.png  used on input line 376.
+(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
+File: images/1410_fake.png Graphic file (type png)
+<use images/1410_fake.png>
+Package pdftex.def Info: images/1410_fake.png  used on input line 376.
+(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 376--376
+[]\OT1/cmr/m/n/9 (b) |Cy-cle-GAN im-age
+ []
+
+File: images/1457.png Graphic file (type png)
+<use images/1457.png>
+Package pdftex.def Info: images/1457.png  used on input line 376.
+(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
+File: images/1457_fake.png Graphic file (type png)
+<use images/1457_fake.png>
+Package pdftex.def Info: images/1457_fake.png  used on input line 376.
+(pdftex.def)             Requested size: 101.3024pt x 101.30008pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 376--376
+[]\OT1/cmr/m/n/9 (d) |Cy-cle-GAN im-age
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 378--378
 []\OT1/cmr/bx/n/12 Adversarial Learn-ing Ex-per-i-
  []
 
 
-Underfull \hbox (badness 2359) in paragraph at lines 258--259
-\OT1/cmr/m/n/10 PID-Net main-tains su-pe-rior per-for-mance across
- []
 
 
 
-[7]
+[8]
 
 (s327313_s324807_s326811_project4.bbl (s327313_s324807_s326811_project4.brf)
 \tf@brf=\write4
 \openout4 = `s327313_s324807_s326811_project4.brf'.
 
 
+Underfull \vbox (badness 1264) has occurred while \output is active []
+
+
+
+[9 <./images/1410.png (PNG copy)> <./images/1410_fake.png (PNG copy)> <./images/1457.png (PNG copy)> <./images/1457_fake.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 12--12
 \OT1/cmr/m/n/10 A brief sur-vey on se-man-tic seg-men-ta-
  []
@@ -448,8 +499,6 @@ Underfull \hbox (badness 2205) in paragraph at lines 12--12
  []
 
 
-
-[8]
 Underfull \hbox (badness 5077) in paragraph at lines 50--50
 []\OT1/cmr/m/n/10 Niccolo Cav-agnero, Gabriele Rosi, Clau-
  []
@@ -469,13 +518,11 @@ Underfull \hbox (badness 1308) in paragraph at lines 68--68
 []\OT1/cmr/m/n/10 Bowen Cheng, Is-han Misra, Alexan-der G.
  []
 
+
+
 )
 
-
-
-[9
-
-] (s327313_s324807_s326811_project4.aux)
+[10] (s327313_s324807_s326811_project4.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -486,17 +533,17 @@ Package rerunfilecheck Info: File `s327313_s324807_s326811_project4.brf' has not
 (rerunfilecheck)             Checksum: BE28706F10D00387D12EE6CCA61F4326;1090.
  ) 
 Here is how much of TeX's memory you used:
- 13321 strings out of 473682
- 225871 string characters out of 5719216
- 638145 words of memory out of 5000000
- 36208 multiletter control sequences out of 15000+600000
+ 13427 strings out of 473682
+ 228184 string characters out of 5719216
+ 653145 words of memory out of 5000000
+ 36303 multiletter control sequences out of 15000+600000
  567733 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,11n,93p,1457b,554s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\lucai\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on s327313_s324807_s326811_project4.pdf (9 pages, 294796 bytes).
+ 90i,12n,93p,1457b,606s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\lucai\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/lucai/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on s327313_s324807_s326811_project4.pdf (10 pages, 7443982 bytes).
 PDF statistics:
- 296 PDF objects out of 1000 (max. 8388607)
- 46 named destinations out of 1000 (max. 500000)
- 177 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 316 PDF objects out of 1000 (max. 8388607)
+ 53 named destinations out of 1000 (max. 500000)
+ 197 words of extra memory for PDF output out of 10000 (max. 10000000)
 

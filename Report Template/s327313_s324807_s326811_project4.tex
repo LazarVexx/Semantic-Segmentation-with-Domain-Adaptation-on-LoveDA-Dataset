@@ -247,7 +247,7 @@ For the experiments, we have chosen bottleneck layer with Convolutional Layer th
 
 We evaluated the performance of the DeepLabV2 model on the LoveDA-Urban dataset using both the training and validation splits for 20 epochs. The experiments focused on testing various combinations of optimizers, loss functions, learning rates while maintaining a fixed input image size of 720×720 pixels. The performance metric used for evaluation were the mean Intersection over Union (mIoU), the latency as time (in seconds) required to process a single image during validation, FLOPs to estimate the total number of floating-point operations required for a forward pass through the network, Parameters as the total number of trainable parameters in the model.
 
-The configurations and results are summarized in the Table 1. We conducted experiments using two optimizers: Adam and SGD, with four loss functions: Cross Entropy (CE), Dice Loss, Focal Loss, and Optimized Cross Entropy (OCE). All experiments used Cosine Annealing Learning Rate Scheduler to adjust the learning rate dynamically during training. Two learning rates were tested: 0.001 and 0.01.
+The configurations and results are summarized in the Table 1 . We conducted experiments using two optimizers: Adam and SGD, with four loss functions: Cross Entropy (CE), Dice Loss, Focal Loss, and Optimized Cross Entropy (OCE). All experiments used Cosine Annealing Learning Rate Scheduler to adjust the learning rate dynamically during training. Two learning rates were tested: 0.001 and 0.01.
 
 For ADAM optimizer, among the loss functions tested, the Cross Entropy loss achieved the highest bestIoU (0.2734). The Dice Loss performed the worst with an mIoU of 0.1323.
 
@@ -379,7 +379,7 @@ PIDNet DACS & 0.2918 & 0.5454 & 0.3345 & 0.2913 & 0.4343 & 0.1016 & 0.2310 & 0.3
                 \includegraphics[width=\textwidth]{images/dacs_mixed_lb.png}
                 \caption{Mixed Label}
             \end{subfigure}
-            \caption{DACS: Source, Target, and Mixed Images}
+            \caption{DACS Pictures: Source, Target with Pseudo-labels and Mixed Images}
             \label{fig:DACS}
         \end{minipage}
     \end{figure*}
@@ -448,13 +448,8 @@ PEM-CycleGAN & CycleGAN LoveDa-Urban & LoveDa-Rural & 0.4685 & 62.2863 \\
 
 \subsection{CycleGAN Experiments}
 The Generators model are based on ResNet architecture, to mitigate Vanishing Gradient. The Discriminator Networks are built using a basic CNN architecture. As adversarial loss function the least-squares loss is used. To stabilize the training of the discriminators are used image pools to store previously generated fake images, rather than always using the most recent generated fake image, to prevent the discriminators from overfitting to recent examples. The optimizer used is Adam, the batch size is equal to 1, and learning rate equal to 0.0002. The model was trained for 27 epochs. 
-After training, only the Generator $Urban \Rightarrow Rural$
-is taken and applied on just the Urban train images to obtain the transformed fake dataset.
+After training, only the Generator $Urban \Rightarrow Rural$ is taken and applied on just the Urban train images to obtain the transformed fake dataset.
 We use the fake images dataset to train the PidNet in the case of both training and validation with Urban, and in the case of training with Urban and validation on Rural. Here are the results of the validation.
-
-
-
-\clearpage
 
 When there is a large diversity gap in class distributions between domains, CycleGAN may fail to capture the true variability of the rural domain when transforming urban images (or vice versa). This means that the generated "fake rural" images from urban inputs may not fully resemble the rural domain distribution, leading to unrealistic or biased transformations.
 This could explain why training PIDNet on transformed images does not yield better performance neither for the former configuration nor for the latter: the biased synthetic images seem not to add useful diversity or meaningful domain adaptation.

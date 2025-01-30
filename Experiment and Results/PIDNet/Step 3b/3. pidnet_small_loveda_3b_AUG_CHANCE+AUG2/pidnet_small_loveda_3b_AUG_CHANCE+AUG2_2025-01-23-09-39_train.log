@@ -1,5 +1,5 @@
-2025-01-30 16:22:04,355 Namespace(cfg='configs/loveDa/tests/4/pidnet_small_loveda_train_DACS.yaml', seed=304, opts=['GPUS', '[0]'])
-2025-01-30 16:22:04,356 AUTO_RESUME: False
+2025-01-23 09:39:22,758 Namespace(cfg='configs/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2.yaml', seed=304, opts=['GPUS', '[0]', 'TRAIN.BATCH_SIZE_PER_GPU', '6'])
+2025-01-23 09:39:22,758 AUTO_RESUME: False
 CUDNN:
   BENCHMARK: True
   DETERMINISTIC: False
@@ -9,15 +9,15 @@ DATASET:
   EXTRA_TRAIN_SET: 
   NUM_CLASSES: 8
   ROOT: data/
-  SOURCE_DATASET: loveDa
+  SOURCE_DATASET: loveDA-Urban
   SOURCE_TEST_SET: list/loveDA-Urban/val.lst
   SOURCE_TRAIN_SET: list/loveDA-Urban/train.lst
-  TARGET_DATASET: loveDa
-  TARGET_SET: list/loveDa/val.lst
-  TARGET_TEST_SET: list/loveDa-Rural/val.lst
-  TARGET_TRAIN_SET: list/loveDa-Rural/train.lst
-  TEST_SET: list/loveDa/val.lst
-  TRAIN_SET: list/loveDa/train.lst
+  TARGET_DATASET: loveDA-Rural
+  TARGET_SET: list/cityscapes/val.lst
+  TARGET_TEST_SET: list/loveDA-Rural/val.lst
+  TARGET_TRAIN_SET: list/loveDA-Rural/train.lst
+  TEST_SET: list/loveDa-Rural/val.lst
+  TRAIN_SET: list/loveDA-Urban/train.lst
 GPUS: (0,)
 LOG_DIR: log
 LOSS:
@@ -50,13 +50,12 @@ TRAIN:
   AUG: True
   AUG1: False
   AUG2: True
-  AUG3: True
+  AUG3: False
   AUG4: False
   AUG_CHANCE: True
   BASE_SIZE: 720
   BATCH_SIZE_PER_GPU: 6
-  BEGIN_EPOCH: 0
-  D1: False
+  BEGIN_EPOCH: 1
   END_EPOCH: 20
   EVAL_INTERVAL: 1
   EXTRA_EPOCH: 0
@@ -67,7 +66,6 @@ TRAIN:
   IMAGE_SIZE: [720, 720]
   LAMBDA_ADV1: 0.001
   LAMBDA_ADV2: 0.001
-  LAMBDA_SEG2: 0.001
   LR: 0.001
   LR_D1: 0.001
   LR_D2: 0.001
@@ -81,10 +79,6 @@ TRAIN:
   SHUFFLE: True
   WD: 0.0005
 WORKERS: 0
-2025-01-30 16:22:04,626 Attention!!!
-2025-01-30 16:22:04,626 Loaded 302 parameters!
-2025-01-30 16:22:04,626 Over!!!
-2025-01-30 16:22:05,040 Attention!!!
-2025-01-30 16:22:05,040 Loaded 302 parameters!
-2025-01-30 16:22:05,040 Over!!!
-2025-01-30 16:22:06,977 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.9802322e-08..0.87202096].
+2025-01-23 09:39:23,379 Attention!!!
+2025-01-23 09:39:23,379 Loaded 302 parameters!
+2025-01-23 09:39:23,379 Over!!!

@@ -1,0 +1,985 @@
+/content/AML2024/PIDNet
+/usr/local/lib/python3.11/dist-packages/albumentations/__init__.py:24: UserWarning: A new version of Albumentations is available: 2.0.1 (you have 1.4.20). Upgrade using: pip install -U albumentations. To disable automatic update checks, set the environment variable NO_ALBUMENTATIONS_UPDATE to 1.
+  check_for_updates()
+Seeding with 304
+=> creating output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3
+=> creating log/loveDa/pidnet_small/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3_2025-01-26-09-35
+Namespace(cfg='configs/loveda/tests/3b_test/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3.yaml', seed=304, opts=['GPUS', '[0]', 'TRAIN.BATCH_SIZE_PER_GPU', '6'])
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: loveDa
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 8
+  ROOT: data/
+  SOURCE_DATASET: loveDA-Urban
+  SOURCE_TEST_SET: list/loveDA-Urban/val.lst
+  SOURCE_TRAIN_SET: list/loveDA-Urban/train.lst
+  TARGET_DATASET: loveDA-Rural
+  TARGET_SET: list/loveDa/val.lst
+  TARGET_TEST_SET: list/loveDA-Rural/val.lst
+  TARGET_TRAIN_SET: list/loveDA-Rural/train.lst
+  TEST_SET: list/loveDa-Rural/val.lst
+  TRAIN_SET: list/loveDA-Urban/train.lst
+GPUS: (0,)
+LOG_DIR: log
+LOSS:
+  BALANCE_WEIGHTS: [0.4, 1.0]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.7
+  SB_WEIGHTS: 0.5
+  USE_DICE: False
+  USE_FOCAL: False
+  USE_OHEM: True
+MODEL:
+  ALIGN_CORNERS: True
+  NAME: pidnet_small
+  NUM_OUTPUTS: 2
+  PRETRAINED: pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar
+OUTPUT_DIR: output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+TEST:
+  BASE_SIZE: 1024
+  BATCH_SIZE_PER_GPU: 6
+  FLIP_TEST: False
+  IMAGE_SIZE: [1024, 1024]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  OUTPUT_INDEX: 1
+TRAIN:
+  ADVERSARIAL: False
+  AUG: True
+  AUG1: False
+  AUG2: True
+  AUG3: True
+  AUG4: False
+  AUG_CHANCE: True
+  BASE_SIZE: 720
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 1
+  D1: False
+  END_EPOCH: 20
+  EVAL_INTERVAL: 1
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  GAN: Vanilla
+  IGNORE_LABEL: 0
+  IMAGE_SIZE: [720, 720]
+  LAMBDA_ADV1: 0.001
+  LAMBDA_ADV2: 0.001
+  LR: 0.001
+  LR_D1: 0.001
+  LR_D2: 0.001
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  OPTIMIZER: adam
+  RESUME: False
+  SCALE_FACTOR: 16
+  SCHEDULER: True
+  SHUFFLE: True
+  WD: 0.0005
+WORKERS: 0
+/content/AML2024/PIDNet/tools/../models/pidnet.py:192: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  pretrained_state = torch.load(cfg.MODEL.PRETRAINED, map_location='cpu')['state_dict']
+Attention!!!
+Loaded 302 parameters!
+Over!!!
+Warm-up Epoch 1: Learning Rate = 0.0002
+Epoch: [0/20] Iter:[0/292], Time: 6.23, lr: [0.0002], Loss: 4.465663, Acc:0.122325, Semantic loss: 0.661658, BCE loss: 3.555048, SB loss: 0.248957
+Epoch: [0/20] Iter:[10/292], Time: 1.48, lr: [0.00019969175441670646], Loss: 3.524082, Acc:0.220678, Semantic loss: 0.500349, BCE loss: 2.842807, SB loss: 0.180926
+Epoch: [0/20] Iter:[20/292], Time: 1.27, lr: [0.00019938345595653812], Loss: 3.041229, Acc:0.261703, Semantic loss: 0.436339, BCE loss: 2.446588, SB loss: 0.158302
+Epoch: [0/20] Iter:[30/292], Time: 1.19, lr: [0.00019907510451954731], Loss: 2.687229, Acc:0.281674, Semantic loss: 0.389754, BCE loss: 2.156574, SB loss: 0.140901
+Epoch: [0/20] Iter:[40/292], Time: 1.14, lr: [0.00019876670000542487], Loss: 2.454722, Acc:0.288644, Semantic loss: 0.364305, BCE loss: 1.961620, SB loss: 0.128798
+Epoch: [0/20] Iter:[50/292], Time: 1.11, lr: [0.00019845824231349852], Loss: 2.342737, Acc:0.311140, Semantic loss: 0.338757, BCE loss: 1.885866, SB loss: 0.118114
+Epoch: [0/20] Iter:[60/292], Time: 1.11, lr: [0.0001981497313427308], Loss: 2.246248, Acc:0.332001, Semantic loss: 0.314679, BCE loss: 1.822017, SB loss: 0.109552
+Epoch: [0/20] Iter:[70/292], Time: 1.10, lr: [0.00019784116699171706], Loss: 2.168212, Acc:0.341679, Semantic loss: 0.301969, BCE loss: 1.761612, SB loss: 0.104630
+Epoch: [0/20] Iter:[80/292], Time: 1.09, lr: [0.0001975325491586837], Loss: 2.079879, Acc:0.346033, Semantic loss: 0.288425, BCE loss: 1.691766, SB loss: 0.099688
+Epoch: [0/20] Iter:[90/292], Time: 1.08, lr: [0.00019722387774148586], Loss: 2.030915, Acc:0.355138, Semantic loss: 0.280170, BCE loss: 1.655079, SB loss: 0.095666
+Epoch: [0/20] Iter:[100/292], Time: 1.07, lr: [0.00019691515263760577], Loss: 1.981792, Acc:0.359833, Semantic loss: 0.272032, BCE loss: 1.617268, SB loss: 0.092492
+Epoch: [0/20] Iter:[110/292], Time: 1.07, lr: [0.00019660637374415042], Loss: 1.913837, Acc:0.363148, Semantic loss: 0.262679, BCE loss: 1.561731, SB loss: 0.089426
+Epoch: [0/20] Iter:[120/292], Time: 1.07, lr: [0.00019629754095784978], Loss: 1.885936, Acc:0.370836, Semantic loss: 0.256561, BCE loss: 1.542301, SB loss: 0.087073
+Epoch: [0/20] Iter:[130/292], Time: 1.06, lr: [0.00019598865417505453], Loss: 1.856314, Acc:0.377556, Semantic loss: 0.252537, BCE loss: 1.518559, SB loss: 0.085219
+Epoch: [0/20] Iter:[140/292], Time: 1.06, lr: [0.00019567971329173425], Loss: 1.829893, Acc:0.381757, Semantic loss: 0.246805, BCE loss: 1.499928, SB loss: 0.083160
+Epoch: [0/20] Iter:[150/292], Time: 1.05, lr: [0.0001953707182034751], Loss: 1.813876, Acc:0.388847, Semantic loss: 0.242322, BCE loss: 1.490218, SB loss: 0.081337
+Epoch: [0/20] Iter:[160/292], Time: 1.05, lr: [0.00019506166880547797], Loss: 1.788450, Acc:0.391785, Semantic loss: 0.238123, BCE loss: 1.470282, SB loss: 0.080046
+Epoch: [0/20] Iter:[170/292], Time: 1.05, lr: [0.0001947525649925561], Loss: 1.774887, Acc:0.394212, Semantic loss: 0.235139, BCE loss: 1.460958, SB loss: 0.078790
+Epoch: [0/20] Iter:[180/292], Time: 1.05, lr: [0.00019444340665913324], Loss: 1.767073, Acc:0.399685, Semantic loss: 0.232672, BCE loss: 1.456649, SB loss: 0.077752
+Epoch: [0/20] Iter:[190/292], Time: 1.05, lr: [0.00019413419369924132], Loss: 1.755551, Acc:0.405339, Semantic loss: 0.228385, BCE loss: 1.450825, SB loss: 0.076341
+Epoch: [0/20] Iter:[200/292], Time: 1.04, lr: [0.00019382492600651845], Loss: 1.734336, Acc:0.407231, Semantic loss: 0.225210, BCE loss: 1.433715, SB loss: 0.075411
+Epoch: [0/20] Iter:[210/292], Time: 1.04, lr: [0.00019351560347420662], Loss: 1.719436, Acc:0.407121, Semantic loss: 0.223885, BCE loss: 1.420357, SB loss: 0.075194
+Epoch: [0/20] Iter:[220/292], Time: 1.04, lr: [0.0001932062259951495], Loss: 1.708022, Acc:0.411292, Semantic loss: 0.220730, BCE loss: 1.413095, SB loss: 0.074197
+Epoch: [0/20] Iter:[230/292], Time: 1.04, lr: [0.00019289679346179048], Loss: 1.698681, Acc:0.414097, Semantic loss: 0.219391, BCE loss: 1.405731, SB loss: 0.073560
+Epoch: [0/20] Iter:[240/292], Time: 1.04, lr: [0.0001925873057661702], Loss: 1.683179, Acc:0.416672, Semantic loss: 0.217036, BCE loss: 1.393149, SB loss: 0.072993
+Epoch: [0/20] Iter:[250/292], Time: 1.04, lr: [0.0001922777627999244], Loss: 1.672255, Acc:0.419191, Semantic loss: 0.214714, BCE loss: 1.385270, SB loss: 0.072271
+Epoch: [0/20] Iter:[260/292], Time: 1.04, lr: [0.00019196816445428175], Loss: 1.666777, Acc:0.421964, Semantic loss: 0.212752, BCE loss: 1.382469, SB loss: 0.071556
+Epoch: [0/20] Iter:[270/292], Time: 1.04, lr: [0.00019165851062006144], Loss: 1.655648, Acc:0.423378, Semantic loss: 0.210553, BCE loss: 1.374278, SB loss: 0.070817
+Epoch: [0/20] Iter:[280/292], Time: 1.04, lr: [0.00019134880118767112], Loss: 1.653619, Acc:0.425806, Semantic loss: 0.209030, BCE loss: 1.374233, SB loss: 0.070357
+Epoch: [0/20] Iter:[290/292], Time: 1.04, lr: [0.00019103903604710435], Loss: 1.642366, Acc:0.428016, Semantic loss: 0.206972, BCE loss: 1.365665, SB loss: 0.069728
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.41898225 0.16379077 0.07461161 0.19335241 0.14803498
+ 0.04969556 0.00158004] 0.15000680241835398
+1 [0.         0.4474533  0.29494163 0.14034085 0.20296311 0.06269296
+ 0.0775554  0.0009247 ] 0.17526742286156435
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.254, MeanIU:  0.1753, Best_mIoU:  0.1753
+[0.         0.4474533  0.29494163 0.14034085 0.20296311 0.06269296
+ 0.0775554  0.0009247 ]
+Warm-up Epoch 2: Learning Rate = 0.0004
+Epoch: [1/20] Iter:[0/292], Time: 0.84, lr: [0.0003819541526485999], Loss: 1.425122, Acc:0.528436, Semantic loss: 0.180478, BCE loss: 1.186373, SB loss: 0.058271
+Epoch: [1/20] Iter:[10/292], Time: 1.01, lr: [0.0003813344883762535], Loss: 1.318838, Acc:0.400746, Semantic loss: 0.171420, BCE loss: 1.087131, SB loss: 0.060287
+Epoch: [1/20] Iter:[20/292], Time: 1.01, lr: [0.00038071471220058896], Loss: 1.350614, Acc:0.435878, Semantic loss: 0.167837, BCE loss: 1.124429, SB loss: 0.058349
+Epoch: [1/20] Iter:[30/292], Time: 1.03, lr: [0.0003800948238989128], Loss: 1.425756, Acc:0.465659, Semantic loss: 0.164289, BCE loss: 1.204238, SB loss: 0.057228
+Epoch: [1/20] Iter:[40/292], Time: 1.02, lr: [0.0003794748232476841], Loss: 1.394442, Acc:0.459936, Semantic loss: 0.164039, BCE loss: 1.173377, SB loss: 0.057026
+Epoch: [1/20] Iter:[50/292], Time: 1.01, lr: [0.00037885471002250946], Loss: 1.379386, Acc:0.465749, Semantic loss: 0.160689, BCE loss: 1.163036, SB loss: 0.055661
+Epoch: [1/20] Iter:[60/292], Time: 1.02, lr: [0.0003782344839981384], Loss: 1.408411, Acc:0.470525, Semantic loss: 0.163740, BCE loss: 1.188720, SB loss: 0.055952
+Epoch: [1/20] Iter:[70/292], Time: 1.02, lr: [0.00037761414494845826], Loss: 1.402325, Acc:0.474645, Semantic loss: 0.160873, BCE loss: 1.186324, SB loss: 0.055128
+Epoch: [1/20] Iter:[80/292], Time: 1.02, lr: [0.0003769936926464898], Loss: 1.401559, Acc:0.471285, Semantic loss: 0.162919, BCE loss: 1.181822, SB loss: 0.056818
+Epoch: [1/20] Iter:[90/292], Time: 1.01, lr: [0.0003763731268643817], Loss: 1.408909, Acc:0.471828, Semantic loss: 0.161393, BCE loss: 1.191240, SB loss: 0.056275
+Epoch: [1/20] Iter:[100/292], Time: 1.01, lr: [0.000375752447373406], Loss: 1.392110, Acc:0.472042, Semantic loss: 0.159788, BCE loss: 1.176405, SB loss: 0.055918
+Epoch: [1/20] Iter:[110/292], Time: 1.02, lr: [0.0003751316539439529], Loss: 1.395336, Acc:0.471003, Semantic loss: 0.160288, BCE loss: 1.179298, SB loss: 0.055750
+Epoch: [1/20] Iter:[120/292], Time: 1.02, lr: [0.00037451074634552606], Loss: 1.402364, Acc:0.472513, Semantic loss: 0.160430, BCE loss: 1.186231, SB loss: 0.055704
+Epoch: [1/20] Iter:[130/292], Time: 1.02, lr: [0.00037388972434673713], Loss: 1.405094, Acc:0.473764, Semantic loss: 0.159538, BCE loss: 1.190404, SB loss: 0.055152
+Epoch: [1/20] Iter:[140/292], Time: 1.01, lr: [0.00037326858771530064], Loss: 1.413670, Acc:0.475009, Semantic loss: 0.160603, BCE loss: 1.197551, SB loss: 0.055516
+Epoch: [1/20] Iter:[150/292], Time: 1.01, lr: [0.0003726473362180296], Loss: 1.416044, Acc:0.474196, Semantic loss: 0.160642, BCE loss: 1.199700, SB loss: 0.055703
+Epoch: [1/20] Iter:[160/292], Time: 1.01, lr: [0.00037202596962082905], Loss: 1.414194, Acc:0.474392, Semantic loss: 0.160490, BCE loss: 1.198054, SB loss: 0.055649
+Epoch: [1/20] Iter:[170/292], Time: 1.01, lr: [0.00037140448768869215], Loss: 1.413306, Acc:0.474215, Semantic loss: 0.160262, BCE loss: 1.197484, SB loss: 0.055560
+Epoch: [1/20] Iter:[180/292], Time: 1.02, lr: [0.000370782890185694], Loss: 1.414294, Acc:0.475290, Semantic loss: 0.160259, BCE loss: 1.198672, SB loss: 0.055363
+Epoch: [1/20] Iter:[190/292], Time: 1.02, lr: [0.0003701611768749867], Loss: 1.406005, Acc:0.475460, Semantic loss: 0.159929, BCE loss: 1.190937, SB loss: 0.055139
+Epoch: [1/20] Iter:[200/292], Time: 1.01, lr: [0.000369539347518794], Loss: 1.399416, Acc:0.474540, Semantic loss: 0.159066, BCE loss: 1.185346, SB loss: 0.055003
+Epoch: [1/20] Iter:[210/292], Time: 1.01, lr: [0.00036891740187840595], Loss: 1.393259, Acc:0.474198, Semantic loss: 0.158312, BCE loss: 1.180169, SB loss: 0.054779
+Epoch: [1/20] Iter:[220/292], Time: 1.02, lr: [0.0003682953397141732], Loss: 1.394232, Acc:0.475035, Semantic loss: 0.158472, BCE loss: 1.180719, SB loss: 0.055040
+Epoch: [1/20] Iter:[230/292], Time: 1.01, lr: [0.0003676731607855021], Loss: 1.392975, Acc:0.475901, Semantic loss: 0.158159, BCE loss: 1.179888, SB loss: 0.054927
+Epoch: [1/20] Iter:[240/292], Time: 1.01, lr: [0.0003670508648508485], Loss: 1.395060, Acc:0.476589, Semantic loss: 0.157895, BCE loss: 1.182342, SB loss: 0.054823
+Epoch: [1/20] Iter:[250/292], Time: 1.01, lr: [0.00036642845166771264], Loss: 1.395852, Acc:0.475785, Semantic loss: 0.157902, BCE loss: 1.183104, SB loss: 0.054846
+Epoch: [1/20] Iter:[260/292], Time: 1.01, lr: [0.0003658059209926335], Loss: 1.393118, Acc:0.474850, Semantic loss: 0.157712, BCE loss: 1.180584, SB loss: 0.054822
+Epoch: [1/20] Iter:[270/292], Time: 1.01, lr: [0.0003651832725811832], Loss: 1.392264, Acc:0.474420, Semantic loss: 0.157296, BCE loss: 1.180277, SB loss: 0.054691
+Epoch: [1/20] Iter:[280/292], Time: 1.01, lr: [0.000364560506187961], Loss: 1.391259, Acc:0.474912, Semantic loss: 0.157244, BCE loss: 1.179307, SB loss: 0.054707
+Epoch: [1/20] Iter:[290/292], Time: 1.01, lr: [0.0003639376215665881], Loss: 1.388065, Acc:0.475652, Semantic loss: 0.156680, BCE loss: 1.176804, SB loss: 0.054581
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.34827863 0.13060177 0.15456957 0.19306023 0.12665183
+ 0.08601456 0.01796621] 0.15102040087476176
+1 [0.         0.50293261 0.25588641 0.29903732 0.28338557 0.00322667
+ 0.09739212 0.31228526] 0.25059227794778616
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.177, MeanIU:  0.2506, Best_mIoU:  0.2506
+[0.         0.50293261 0.25588641 0.29903732 0.28338557 0.00322667
+ 0.09739212 0.31228526]
+Warm-up Epoch 3: Learning Rate = 0.0006000000000000001
+Epoch: [2/20] Iter:[0/292], Time: 0.87, lr: [0.0005457195456497774], Loss: 1.548118, Acc:0.549854, Semantic loss: 0.127245, BCE loss: 1.369616, SB loss: 0.051257
+Epoch: [2/20] Iter:[10/292], Time: 0.99, lr: [0.0005447850054171373], Loss: 1.296651, Acc:0.476858, Semantic loss: 0.144452, BCE loss: 1.098193, SB loss: 0.054006
+Epoch: [2/20] Iter:[20/292], Time: 1.02, lr: [0.0005438502870240122], Loss: 1.357830, Acc:0.458749, Semantic loss: 0.158203, BCE loss: 1.142630, SB loss: 0.056997
+Epoch: [2/20] Iter:[30/292], Time: 1.02, lr: [0.0005429153900960792], Loss: 1.353839, Acc:0.467957, Semantic loss: 0.157071, BCE loss: 1.139345, SB loss: 0.057423
+Epoch: [2/20] Iter:[40/292], Time: 1.02, lr: [0.000541980314257511], Loss: 1.371224, Acc:0.465894, Semantic loss: 0.158783, BCE loss: 1.154279, SB loss: 0.058162
+Epoch: [2/20] Iter:[50/292], Time: 1.03, lr: [0.0005410450591309671], Loss: 1.392935, Acc:0.468106, Semantic loss: 0.156956, BCE loss: 1.178237, SB loss: 0.057742
+Epoch: [2/20] Iter:[60/292], Time: 1.02, lr: [0.0005401096243375848], Loss: 1.391291, Acc:0.467514, Semantic loss: 0.157282, BCE loss: 1.176298, SB loss: 0.057711
+Epoch: [2/20] Iter:[70/292], Time: 1.01, lr: [0.0005391740094969698], Loss: 1.369492, Acc:0.464540, Semantic loss: 0.155846, BCE loss: 1.156749, SB loss: 0.056897
+Epoch: [2/20] Iter:[80/292], Time: 1.02, lr: [0.0005382382142271877], Loss: 1.371840, Acc:0.466490, Semantic loss: 0.155424, BCE loss: 1.159658, SB loss: 0.056758
+Epoch: [2/20] Iter:[90/292], Time: 1.02, lr: [0.0005373022381447539], Loss: 1.384941, Acc:0.470741, Semantic loss: 0.156174, BCE loss: 1.172301, SB loss: 0.056467
+Epoch: [2/20] Iter:[100/292], Time: 1.02, lr: [0.0005363660808646251], Loss: 1.373904, Acc:0.473108, Semantic loss: 0.155223, BCE loss: 1.162697, SB loss: 0.055984
+Epoch: [2/20] Iter:[110/292], Time: 1.01, lr: [0.0005354297420001898], Loss: 1.375839, Acc:0.474585, Semantic loss: 0.154581, BCE loss: 1.165739, SB loss: 0.055519
+Epoch: [2/20] Iter:[120/292], Time: 1.01, lr: [0.0005344932211632579], Loss: 1.395844, Acc:0.480612, Semantic loss: 0.153506, BCE loss: 1.187240, SB loss: 0.055098
+Epoch: [2/20] Iter:[130/292], Time: 1.01, lr: [0.0005335565179640525], Loss: 1.391831, Acc:0.482348, Semantic loss: 0.153297, BCE loss: 1.183659, SB loss: 0.054874
+Epoch: [2/20] Iter:[140/292], Time: 1.01, lr: [0.0005326196320111998], Loss: 1.365222, Acc:0.477978, Semantic loss: 0.152427, BCE loss: 1.158157, SB loss: 0.054638
+Epoch: [2/20] Iter:[150/292], Time: 1.01, lr: [0.0005316825629117188], Loss: 1.366731, Acc:0.477583, Semantic loss: 0.152268, BCE loss: 1.160113, SB loss: 0.054350
+Epoch: [2/20] Iter:[160/292], Time: 1.01, lr: [0.0005307453102710126], Loss: 1.365947, Acc:0.478027, Semantic loss: 0.152075, BCE loss: 1.159382, SB loss: 0.054489
+Epoch: [2/20] Iter:[170/292], Time: 1.01, lr: [0.0005298078736928577], Loss: 1.378091, Acc:0.480689, Semantic loss: 0.151805, BCE loss: 1.171880, SB loss: 0.054405
+Epoch: [2/20] Iter:[180/292], Time: 1.02, lr: [0.0005288702527793948], Loss: 1.376027, Acc:0.478369, Semantic loss: 0.153108, BCE loss: 1.167797, SB loss: 0.055122
+Epoch: [2/20] Iter:[190/292], Time: 1.02, lr: [0.0005279324471311181], Loss: 1.371669, Acc:0.477880, Semantic loss: 0.152675, BCE loss: 1.164040, SB loss: 0.054954
+Epoch: [2/20] Iter:[200/292], Time: 1.02, lr: [0.0005269944563468657], Loss: 1.376329, Acc:0.479059, Semantic loss: 0.152682, BCE loss: 1.168544, SB loss: 0.055103
+Epoch: [2/20] Iter:[210/292], Time: 1.01, lr: [0.0005260562800238094], Loss: 1.376753, Acc:0.478687, Semantic loss: 0.153372, BCE loss: 1.168068, SB loss: 0.055313
+Epoch: [2/20] Iter:[220/292], Time: 1.01, lr: [0.0005251179177574442], Loss: 1.375413, Acc:0.481496, Semantic loss: 0.152741, BCE loss: 1.167685, SB loss: 0.054987
+Epoch: [2/20] Iter:[230/292], Time: 1.01, lr: [0.0005241793691415783], Loss: 1.373469, Acc:0.480953, Semantic loss: 0.152722, BCE loss: 1.165633, SB loss: 0.055115
+Epoch: [2/20] Iter:[240/292], Time: 1.01, lr: [0.0005232406337683224], Loss: 1.367396, Acc:0.479546, Semantic loss: 0.152215, BCE loss: 1.160129, SB loss: 0.055051
+Epoch: [2/20] Iter:[250/292], Time: 1.01, lr: [0.0005223017112280797], Loss: 1.366224, Acc:0.479334, Semantic loss: 0.152041, BCE loss: 1.159305, SB loss: 0.054878
+Epoch: [2/20] Iter:[260/292], Time: 1.01, lr: [0.0005213626011095345], Loss: 1.365337, Acc:0.481632, Semantic loss: 0.151318, BCE loss: 1.159388, SB loss: 0.054631
+Epoch: [2/20] Iter:[270/292], Time: 1.01, lr: [0.0005204233029996422], Loss: 1.366148, Acc:0.482719, Semantic loss: 0.151296, BCE loss: 1.160314, SB loss: 0.054537
+Epoch: [2/20] Iter:[280/292], Time: 1.01, lr: [0.0005194838164836185], Loss: 1.362748, Acc:0.482913, Semantic loss: 0.151198, BCE loss: 1.157013, SB loss: 0.054537
+Epoch: [2/20] Iter:[290/292], Time: 1.01, lr: [0.0005185441411449284], Loss: 1.363936, Acc:0.483561, Semantic loss: 0.150768, BCE loss: 1.158860, SB loss: 0.054308
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.46471985 0.26313812 0.12119463 0.4001268  0.15923638
+ 0.09711445 0.01206503] 0.21679932329098645
+1 [0.         0.49439926 0.30005532 0.22756115 0.41989688 0.02449699
+ 0.11477351 0.18849393] 0.25281100589622824
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.182, MeanIU:  0.2528, Best_mIoU:  0.2528
+[0.         0.49439926 0.30005532 0.22756115 0.41989688 0.02449699
+ 0.11477351 0.18849393]
+Warm-up Epoch 4: Learning Rate = 0.0008
+Epoch: [3/20] Iter:[0/292], Time: 0.89, lr: [0.0006911415778422553], Loss: 1.443236, Acc:0.440606, Semantic loss: 0.137727, BCE loss: 1.246074, SB loss: 0.059435
+Epoch: [3/20] Iter:[10/292], Time: 1.08, lr: [0.0006898883745379924], Loss: 1.356557, Acc:0.507124, Semantic loss: 0.147567, BCE loss: 1.159346, SB loss: 0.049643
+Epoch: [3/20] Iter:[20/292], Time: 1.02, lr: [0.0006886349182400495], Loss: 1.378406, Acc:0.502703, Semantic loss: 0.143090, BCE loss: 1.185942, SB loss: 0.049374
+Epoch: [3/20] Iter:[30/292], Time: 1.01, lr: [0.0006873812083854784], Loss: 1.363954, Acc:0.510267, Semantic loss: 0.142954, BCE loss: 1.171069, SB loss: 0.049931
+Epoch: [3/20] Iter:[40/292], Time: 1.01, lr: [0.0006861272444089348], Loss: 1.322540, Acc:0.510326, Semantic loss: 0.142552, BCE loss: 1.130014, SB loss: 0.049974
+Epoch: [3/20] Iter:[50/292], Time: 1.02, lr: [0.0006848730257426629], Loss: 1.329744, Acc:0.504881, Semantic loss: 0.143880, BCE loss: 1.135396, SB loss: 0.050468
+Epoch: [3/20] Iter:[60/292], Time: 1.01, lr: [0.0006836185518164803], Loss: 1.352915, Acc:0.501518, Semantic loss: 0.145098, BCE loss: 1.156786, SB loss: 0.051031
+Epoch: [3/20] Iter:[70/292], Time: 1.01, lr: [0.0006823638220577629], Loss: 1.354450, Acc:0.500451, Semantic loss: 0.146984, BCE loss: 1.156151, SB loss: 0.051316
+Epoch: [3/20] Iter:[80/292], Time: 1.01, lr: [0.0006811088358914289], Loss: 1.350640, Acc:0.497127, Semantic loss: 0.146329, BCE loss: 1.152715, SB loss: 0.051596
+Epoch: [3/20] Iter:[90/292], Time: 1.01, lr: [0.000679853592739924], Loss: 1.333294, Acc:0.493967, Semantic loss: 0.145286, BCE loss: 1.136393, SB loss: 0.051615
+Epoch: [3/20] Iter:[100/292], Time: 1.01, lr: [0.0006785980920232047], Loss: 1.339308, Acc:0.491782, Semantic loss: 0.145014, BCE loss: 1.142629, SB loss: 0.051665
+Epoch: [3/20] Iter:[110/292], Time: 1.00, lr: [0.0006773423331587233], Loss: 1.325981, Acc:0.488032, Semantic loss: 0.145881, BCE loss: 1.128462, SB loss: 0.051638
+Epoch: [3/20] Iter:[120/292], Time: 1.00, lr: [0.0006760863155614114], Loss: 1.316536, Acc:0.485680, Semantic loss: 0.145905, BCE loss: 1.118999, SB loss: 0.051632
+Epoch: [3/20] Iter:[130/292], Time: 1.00, lr: [0.000674830038643664], Loss: 1.318217, Acc:0.484425, Semantic loss: 0.146254, BCE loss: 1.120034, SB loss: 0.051930
+Epoch: [3/20] Iter:[140/292], Time: 1.00, lr: [0.0006735735018153228], Loss: 1.325074, Acc:0.486343, Semantic loss: 0.146467, BCE loss: 1.126545, SB loss: 0.052063
+Epoch: [3/20] Iter:[150/292], Time: 1.00, lr: [0.0006723167044836607], Loss: 1.325805, Acc:0.485006, Semantic loss: 0.146361, BCE loss: 1.127345, SB loss: 0.052099
+Epoch: [3/20] Iter:[160/292], Time: 1.00, lr: [0.0006710596460533643], Loss: 1.326356, Acc:0.485569, Semantic loss: 0.146044, BCE loss: 1.128264, SB loss: 0.052048
+Epoch: [3/20] Iter:[170/292], Time: 1.01, lr: [0.0006698023259265178], Loss: 1.339656, Acc:0.488827, Semantic loss: 0.146044, BCE loss: 1.141627, SB loss: 0.051985
+Epoch: [3/20] Iter:[180/292], Time: 1.01, lr: [0.0006685447435025854], Loss: 1.339877, Acc:0.488780, Semantic loss: 0.146253, BCE loss: 1.141473, SB loss: 0.052152
+Epoch: [3/20] Iter:[190/292], Time: 1.01, lr: [0.0006672868981783959], Loss: 1.336250, Acc:0.487963, Semantic loss: 0.146383, BCE loss: 1.137775, SB loss: 0.052091
+Epoch: [3/20] Iter:[200/292], Time: 1.00, lr: [0.0006660287893481237], Loss: 1.339040, Acc:0.488323, Semantic loss: 0.146417, BCE loss: 1.140538, SB loss: 0.052085
+Epoch: [3/20] Iter:[210/292], Time: 1.01, lr: [0.0006647704164032727], Loss: 1.331703, Acc:0.486319, Semantic loss: 0.146274, BCE loss: 1.133345, SB loss: 0.052084
+Epoch: [3/20] Iter:[220/292], Time: 1.01, lr: [0.0006635117787326587], Loss: 1.327866, Acc:0.486589, Semantic loss: 0.145628, BCE loss: 1.130280, SB loss: 0.051958
+Epoch: [3/20] Iter:[230/292], Time: 1.01, lr: [0.0006622528757223915], Loss: 1.336162, Acc:0.485794, Semantic loss: 0.145977, BCE loss: 1.138132, SB loss: 0.052052
+Epoch: [3/20] Iter:[240/292], Time: 1.00, lr: [0.0006609937067558576], Loss: 1.339416, Acc:0.486100, Semantic loss: 0.145707, BCE loss: 1.141608, SB loss: 0.052101
+Epoch: [3/20] Iter:[250/292], Time: 1.00, lr: [0.0006597342712137018], Loss: 1.330368, Acc:0.484657, Semantic loss: 0.146090, BCE loss: 1.131954, SB loss: 0.052323
+Epoch: [3/20] Iter:[260/292], Time: 1.01, lr: [0.0006584745684738101], Loss: 1.332053, Acc:0.485870, Semantic loss: 0.146447, BCE loss: 1.133330, SB loss: 0.052275
+Epoch: [3/20] Iter:[270/292], Time: 1.01, lr: [0.00065721459791129], Loss: 1.337128, Acc:0.487080, Semantic loss: 0.146401, BCE loss: 1.138506, SB loss: 0.052221
+Epoch: [3/20] Iter:[280/292], Time: 1.01, lr: [0.0006559543588984539], Loss: 1.340344, Acc:0.487792, Semantic loss: 0.146333, BCE loss: 1.141872, SB loss: 0.052139
+Epoch: [3/20] Iter:[290/292], Time: 1.01, lr: [0.0006546938508047993], Loss: 1.339427, Acc:0.488887, Semantic loss: 0.146253, BCE loss: 1.141044, SB loss: 0.052130
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.45616553 0.18276258 0.14050533 0.28340334 0.07301993
+ 0.10880132 0.00248729] 0.17816361688331467
+1 [0.         0.46518335 0.18833479 0.23827757 0.35054987 0.05809864
+ 0.04738856 0.07022651] 0.20257989839586624
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.221, MeanIU:  0.2026, Best_mIoU:  0.2528
+[0.         0.46518335 0.18833479 0.23827757 0.35054987 0.05809864
+ 0.04738856 0.07022651]
+Warm-up Epoch 5: Learning Rate = 0.001
+Epoch: [4/20] Iter:[0/292], Time: 0.83, lr: [0.0008180521460508585], Loss: 1.489301, Acc:0.616546, Semantic loss: 0.124802, BCE loss: 1.319286, SB loss: 0.045213
+Epoch: [4/20] Iter:[10/292], Time: 0.93, lr: [0.0008164761062672454], Loss: 1.306874, Acc:0.502759, Semantic loss: 0.148199, BCE loss: 1.108303, SB loss: 0.050372
+Epoch: [4/20] Iter:[20/292], Time: 0.99, lr: [0.0008148997283862292], Loss: 1.293890, Acc:0.487584, Semantic loss: 0.150624, BCE loss: 1.090335, SB loss: 0.052931
+Epoch: [4/20] Iter:[30/292], Time: 1.00, lr: [0.0008133230116082655], Loss: 1.325422, Acc:0.491409, Semantic loss: 0.150024, BCE loss: 1.122250, SB loss: 0.053148
+Epoch: [4/20] Iter:[40/292], Time: 1.00, lr: [0.0008117459551301937], Loss: 1.351127, Acc:0.489493, Semantic loss: 0.149476, BCE loss: 1.149504, SB loss: 0.052147
+Epoch: [4/20] Iter:[50/292], Time: 1.01, lr: [0.0008101685581452108], Loss: 1.355331, Acc:0.484370, Semantic loss: 0.148455, BCE loss: 1.155921, SB loss: 0.050954
+Epoch: [4/20] Iter:[60/292], Time: 1.00, lr: [0.000808590819842848], Loss: 1.330351, Acc:0.478952, Semantic loss: 0.148929, BCE loss: 1.129786, SB loss: 0.051637
+Epoch: [4/20] Iter:[70/292], Time: 1.00, lr: [0.0008070127394089456], Loss: 1.374722, Acc:0.487191, Semantic loss: 0.148412, BCE loss: 1.174440, SB loss: 0.051871
+Epoch: [4/20] Iter:[80/292], Time: 1.00, lr: [0.0008054343160256287], Loss: 1.355857, Acc:0.485958, Semantic loss: 0.147994, BCE loss: 1.155872, SB loss: 0.051991
+Epoch: [4/20] Iter:[90/292], Time: 1.00, lr: [0.0008038555488712811], Loss: 1.353736, Acc:0.487885, Semantic loss: 0.147180, BCE loss: 1.155143, SB loss: 0.051413
+Epoch: [4/20] Iter:[100/292], Time: 1.00, lr: [0.0008022764371205209], Loss: 1.351664, Acc:0.487569, Semantic loss: 0.147456, BCE loss: 1.152381, SB loss: 0.051827
+Epoch: [4/20] Iter:[110/292], Time: 1.00, lr: [0.0008006969799441747], Loss: 1.331930, Acc:0.482773, Semantic loss: 0.148267, BCE loss: 1.131370, SB loss: 0.052293
+Epoch: [4/20] Iter:[120/292], Time: 1.00, lr: [0.0007991171765092516], Loss: 1.336855, Acc:0.483232, Semantic loss: 0.149092, BCE loss: 1.135039, SB loss: 0.052724
+Epoch: [4/20] Iter:[130/292], Time: 1.00, lr: [0.0007975370259789175], Loss: 1.335212, Acc:0.481659, Semantic loss: 0.150060, BCE loss: 1.131928, SB loss: 0.053224
+Epoch: [4/20] Iter:[140/292], Time: 1.00, lr: [0.0007959565275124689], Loss: 1.354193, Acc:0.482282, Semantic loss: 0.150432, BCE loss: 1.150575, SB loss: 0.053186
+Epoch: [4/20] Iter:[150/292], Time: 1.00, lr: [0.0007943756802653058], Loss: 1.341881, Acc:0.480536, Semantic loss: 0.150339, BCE loss: 1.138086, SB loss: 0.053456
+Epoch: [4/20] Iter:[160/292], Time: 1.00, lr: [0.0007927944833889061], Loss: 1.350283, Acc:0.481241, Semantic loss: 0.149755, BCE loss: 1.147322, SB loss: 0.053206
+Epoch: [4/20] Iter:[170/292], Time: 1.00, lr: [0.0007912129360307977], Loss: 1.347871, Acc:0.481812, Semantic loss: 0.149538, BCE loss: 1.145031, SB loss: 0.053303
+Epoch: [4/20] Iter:[180/292], Time: 1.00, lr: [0.0007896310373345315], Loss: 1.345599, Acc:0.482484, Semantic loss: 0.148877, BCE loss: 1.143674, SB loss: 0.053048
+Epoch: [4/20] Iter:[190/292], Time: 1.01, lr: [0.000788048786439654], Loss: 1.349816, Acc:0.485008, Semantic loss: 0.148979, BCE loss: 1.147817, SB loss: 0.053020
+Epoch: [4/20] Iter:[200/292], Time: 1.00, lr: [0.0007864661824816803], Loss: 1.348815, Acc:0.485317, Semantic loss: 0.149031, BCE loss: 1.146826, SB loss: 0.052957
+Epoch: [4/20] Iter:[210/292], Time: 1.00, lr: [0.0007848832245920646], Loss: 1.347584, Acc:0.484201, Semantic loss: 0.148460, BCE loss: 1.146185, SB loss: 0.052939
+Epoch: [4/20] Iter:[220/292], Time: 1.00, lr: [0.0007832999118981735], Loss: 1.346358, Acc:0.485134, Semantic loss: 0.148033, BCE loss: 1.145577, SB loss: 0.052749
+Epoch: [4/20] Iter:[230/292], Time: 1.00, lr: [0.0007817162435232569], Loss: 1.346424, Acc:0.483753, Semantic loss: 0.148131, BCE loss: 1.145632, SB loss: 0.052662
+Epoch: [4/20] Iter:[240/292], Time: 1.00, lr: [0.000780132218586419], Loss: 1.339806, Acc:0.482980, Semantic loss: 0.147903, BCE loss: 1.139320, SB loss: 0.052583
+Epoch: [4/20] Iter:[250/292], Time: 1.00, lr: [0.00077854783620259], Loss: 1.340979, Acc:0.482880, Semantic loss: 0.148333, BCE loss: 1.139906, SB loss: 0.052741
+Epoch: [4/20] Iter:[260/292], Time: 1.00, lr: [0.0007769630954824961], Loss: 1.340762, Acc:0.482906, Semantic loss: 0.147903, BCE loss: 1.140192, SB loss: 0.052667
+Epoch: [4/20] Iter:[270/292], Time: 1.00, lr: [0.0007753779955326305], Loss: 1.338751, Acc:0.483355, Semantic loss: 0.147792, BCE loss: 1.138331, SB loss: 0.052627
+Epoch: [4/20] Iter:[280/292], Time: 1.00, lr: [0.000773792535455223], Loss: 1.339729, Acc:0.484004, Semantic loss: 0.147616, BCE loss: 1.139558, SB loss: 0.052555
+Epoch: [4/20] Iter:[290/292], Time: 1.00, lr: [0.000772206714348211], Loss: 1.345628, Acc:0.485413, Semantic loss: 0.147723, BCE loss: 1.145401, SB loss: 0.052504
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.41919793 0.14772659 0.13816928 0.12487661 0.14090127
+ 0.09973893 0.00279158] 0.153343168486167
+1 [0.         0.42454329 0.11736865 0.20044752 0.07696983 0.13230062
+ 0.1374348  0.02145131] 0.15864514471238636
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.252, MeanIU:  0.1586, Best_mIoU:  0.2528
+[0.         0.42454329 0.11736865 0.20044752 0.07696983 0.13230062
+ 0.1374348  0.02145131]
+Epoch: [5/20] Iter:[0/292], Time: 0.83, lr: [0.0005894329565052108], Loss: 1.292481, Acc:0.547017, Semantic loss: 0.139629, BCE loss: 1.111712, SB loss: 0.041140
+Epoch: [5/20] Iter:[10/292], Time: 0.99, lr: [0.0005882216545193853], Loss: 1.235012, Acc:0.446223, Semantic loss: 0.146982, BCE loss: 1.037190, SB loss: 0.050840
+Epoch: [5/20] Iter:[20/292], Time: 1.04, lr: [0.0005870100753157794], Loss: 1.279805, Acc:0.480695, Semantic loss: 0.140175, BCE loss: 1.090032, SB loss: 0.049598
+Epoch: [5/20] Iter:[30/292], Time: 1.03, lr: [0.0005857982181949093], Loss: 1.312542, Acc:0.498824, Semantic loss: 0.142206, BCE loss: 1.120334, SB loss: 0.050002
+Epoch: [5/20] Iter:[40/292], Time: 1.02, lr: [0.0005845860824539137], Loss: 1.349145, Acc:0.496552, Semantic loss: 0.144386, BCE loss: 1.154582, SB loss: 0.050177
+Epoch: [5/20] Iter:[50/292], Time: 1.00, lr: [0.0005833736673865297], Loss: 1.336201, Acc:0.494851, Semantic loss: 0.143379, BCE loss: 1.142350, SB loss: 0.050472
+Epoch: [5/20] Iter:[60/292], Time: 1.00, lr: [0.0005821609722830691], Loss: 1.332111, Acc:0.498946, Semantic loss: 0.143348, BCE loss: 1.137766, SB loss: 0.050997
+Epoch: [5/20] Iter:[70/292], Time: 1.00, lr: [0.0005809479964303931], Loss: 1.326379, Acc:0.497168, Semantic loss: 0.143790, BCE loss: 1.131348, SB loss: 0.051241
+Epoch: [5/20] Iter:[80/292], Time: 1.00, lr: [0.0005797347391118883], Loss: 1.356514, Acc:0.496946, Semantic loss: 0.144521, BCE loss: 1.160844, SB loss: 0.051149
+Epoch: [5/20] Iter:[90/292], Time: 0.99, lr: [0.0005785211996074404], Loss: 1.378591, Acc:0.501987, Semantic loss: 0.144180, BCE loss: 1.183158, SB loss: 0.051253
+Epoch: [5/20] Iter:[100/292], Time: 0.99, lr: [0.0005773073771934105], Loss: 1.376731, Acc:0.504277, Semantic loss: 0.144808, BCE loss: 1.180420, SB loss: 0.051503
+Epoch: [5/20] Iter:[110/292], Time: 0.99, lr: [0.0005760932711426078], Loss: 1.386004, Acc:0.503822, Semantic loss: 0.144915, BCE loss: 1.189552, SB loss: 0.051537
+Epoch: [5/20] Iter:[120/292], Time: 0.99, lr: [0.0005748788807242656], Loss: 1.389749, Acc:0.503102, Semantic loss: 0.143858, BCE loss: 1.194672, SB loss: 0.051218
+Epoch: [5/20] Iter:[130/292], Time: 0.99, lr: [0.0005736642052040137], Loss: 1.392223, Acc:0.503881, Semantic loss: 0.143356, BCE loss: 1.197749, SB loss: 0.051117
+Epoch: [5/20] Iter:[140/292], Time: 0.99, lr: [0.0005724492438438531], Loss: 1.393703, Acc:0.507766, Semantic loss: 0.143015, BCE loss: 1.199690, SB loss: 0.050997
+Epoch: [5/20] Iter:[150/292], Time: 0.99, lr: [0.0005712339959021294], Loss: 1.390523, Acc:0.506236, Semantic loss: 0.143306, BCE loss: 1.196120, SB loss: 0.051097
+Epoch: [5/20] Iter:[160/292], Time: 0.99, lr: [0.0005700184606335053], Loss: 1.375569, Acc:0.505783, Semantic loss: 0.142762, BCE loss: 1.181702, SB loss: 0.051105
+Epoch: [5/20] Iter:[170/292], Time: 0.99, lr: [0.0005688026372889345], Loss: 1.372740, Acc:0.506899, Semantic loss: 0.142724, BCE loss: 1.178917, SB loss: 0.051099
+Epoch: [5/20] Iter:[180/292], Time: 0.99, lr: [0.0005675865251156336], Loss: 1.381613, Acc:0.507023, Semantic loss: 0.143091, BCE loss: 1.187368, SB loss: 0.051154
+Epoch: [5/20] Iter:[190/292], Time: 0.99, lr: [0.0005663701233570548], Loss: 1.381230, Acc:0.508159, Semantic loss: 0.142160, BCE loss: 1.188154, SB loss: 0.050916
+Epoch: [5/20] Iter:[200/292], Time: 0.99, lr: [0.0005651534312528583], Loss: 1.376820, Acc:0.508547, Semantic loss: 0.142012, BCE loss: 1.183850, SB loss: 0.050959
+Epoch: [5/20] Iter:[210/292], Time: 0.99, lr: [0.0005639364480388839], Loss: 1.373710, Acc:0.508474, Semantic loss: 0.142082, BCE loss: 1.180792, SB loss: 0.050836
+Epoch: [5/20] Iter:[220/292], Time: 0.99, lr: [0.0005627191729471222], Loss: 1.368051, Acc:0.508197, Semantic loss: 0.142024, BCE loss: 1.175174, SB loss: 0.050853
+Epoch: [5/20] Iter:[230/292], Time: 0.99, lr: [0.0005615016052056872], Loss: 1.367966, Acc:0.508483, Semantic loss: 0.141758, BCE loss: 1.175555, SB loss: 0.050654
+Epoch: [5/20] Iter:[240/292], Time: 1.00, lr: [0.0005602837440387858], Loss: 1.360063, Acc:0.506230, Semantic loss: 0.141967, BCE loss: 1.167265, SB loss: 0.050831
+Epoch: [5/20] Iter:[250/292], Time: 1.00, lr: [0.0005590655886666893], Loss: 1.357605, Acc:0.506604, Semantic loss: 0.141532, BCE loss: 1.165423, SB loss: 0.050651
+Epoch: [5/20] Iter:[260/292], Time: 1.00, lr: [0.000557847138305704], Loss: 1.359168, Acc:0.507621, Semantic loss: 0.141482, BCE loss: 1.166879, SB loss: 0.050808
+Epoch: [5/20] Iter:[270/292], Time: 1.00, lr: [0.0005566283921681413], Loss: 1.358574, Acc:0.506596, Semantic loss: 0.141779, BCE loss: 1.165998, SB loss: 0.050797
+Epoch: [5/20] Iter:[280/292], Time: 1.00, lr: [0.000555409349462287], Loss: 1.360535, Acc:0.506303, Semantic loss: 0.142065, BCE loss: 1.167690, SB loss: 0.050781
+Epoch: [5/20] Iter:[290/292], Time: 1.00, lr: [0.0005541900093923714], Loss: 1.354637, Acc:0.505315, Semantic loss: 0.141828, BCE loss: 1.162077, SB loss: 0.050731
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.45758805 0.21757806 0.10121954 0.18568829 0.15595735
+ 0.09085988 0.00688607] 0.1736824641469045
+1 [0.         0.49040168 0.22934333 0.15413673 0.25974573 0.1399288
+ 0.01499859 0.05951081] 0.19258081134524282
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.202, MeanIU:  0.1926, Best_mIoU:  0.2528
+[0.         0.49040168 0.22934333 0.15413673 0.25974573 0.1399288
+ 0.01499859 0.05951081]
+Epoch: [6/20] Iter:[0/292], Time: 0.87, lr: [0.0003888283319560596], Loss: 1.506278, Acc:0.488193, Semantic loss: 0.149737, BCE loss: 1.303380, SB loss: 0.053161
+Epoch: [6/20] Iter:[10/292], Time: 0.96, lr: [0.0003879721960980528], Loss: 1.324042, Acc:0.520497, Semantic loss: 0.132332, BCE loss: 1.144917, SB loss: 0.046793
+Epoch: [6/20] Iter:[20/292], Time: 0.96, lr: [0.0003871158502739505], Loss: 1.335270, Acc:0.532889, Semantic loss: 0.129561, BCE loss: 1.159500, SB loss: 0.046209
+Epoch: [6/20] Iter:[30/292], Time: 0.97, lr: [0.0003862592939159266], Loss: 1.303003, Acc:0.522914, Semantic loss: 0.129875, BCE loss: 1.125952, SB loss: 0.047176
+Epoch: [6/20] Iter:[40/292], Time: 1.00, lr: [0.0003854025264532166], Loss: 1.307937, Acc:0.513018, Semantic loss: 0.135875, BCE loss: 1.121401, SB loss: 0.050661
+Epoch: [6/20] Iter:[50/292], Time: 1.01, lr: [0.00038454554731209443], Loss: 1.356586, Acc:0.513883, Semantic loss: 0.136941, BCE loss: 1.169164, SB loss: 0.050480
+Epoch: [6/20] Iter:[60/292], Time: 1.00, lr: [0.00038368835591584983], Loss: 1.350187, Acc:0.514307, Semantic loss: 0.136723, BCE loss: 1.163161, SB loss: 0.050302
+Epoch: [6/20] Iter:[70/292], Time: 1.00, lr: [0.0003828309516847657], Loss: 1.340296, Acc:0.513305, Semantic loss: 0.136215, BCE loss: 1.153883, SB loss: 0.050197
+Epoch: [6/20] Iter:[80/292], Time: 1.01, lr: [0.00038197333403609433], Loss: 1.348021, Acc:0.509106, Semantic loss: 0.137410, BCE loss: 1.160074, SB loss: 0.050537
+Epoch: [6/20] Iter:[90/292], Time: 1.01, lr: [0.0003811155023840347], Loss: 1.338574, Acc:0.510000, Semantic loss: 0.137370, BCE loss: 1.150688, SB loss: 0.050516
+Epoch: [6/20] Iter:[100/292], Time: 1.02, lr: [0.00038025745613970825], Loss: 1.330520, Acc:0.513145, Semantic loss: 0.137103, BCE loss: 1.142926, SB loss: 0.050490
+Epoch: [6/20] Iter:[110/292], Time: 1.01, lr: [0.000379399194711135], Loss: 1.341647, Acc:0.518113, Semantic loss: 0.137389, BCE loss: 1.154080, SB loss: 0.050178
+Epoch: [6/20] Iter:[120/292], Time: 1.02, lr: [0.0003785407175032095], Loss: 1.346562, Acc:0.515156, Semantic loss: 0.138502, BCE loss: 1.157727, SB loss: 0.050333
+Epoch: [6/20] Iter:[130/292], Time: 1.01, lr: [0.0003776820239176765], Loss: 1.334577, Acc:0.514312, Semantic loss: 0.138694, BCE loss: 1.145316, SB loss: 0.050567
+Epoch: [6/20] Iter:[140/292], Time: 1.02, lr: [0.0003768231133531063], Loss: 1.331404, Acc:0.511817, Semantic loss: 0.140278, BCE loss: 1.140615, SB loss: 0.050511
+Epoch: [6/20] Iter:[150/292], Time: 1.01, lr: [0.00037596398520486923], Loss: 1.325901, Acc:0.511732, Semantic loss: 0.139998, BCE loss: 1.135487, SB loss: 0.050416
+Epoch: [6/20] Iter:[160/292], Time: 1.02, lr: [0.00037510463886511144], Loss: 1.326092, Acc:0.512694, Semantic loss: 0.140201, BCE loss: 1.135434, SB loss: 0.050457
+Epoch: [6/20] Iter:[170/292], Time: 1.02, lr: [0.00037424507372272843], Loss: 1.329033, Acc:0.516915, Semantic loss: 0.139668, BCE loss: 1.139084, SB loss: 0.050281
+Epoch: [6/20] Iter:[180/292], Time: 1.02, lr: [0.0003733852891633403], Loss: 1.329099, Acc:0.514775, Semantic loss: 0.140239, BCE loss: 1.138338, SB loss: 0.050522
+Epoch: [6/20] Iter:[190/292], Time: 1.03, lr: [0.0003725252845692651], Loss: 1.331193, Acc:0.516738, Semantic loss: 0.139227, BCE loss: 1.141703, SB loss: 0.050263
+Epoch: [6/20] Iter:[200/292], Time: 1.03, lr: [0.00037166505931949265], Loss: 1.336122, Acc:0.519972, Semantic loss: 0.139365, BCE loss: 1.146466, SB loss: 0.050290
+Epoch: [6/20] Iter:[210/292], Time: 1.03, lr: [0.0003708046127896582], Loss: 1.326912, Acc:0.520340, Semantic loss: 0.138796, BCE loss: 1.137968, SB loss: 0.050148
+Epoch: [6/20] Iter:[220/292], Time: 1.03, lr: [0.00036994394435201544], Loss: 1.326847, Acc:0.520202, Semantic loss: 0.139372, BCE loss: 1.137248, SB loss: 0.050227
+Epoch: [6/20] Iter:[230/292], Time: 1.03, lr: [0.00036908305337540965], Loss: 1.322714, Acc:0.518157, Semantic loss: 0.139157, BCE loss: 1.133299, SB loss: 0.050259
+Epoch: [6/20] Iter:[240/292], Time: 1.03, lr: [0.00036822193922525], Loss: 1.319911, Acc:0.517269, Semantic loss: 0.138525, BCE loss: 1.131215, SB loss: 0.050172
+Epoch: [6/20] Iter:[250/292], Time: 1.03, lr: [0.000367360601263482], Loss: 1.322684, Acc:0.517831, Semantic loss: 0.138290, BCE loss: 1.134305, SB loss: 0.050089
+Epoch: [6/20] Iter:[260/292], Time: 1.03, lr: [0.00036649903884855946], Loss: 1.324992, Acc:0.519538, Semantic loss: 0.138021, BCE loss: 1.136977, SB loss: 0.049994
+Epoch: [6/20] Iter:[270/292], Time: 1.03, lr: [0.0003656372513354164], Loss: 1.324950, Acc:0.518911, Semantic loss: 0.137883, BCE loss: 1.137098, SB loss: 0.049969
+Epoch: [6/20] Iter:[280/292], Time: 1.03, lr: [0.00036477523807543823], Loss: 1.317680, Acc:0.519088, Semantic loss: 0.137841, BCE loss: 1.129945, SB loss: 0.049895
+Epoch: [6/20] Iter:[290/292], Time: 1.03, lr: [0.0003639129984164331], Loss: 1.317615, Acc:0.518429, Semantic loss: 0.137469, BCE loss: 1.130320, SB loss: 0.049826
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.48904935 0.18684783 0.10699961 0.32930882 0.18601477
+ 0.19143185 0.0271794 ] 0.2166902329908531
+1 [0.         0.49594635 0.30054507 0.26407019 0.36508457 0.19821755
+ 0.12058584 0.09789545] 0.26319214509942696
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.187, MeanIU:  0.2632, Best_mIoU:  0.2632
+[0.         0.49594635 0.30054507 0.26407019 0.36508457 0.19821755
+ 0.12058584 0.09789545]
+Epoch: [7/20] Iter:[0/292], Time: 0.88, lr: [0.00023344764289821073], Loss: 1.530682, Acc:0.528048, Semantic loss: 0.130370, BCE loss: 1.351662, SB loss: 0.048650
+Epoch: [7/20] Iter:[10/292], Time: 1.02, lr: [0.00023289408499614755], Loss: 1.413801, Acc:0.543690, Semantic loss: 0.131737, BCE loss: 1.235211, SB loss: 0.046854
+Epoch: [7/20] Iter:[20/292], Time: 1.04, lr: [0.00023234038086278745], Loss: 1.428540, Acc:0.519173, Semantic loss: 0.140592, BCE loss: 1.236786, SB loss: 0.051161
+Epoch: [7/20] Iter:[30/292], Time: 1.02, lr: [0.00023178653007208127], Loss: 1.365043, Acc:0.524005, Semantic loss: 0.136631, BCE loss: 1.178309, SB loss: 0.050104
+Epoch: [7/20] Iter:[40/292], Time: 1.03, lr: [0.00023123253219560407], Loss: 1.368136, Acc:0.533237, Semantic loss: 0.138508, BCE loss: 1.180057, SB loss: 0.049571
+Epoch: [7/20] Iter:[50/292], Time: 1.02, lr: [0.00023067838680253505], Loss: 1.356531, Acc:0.527901, Semantic loss: 0.137551, BCE loss: 1.169383, SB loss: 0.049598
+Epoch: [7/20] Iter:[60/292], Time: 1.02, lr: [0.000230124093459638], Loss: 1.375007, Acc:0.528651, Semantic loss: 0.137068, BCE loss: 1.188335, SB loss: 0.049605
+Epoch: [7/20] Iter:[70/292], Time: 1.02, lr: [0.00022956965173124116], Loss: 1.379316, Acc:0.529329, Semantic loss: 0.136259, BCE loss: 1.193869, SB loss: 0.049187
+Epoch: [7/20] Iter:[80/292], Time: 1.02, lr: [0.00022901506117921683], Loss: 1.358550, Acc:0.529236, Semantic loss: 0.137746, BCE loss: 1.170481, SB loss: 0.050322
+Epoch: [7/20] Iter:[90/292], Time: 1.02, lr: [0.00022846032136296108], Loss: 1.373810, Acc:0.535937, Semantic loss: 0.136026, BCE loss: 1.187842, SB loss: 0.049943
+Epoch: [7/20] Iter:[100/292], Time: 1.02, lr: [0.0002279054318393731], Loss: 1.351803, Acc:0.530803, Semantic loss: 0.136206, BCE loss: 1.165649, SB loss: 0.049948
+Epoch: [7/20] Iter:[110/292], Time: 1.02, lr: [0.00022735039216283391], Loss: 1.338021, Acc:0.531621, Semantic loss: 0.135276, BCE loss: 1.153015, SB loss: 0.049729
+Epoch: [7/20] Iter:[120/292], Time: 1.01, lr: [0.0002267952018851855], Loss: 1.340627, Acc:0.534012, Semantic loss: 0.134644, BCE loss: 1.156513, SB loss: 0.049470
+Epoch: [7/20] Iter:[130/292], Time: 1.01, lr: [0.00022623986055570917], Loss: 1.335970, Acc:0.536933, Semantic loss: 0.134636, BCE loss: 1.151857, SB loss: 0.049477
+Epoch: [7/20] Iter:[140/292], Time: 1.02, lr: [0.0002256843677211041], Loss: 1.334616, Acc:0.537420, Semantic loss: 0.133705, BCE loss: 1.151909, SB loss: 0.049001
+Epoch: [7/20] Iter:[150/292], Time: 1.02, lr: [0.00022512872292546545], Loss: 1.332796, Acc:0.534720, Semantic loss: 0.134160, BCE loss: 1.149554, SB loss: 0.049083
+Epoch: [7/20] Iter:[160/292], Time: 1.01, lr: [0.00022457292571026198], Loss: 1.326207, Acc:0.535185, Semantic loss: 0.133777, BCE loss: 1.143572, SB loss: 0.048858
+Epoch: [7/20] Iter:[170/292], Time: 1.01, lr: [0.00022401697561431368], Loss: 1.325892, Acc:0.536883, Semantic loss: 0.133402, BCE loss: 1.143664, SB loss: 0.048826
+Epoch: [7/20] Iter:[180/292], Time: 1.02, lr: [0.0002234608721737695], Loss: 1.321705, Acc:0.536114, Semantic loss: 0.133341, BCE loss: 1.139465, SB loss: 0.048899
+Epoch: [7/20] Iter:[190/292], Time: 1.02, lr: [0.00022290461492208393], Loss: 1.316512, Acc:0.534889, Semantic loss: 0.133338, BCE loss: 1.134456, SB loss: 0.048717
+Epoch: [7/20] Iter:[200/292], Time: 1.02, lr: [0.0002223482033899944], Loss: 1.318739, Acc:0.535062, Semantic loss: 0.133383, BCE loss: 1.136390, SB loss: 0.048966
+Epoch: [7/20] Iter:[210/292], Time: 1.01, lr: [0.00022179163710549723], Loss: 1.311650, Acc:0.533824, Semantic loss: 0.133352, BCE loss: 1.129355, SB loss: 0.048943
+Epoch: [7/20] Iter:[220/292], Time: 1.01, lr: [0.00022123491559382434], Loss: 1.318126, Acc:0.536724, Semantic loss: 0.133056, BCE loss: 1.136146, SB loss: 0.048924
+Epoch: [7/20] Iter:[230/292], Time: 1.01, lr: [0.00022067803837741922], Loss: 1.316918, Acc:0.536762, Semantic loss: 0.133231, BCE loss: 1.134756, SB loss: 0.048931
+Epoch: [7/20] Iter:[240/292], Time: 1.01, lr: [0.00022012100497591268], Loss: 1.312272, Acc:0.538320, Semantic loss: 0.133129, BCE loss: 1.130320, SB loss: 0.048823
+Epoch: [7/20] Iter:[250/292], Time: 1.01, lr: [0.00021956381490609826], Loss: 1.315977, Acc:0.538238, Semantic loss: 0.133330, BCE loss: 1.133767, SB loss: 0.048880
+Epoch: [7/20] Iter:[260/292], Time: 1.01, lr: [0.00021900646768190736], Loss: 1.315887, Acc:0.538880, Semantic loss: 0.133242, BCE loss: 1.133832, SB loss: 0.048813
+Epoch: [7/20] Iter:[270/292], Time: 1.01, lr: [0.0002184489628143843], Loss: 1.312786, Acc:0.537243, Semantic loss: 0.133265, BCE loss: 1.130753, SB loss: 0.048768
+Epoch: [7/20] Iter:[280/292], Time: 1.01, lr: [0.00021789129981166096], Loss: 1.314060, Acc:0.535922, Semantic loss: 0.133475, BCE loss: 1.131646, SB loss: 0.048938
+Epoch: [7/20] Iter:[290/292], Time: 1.01, lr: [0.000217333478178931], Loss: 1.313022, Acc:0.535594, Semantic loss: 0.133146, BCE loss: 1.131051, SB loss: 0.048825
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.41174508 0.22126806 0.13153907 0.37210949 0.1124812
+ 0.17164395 0.04714924] 0.20970515422398964
+1 [0.         0.44858167 0.29038639 0.28954635 0.4326061  0.15890103
+ 0.20446252 0.22323109] 0.2925307351215903
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.172, MeanIU:  0.2925, Best_mIoU:  0.2925
+[0.         0.44858167 0.29038639 0.28954635 0.4326061  0.15890103
+ 0.20446252 0.22323109]
+Epoch: [8/20] Iter:[0/292], Time: 0.85, lr: [0.00012663869083174783], Loss: 0.855711, Acc:0.548701, Semantic loss: 0.108156, BCE loss: 0.701108, SB loss: 0.046446
+Epoch: [8/20] Iter:[10/292], Time: 1.01, lr: [0.00012631337375890777], Loss: 1.166973, Acc:0.520431, Semantic loss: 0.121432, BCE loss: 0.999517, SB loss: 0.046025
+Epoch: [8/20] Iter:[20/292], Time: 1.05, lr: [0.00012598796356526137], Loss: 1.244364, Acc:0.539031, Semantic loss: 0.123896, BCE loss: 1.073987, SB loss: 0.046481
+Epoch: [8/20] Iter:[30/292], Time: 1.04, lr: [0.00012566245995675616], Loss: 1.228303, Acc:0.527077, Semantic loss: 0.128177, BCE loss: 1.053323, SB loss: 0.046803
+Epoch: [8/20] Iter:[40/292], Time: 1.03, lr: [0.00012533686263756192], Loss: 1.245639, Acc:0.532091, Semantic loss: 0.128829, BCE loss: 1.070161, SB loss: 0.046649
+Epoch: [8/20] Iter:[50/292], Time: 1.02, lr: [0.00012501117131005475], Loss: 1.274420, Acc:0.533316, Semantic loss: 0.130043, BCE loss: 1.097128, SB loss: 0.047249
+Epoch: [8/20] Iter:[60/292], Time: 1.02, lr: [0.00012468538567480094], Loss: 1.234733, Acc:0.534015, Semantic loss: 0.127998, BCE loss: 1.060124, SB loss: 0.046611
+Epoch: [8/20] Iter:[70/292], Time: 1.03, lr: [0.00012435950543054068], Loss: 1.250445, Acc:0.541086, Semantic loss: 0.128589, BCE loss: 1.075023, SB loss: 0.046833
+Epoch: [8/20] Iter:[80/292], Time: 1.02, lr: [0.00012403353027417162], Loss: 1.230792, Acc:0.535927, Semantic loss: 0.128219, BCE loss: 1.055711, SB loss: 0.046861
+Epoch: [8/20] Iter:[90/292], Time: 1.02, lr: [0.00012370745990073205], Loss: 1.231919, Acc:0.535132, Semantic loss: 0.129259, BCE loss: 1.055206, SB loss: 0.047454
+Epoch: [8/20] Iter:[100/292], Time: 1.02, lr: [0.00012338129400338426], Loss: 1.233303, Acc:0.533986, Semantic loss: 0.128283, BCE loss: 1.057787, SB loss: 0.047233
+Epoch: [8/20] Iter:[110/292], Time: 1.02, lr: [0.00012305503227339723], Loss: 1.228002, Acc:0.536515, Semantic loss: 0.127881, BCE loss: 1.053133, SB loss: 0.046988
+Epoch: [8/20] Iter:[120/292], Time: 1.02, lr: [0.00012272867440012945], Loss: 1.235043, Acc:0.535659, Semantic loss: 0.128697, BCE loss: 1.059196, SB loss: 0.047149
+Epoch: [8/20] Iter:[130/292], Time: 1.02, lr: [0.00012240222007101127], Loss: 1.227186, Acc:0.534582, Semantic loss: 0.127977, BCE loss: 1.052291, SB loss: 0.046919
+Epoch: [8/20] Iter:[140/292], Time: 1.02, lr: [0.00012207566897152737], Loss: 1.221112, Acc:0.533806, Semantic loss: 0.128712, BCE loss: 1.045357, SB loss: 0.047043
+Epoch: [8/20] Iter:[150/292], Time: 1.02, lr: [0.0001217490207851988], Loss: 1.227061, Acc:0.535144, Semantic loss: 0.128556, BCE loss: 1.051521, SB loss: 0.046984
+Epoch: [8/20] Iter:[160/292], Time: 1.02, lr: [0.00012142227519356472], Loss: 1.236227, Acc:0.539553, Semantic loss: 0.128892, BCE loss: 1.060266, SB loss: 0.047069
+Epoch: [8/20] Iter:[170/292], Time: 1.02, lr: [0.00012109543187616403], Loss: 1.242954, Acc:0.542565, Semantic loss: 0.128885, BCE loss: 1.067048, SB loss: 0.047021
+Epoch: [8/20] Iter:[180/292], Time: 1.02, lr: [0.00012076849051051687], Loss: 1.242981, Acc:0.541173, Semantic loss: 0.128926, BCE loss: 1.066871, SB loss: 0.047184
+Epoch: [8/20] Iter:[190/292], Time: 1.02, lr: [0.0001204414507721057], Loss: 1.248113, Acc:0.541051, Semantic loss: 0.128416, BCE loss: 1.072647, SB loss: 0.047050
+Epoch: [8/20] Iter:[200/292], Time: 1.02, lr: [0.00012011431233435633], Loss: 1.255582, Acc:0.543356, Semantic loss: 0.128025, BCE loss: 1.080573, SB loss: 0.046984
+Epoch: [8/20] Iter:[210/292], Time: 1.02, lr: [0.00011978707486861856], Loss: 1.259227, Acc:0.541651, Semantic loss: 0.128596, BCE loss: 1.083536, SB loss: 0.047095
+Epoch: [8/20] Iter:[220/292], Time: 1.02, lr: [0.00011945973804414659], Loss: 1.259268, Acc:0.540776, Semantic loss: 0.128225, BCE loss: 1.083988, SB loss: 0.047055
+Epoch: [8/20] Iter:[230/292], Time: 1.02, lr: [0.0001191323015280793], Loss: 1.264479, Acc:0.541806, Semantic loss: 0.128293, BCE loss: 1.089060, SB loss: 0.047126
+Epoch: [8/20] Iter:[240/292], Time: 1.02, lr: [0.00011880476498542022], Loss: 1.273927, Acc:0.544260, Semantic loss: 0.128423, BCE loss: 1.098234, SB loss: 0.047270
+Epoch: [8/20] Iter:[250/292], Time: 1.02, lr: [0.00011847712807901728], Loss: 1.269198, Acc:0.542358, Semantic loss: 0.128462, BCE loss: 1.093466, SB loss: 0.047271
+Epoch: [8/20] Iter:[260/292], Time: 1.02, lr: [0.00011814939046954214], Loss: 1.270467, Acc:0.542984, Semantic loss: 0.128376, BCE loss: 1.094873, SB loss: 0.047218
+Epoch: [8/20] Iter:[270/292], Time: 1.02, lr: [0.0001178215518154695], Loss: 1.274022, Acc:0.543120, Semantic loss: 0.128635, BCE loss: 1.098125, SB loss: 0.047262
+Epoch: [8/20] Iter:[280/292], Time: 1.02, lr: [0.00011749361177305598], Loss: 1.272288, Acc:0.544261, Semantic loss: 0.128706, BCE loss: 1.096390, SB loss: 0.047192
+Epoch: [8/20] Iter:[290/292], Time: 1.02, lr: [0.00011716556999631894], Loss: 1.278499, Acc:0.544653, Semantic loss: 0.128952, BCE loss: 1.102317, SB loss: 0.047230
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.38274703 0.23015474 0.11148845 0.31316682 0.17009932
+ 0.14047146 0.04848764] 0.1995164942332135
+1 [0.         0.30871003 0.26291899 0.31028635 0.42916632 0.10280292
+ 0.13177434 0.38236862] 0.2754325117567403
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.206, MeanIU:  0.2754, Best_mIoU:  0.2925
+[0.         0.30871003 0.26291899 0.31028635 0.42916632 0.10280292
+ 0.13177434 0.38236862]
+Epoch: [9/20] Iter:[0/292], Time: 1.10, lr: [6.152102938411417e-05], Loss: 0.872985, Acc:0.589295, Semantic loss: 0.110323, BCE loss: 0.717867, SB loss: 0.044795
+Epoch: [9/20] Iter:[10/292], Time: 1.01, lr: [6.134862105480479e-05], Loss: 1.207828, Acc:0.587191, Semantic loss: 0.132883, BCE loss: 1.028807, SB loss: 0.046139
+Epoch: [9/20] Iter:[20/292], Time: 1.05, lr: [6.117615887304429e-05], Loss: 1.278226, Acc:0.596399, Semantic loss: 0.125439, BCE loss: 1.107001, SB loss: 0.045786
+Epoch: [9/20] Iter:[30/292], Time: 1.04, lr: [6.100364265322126e-05], Loss: 1.333802, Acc:0.599609, Semantic loss: 0.125229, BCE loss: 1.162734, SB loss: 0.045838
+Epoch: [9/20] Iter:[40/292], Time: 1.04, lr: [6.083107220849909e-05], Loss: 1.310781, Acc:0.583550, Semantic loss: 0.126388, BCE loss: 1.137662, SB loss: 0.046731
+Epoch: [9/20] Iter:[50/292], Time: 1.03, lr: [6.0658447350804025e-05], Loss: 1.288593, Acc:0.576495, Semantic loss: 0.126694, BCE loss: 1.115435, SB loss: 0.046463
+Epoch: [9/20] Iter:[60/292], Time: 1.02, lr: [6.048576789081308e-05], Loss: 1.268148, Acc:0.571605, Semantic loss: 0.126762, BCE loss: 1.094759, SB loss: 0.046628
+Epoch: [9/20] Iter:[70/292], Time: 1.03, lr: [6.0313033637941665e-05], Loss: 1.267983, Acc:0.568711, Semantic loss: 0.127572, BCE loss: 1.093775, SB loss: 0.046636
+Epoch: [9/20] Iter:[80/292], Time: 1.02, lr: [6.0140244400331235e-05], Loss: 1.250934, Acc:0.565439, Semantic loss: 0.126603, BCE loss: 1.078024, SB loss: 0.046307
+Epoch: [9/20] Iter:[90/292], Time: 1.02, lr: [5.996739998483659e-05], Loss: 1.246476, Acc:0.565679, Semantic loss: 0.125644, BCE loss: 1.074928, SB loss: 0.045905
+Epoch: [9/20] Iter:[100/292], Time: 1.02, lr: [5.97945001970131e-05], Loss: 1.245871, Acc:0.567395, Semantic loss: 0.125253, BCE loss: 1.074795, SB loss: 0.045824
+Epoch: [9/20] Iter:[110/292], Time: 1.02, lr: [5.9621544841103885e-05], Loss: 1.238514, Acc:0.565613, Semantic loss: 0.124955, BCE loss: 1.067768, SB loss: 0.045792
+Epoch: [9/20] Iter:[120/292], Time: 1.02, lr: [5.94485337200265e-05], Loss: 1.237775, Acc:0.563404, Semantic loss: 0.124610, BCE loss: 1.067481, SB loss: 0.045684
+Epoch: [9/20] Iter:[130/292], Time: 1.02, lr: [5.927546663535984e-05], Loss: 1.238698, Acc:0.563018, Semantic loss: 0.124652, BCE loss: 1.068356, SB loss: 0.045690
+Epoch: [9/20] Iter:[140/292], Time: 1.02, lr: [5.9102343387330504e-05], Loss: 1.248250, Acc:0.566324, Semantic loss: 0.124442, BCE loss: 1.077898, SB loss: 0.045910
+Epoch: [9/20] Iter:[150/292], Time: 1.02, lr: [5.892916377479926e-05], Loss: 1.245406, Acc:0.561182, Semantic loss: 0.124889, BCE loss: 1.074723, SB loss: 0.045795
+Epoch: [9/20] Iter:[160/292], Time: 1.02, lr: [5.8755927595247184e-05], Loss: 1.261650, Acc:0.561765, Semantic loss: 0.125157, BCE loss: 1.090750, SB loss: 0.045742
+Epoch: [9/20] Iter:[170/292], Time: 1.02, lr: [5.858263464476163e-05], Loss: 1.265169, Acc:0.559932, Semantic loss: 0.125243, BCE loss: 1.094117, SB loss: 0.045809
+Epoch: [9/20] Iter:[180/292], Time: 1.02, lr: [5.8409284718022036e-05], Loss: 1.255473, Acc:0.556625, Semantic loss: 0.125193, BCE loss: 1.084449, SB loss: 0.045830
+Epoch: [9/20] Iter:[190/292], Time: 1.02, lr: [5.823587760828549e-05], Loss: 1.262322, Acc:0.556993, Semantic loss: 0.125275, BCE loss: 1.091190, SB loss: 0.045857
+Epoch: [9/20] Iter:[200/292], Time: 1.02, lr: [5.806241310737221e-05], Loss: 1.264217, Acc:0.557328, Semantic loss: 0.125047, BCE loss: 1.093384, SB loss: 0.045786
+Epoch: [9/20] Iter:[210/292], Time: 1.02, lr: [5.78888910056507e-05], Loss: 1.259363, Acc:0.556372, Semantic loss: 0.125420, BCE loss: 1.087922, SB loss: 0.046021
+Epoch: [9/20] Iter:[220/292], Time: 1.02, lr: [5.771531109202277e-05], Loss: 1.255525, Acc:0.555532, Semantic loss: 0.125381, BCE loss: 1.084078, SB loss: 0.046066
+Epoch: [9/20] Iter:[230/292], Time: 1.02, lr: [5.754167315390834e-05], Loss: 1.246162, Acc:0.554947, Semantic loss: 0.125030, BCE loss: 1.075211, SB loss: 0.045920
+Epoch: [9/20] Iter:[240/292], Time: 1.02, lr: [5.736797697722999e-05], Loss: 1.251556, Acc:0.556767, Semantic loss: 0.125057, BCE loss: 1.080618, SB loss: 0.045880
+Epoch: [9/20] Iter:[250/292], Time: 1.02, lr: [5.719422234639743e-05], Loss: 1.248123, Acc:0.556291, Semantic loss: 0.125486, BCE loss: 1.076687, SB loss: 0.045950
+Epoch: [9/20] Iter:[260/292], Time: 1.02, lr: [5.702040904429161e-05], Loss: 1.253098, Acc:0.556909, Semantic loss: 0.125497, BCE loss: 1.081528, SB loss: 0.046073
+Epoch: [9/20] Iter:[270/292], Time: 1.02, lr: [5.6846536852248614e-05], Loss: 1.257450, Acc:0.557669, Semantic loss: 0.125564, BCE loss: 1.085760, SB loss: 0.046126
+Epoch: [9/20] Iter:[280/292], Time: 1.02, lr: [5.667260555004346e-05], Loss: 1.258022, Acc:0.557012, Semantic loss: 0.125612, BCE loss: 1.086284, SB loss: 0.046126
+Epoch: [9/20] Iter:[290/292], Time: 1.02, lr: [5.649861491587356e-05], Loss: 1.259933, Acc:0.556859, Semantic loss: 0.125413, BCE loss: 1.088384, SB loss: 0.046136
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.48115161 0.27132007 0.12068764 0.2893845  0.18255813
+ 0.16228943 0.0515055 ] 0.22269955458481142
+1 [0.         0.5430546  0.22589179 0.30081282 0.44357601 0.09823526
+ 0.22601075 0.42304328] 0.32294635835054647
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.181, MeanIU:  0.3229, Best_mIoU:  0.3229
+[0.         0.5430546  0.22589179 0.30081282 0.44357601 0.09823526
+ 0.22601075 0.42304328]
+Epoch: [10/20] Iter:[0/292], Time: 0.90, lr: [2.6482039688098763e-05], Loss: 1.417973, Acc:0.650252, Semantic loss: 0.123409, BCE loss: 1.249210, SB loss: 0.045354
+Epoch: [10/20] Iter:[10/292], Time: 1.01, lr: [2.6400402968956673e-05], Loss: 1.122080, Acc:0.551590, Semantic loss: 0.112029, BCE loss: 0.967238, SB loss: 0.042813
+Epoch: [10/20] Iter:[20/292], Time: 1.00, lr: [2.631873819108041e-05], Loss: 1.188241, Acc:0.561555, Semantic loss: 0.116357, BCE loss: 1.029039, SB loss: 0.042845
+Epoch: [10/20] Iter:[30/292], Time: 1.01, lr: [2.6237045248021523e-05], Loss: 1.173617, Acc:0.545543, Semantic loss: 0.119957, BCE loss: 1.009935, SB loss: 0.043725
+Epoch: [10/20] Iter:[40/292], Time: 1.01, lr: [2.6155324032557906e-05], Loss: 1.154002, Acc:0.548709, Semantic loss: 0.121265, BCE loss: 0.988658, SB loss: 0.044079
+Epoch: [10/20] Iter:[50/292], Time: 1.02, lr: [2.607357443668551e-05], Loss: 1.140300, Acc:0.550171, Semantic loss: 0.121083, BCE loss: 0.975251, SB loss: 0.043967
+Epoch: [10/20] Iter:[60/292], Time: 1.01, lr: [2.5991796351609848e-05], Loss: 1.128681, Acc:0.543765, Semantic loss: 0.120494, BCE loss: 0.963909, SB loss: 0.044279
+Epoch: [10/20] Iter:[70/292], Time: 1.00, lr: [2.590998966773747e-05], Loss: 1.145914, Acc:0.543976, Semantic loss: 0.121743, BCE loss: 0.979195, SB loss: 0.044976
+Epoch: [10/20] Iter:[80/292], Time: 1.00, lr: [2.5828154274667217e-05], Loss: 1.146314, Acc:0.543196, Semantic loss: 0.121418, BCE loss: 0.980003, SB loss: 0.044893
+Epoch: [10/20] Iter:[90/292], Time: 1.01, lr: [2.5746290061181468e-05], Loss: 1.174051, Acc:0.544712, Semantic loss: 0.121913, BCE loss: 1.007522, SB loss: 0.044616
+Epoch: [10/20] Iter:[100/292], Time: 1.01, lr: [2.5664396915237138e-05], Loss: 1.203144, Acc:0.551564, Semantic loss: 0.121813, BCE loss: 1.036670, SB loss: 0.044661
+Epoch: [10/20] Iter:[110/292], Time: 1.01, lr: [2.5582474723956637e-05], Loss: 1.193811, Acc:0.550236, Semantic loss: 0.121616, BCE loss: 1.027422, SB loss: 0.044773
+Epoch: [10/20] Iter:[120/292], Time: 1.00, lr: [2.5500523373618654e-05], Loss: 1.214483, Acc:0.551552, Semantic loss: 0.123241, BCE loss: 1.046053, SB loss: 0.045189
+Epoch: [10/20] Iter:[130/292], Time: 1.01, lr: [2.5418542749648792e-05], Loss: 1.211795, Acc:0.551451, Semantic loss: 0.123131, BCE loss: 1.043365, SB loss: 0.045299
+Epoch: [10/20] Iter:[140/292], Time: 1.01, lr: [2.533653273661013e-05], Loss: 1.227374, Acc:0.551938, Semantic loss: 0.123611, BCE loss: 1.058343, SB loss: 0.045420
+Epoch: [10/20] Iter:[150/292], Time: 1.01, lr: [2.5254493218193557e-05], Loss: 1.220016, Acc:0.551648, Semantic loss: 0.123046, BCE loss: 1.051720, SB loss: 0.045250
+Epoch: [10/20] Iter:[160/292], Time: 1.00, lr: [2.5172424077208048e-05], Loss: 1.232051, Acc:0.553422, Semantic loss: 0.124130, BCE loss: 1.062488, SB loss: 0.045433
+Epoch: [10/20] Iter:[170/292], Time: 1.00, lr: [2.5090325195570737e-05], Loss: 1.232199, Acc:0.553798, Semantic loss: 0.124172, BCE loss: 1.062587, SB loss: 0.045441
+Epoch: [10/20] Iter:[180/292], Time: 1.00, lr: [2.500819645429685e-05], Loss: 1.220450, Acc:0.552156, Semantic loss: 0.123851, BCE loss: 1.051156, SB loss: 0.045442
+Epoch: [10/20] Iter:[190/292], Time: 1.00, lr: [2.4926037733489535e-05], Loss: 1.214434, Acc:0.550892, Semantic loss: 0.123619, BCE loss: 1.045303, SB loss: 0.045511
+Epoch: [10/20] Iter:[200/292], Time: 1.01, lr: [2.484384891232946e-05], Loss: 1.221271, Acc:0.551320, Semantic loss: 0.123528, BCE loss: 1.052217, SB loss: 0.045526
+Epoch: [10/20] Iter:[210/292], Time: 1.00, lr: [2.4761629869064345e-05], Loss: 1.230504, Acc:0.553234, Semantic loss: 0.123353, BCE loss: 1.061690, SB loss: 0.045461
+Epoch: [10/20] Iter:[220/292], Time: 1.00, lr: [2.467938048099823e-05], Loss: 1.236469, Acc:0.555115, Semantic loss: 0.123449, BCE loss: 1.067454, SB loss: 0.045566
+Epoch: [10/20] Iter:[230/292], Time: 1.01, lr: [2.4597100624480704e-05], Loss: 1.241026, Acc:0.556984, Semantic loss: 0.123286, BCE loss: 1.072210, SB loss: 0.045529
+Epoch: [10/20] Iter:[240/292], Time: 1.00, lr: [2.4514790174895834e-05], Loss: 1.239738, Acc:0.557674, Semantic loss: 0.123007, BCE loss: 1.071310, SB loss: 0.045422
+Epoch: [10/20] Iter:[250/292], Time: 1.00, lr: [2.443244900665107e-05], Loss: 1.239926, Acc:0.556977, Semantic loss: 0.123159, BCE loss: 1.071318, SB loss: 0.045450
+Epoch: [10/20] Iter:[260/292], Time: 1.00, lr: [2.4350076993165826e-05], Loss: 1.236105, Acc:0.556266, Semantic loss: 0.123579, BCE loss: 1.067061, SB loss: 0.045466
+Epoch: [10/20] Iter:[270/292], Time: 1.00, lr: [2.4267674006860012e-05], Loss: 1.242660, Acc:0.557072, Semantic loss: 0.123700, BCE loss: 1.073480, SB loss: 0.045481
+Epoch: [10/20] Iter:[280/292], Time: 1.00, lr: [2.418523991914235e-05], Loss: 1.245195, Acc:0.557064, Semantic loss: 0.123478, BCE loss: 1.076238, SB loss: 0.045479
+Epoch: [10/20] Iter:[290/292], Time: 1.00, lr: [2.4102774600398442e-05], Loss: 1.245347, Acc:0.557763, Semantic loss: 0.123431, BCE loss: 1.076466, SB loss: 0.045450
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.47754656 0.24524041 0.12501247 0.33439428 0.18284731
+ 0.22208119 0.05482811] 0.23456433190744722
+1 [0.         0.53064222 0.26827162 0.34067888 0.48955219 0.10723053
+ 0.28649394 0.43319867] 0.35086686437131387
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.171, MeanIU:  0.3509, Best_mIoU:  0.3509
+[0.         0.53064222 0.26827162 0.34067888 0.48955219 0.10723053
+ 0.28649394 0.43319867]
+Epoch: [11/20] Iter:[0/292], Time: 0.83, lr: [9.985401711645102e-06], Loss: 1.207775, Acc:0.548530, Semantic loss: 0.173878, BCE loss: 0.996144, SB loss: 0.037753
+Epoch: [11/20] Iter:[10/292], Time: 1.04, lr: [9.951198615146152e-06], Loss: 1.303396, Acc:0.546021, Semantic loss: 0.129841, BCE loss: 1.127527, SB loss: 0.046028
+Epoch: [11/20] Iter:[20/292], Time: 1.06, lr: [9.916982451528415e-06], Loss: 1.343794, Acc:0.570043, Semantic loss: 0.126688, BCE loss: 1.170472, SB loss: 0.046635
+Epoch: [11/20] Iter:[30/292], Time: 1.06, lr: [9.882753165666666e-06], Loss: 1.300545, Acc:0.567999, Semantic loss: 0.125546, BCE loss: 1.127922, SB loss: 0.047077
+Epoch: [11/20] Iter:[40/292], Time: 1.04, lr: [9.84851070199002e-06], Loss: 1.299814, Acc:0.566914, Semantic loss: 0.126244, BCE loss: 1.127085, SB loss: 0.046486
+Epoch: [11/20] Iter:[50/292], Time: 1.06, lr: [9.814255004476563e-06], Loss: 1.282776, Acc:0.570411, Semantic loss: 0.126100, BCE loss: 1.110369, SB loss: 0.046308
+Epoch: [11/20] Iter:[60/292], Time: 1.06, lr: [9.77998601664796e-06], Loss: 1.291804, Acc:0.571756, Semantic loss: 0.125769, BCE loss: 1.120054, SB loss: 0.045981
+Epoch: [11/20] Iter:[70/292], Time: 1.06, lr: [9.745703681563908e-06], Loss: 1.275838, Acc:0.571754, Semantic loss: 0.125542, BCE loss: 1.104651, SB loss: 0.045645
+Epoch: [11/20] Iter:[80/292], Time: 1.06, lr: [9.711407941816573e-06], Loss: 1.272155, Acc:0.565127, Semantic loss: 0.126644, BCE loss: 1.099722, SB loss: 0.045788
+Epoch: [11/20] Iter:[90/292], Time: 1.06, lr: [9.677098739524871e-06], Loss: 1.274633, Acc:0.567598, Semantic loss: 0.126720, BCE loss: 1.102069, SB loss: 0.045844
+Epoch: [11/20] Iter:[100/292], Time: 1.05, lr: [9.64277601632871e-06], Loss: 1.264282, Acc:0.570843, Semantic loss: 0.125860, BCE loss: 1.092947, SB loss: 0.045476
+Epoch: [11/20] Iter:[110/292], Time: 1.05, lr: [9.608439713383089e-06], Loss: 1.249864, Acc:0.568575, Semantic loss: 0.126049, BCE loss: 1.078164, SB loss: 0.045651
+Epoch: [11/20] Iter:[120/292], Time: 1.05, lr: [9.574089771352148e-06], Loss: 1.252009, Acc:0.566035, Semantic loss: 0.126929, BCE loss: 1.079338, SB loss: 0.045741
+Epoch: [11/20] Iter:[130/292], Time: 1.05, lr: [9.5397261304031e-06], Loss: 1.260398, Acc:0.569166, Semantic loss: 0.126771, BCE loss: 1.088012, SB loss: 0.045615
+Epoch: [11/20] Iter:[140/292], Time: 1.04, lr: [9.505348730200041e-06], Loss: 1.265867, Acc:0.571315, Semantic loss: 0.126531, BCE loss: 1.093672, SB loss: 0.045664
+Epoch: [11/20] Iter:[150/292], Time: 1.04, lr: [9.47095750989771e-06], Loss: 1.269059, Acc:0.570352, Semantic loss: 0.126046, BCE loss: 1.097495, SB loss: 0.045518
+Epoch: [11/20] Iter:[160/292], Time: 1.04, lr: [9.436552408135086e-06], Loss: 1.274702, Acc:0.574960, Semantic loss: 0.125309, BCE loss: 1.103992, SB loss: 0.045401
+Epoch: [11/20] Iter:[170/292], Time: 1.04, lr: [9.402133363028936e-06], Loss: 1.263824, Acc:0.572929, Semantic loss: 0.125047, BCE loss: 1.093215, SB loss: 0.045562
+Epoch: [11/20] Iter:[180/292], Time: 1.04, lr: [9.3677003121672e-06], Loss: 1.267203, Acc:0.572808, Semantic loss: 0.124661, BCE loss: 1.097155, SB loss: 0.045387
+Epoch: [11/20] Iter:[190/292], Time: 1.03, lr: [9.333253192602313e-06], Loss: 1.270373, Acc:0.574693, Semantic loss: 0.124698, BCE loss: 1.100317, SB loss: 0.045357
+Epoch: [11/20] Iter:[200/292], Time: 1.03, lr: [9.298791940844394e-06], Loss: 1.273512, Acc:0.574446, Semantic loss: 0.124531, BCE loss: 1.103708, SB loss: 0.045273
+Epoch: [11/20] Iter:[210/292], Time: 1.04, lr: [9.264316492854304e-06], Loss: 1.281471, Acc:0.573230, Semantic loss: 0.124590, BCE loss: 1.111534, SB loss: 0.045346
+Epoch: [11/20] Iter:[220/292], Time: 1.04, lr: [9.22982678403662e-06], Loss: 1.280944, Acc:0.574191, Semantic loss: 0.124170, BCE loss: 1.111447, SB loss: 0.045327
+Epoch: [11/20] Iter:[230/292], Time: 1.03, lr: [9.195322749232462e-06], Loss: 1.276253, Acc:0.575769, Semantic loss: 0.123514, BCE loss: 1.107591, SB loss: 0.045148
+Epoch: [11/20] Iter:[240/292], Time: 1.03, lr: [9.16080432271221e-06], Loss: 1.280516, Acc:0.575685, Semantic loss: 0.123296, BCE loss: 1.112169, SB loss: 0.045051
+Epoch: [11/20] Iter:[250/292], Time: 1.03, lr: [9.126271438168099e-06], Loss: 1.276727, Acc:0.574043, Semantic loss: 0.123759, BCE loss: 1.107809, SB loss: 0.045159
+Epoch: [11/20] Iter:[260/292], Time: 1.03, lr: [9.091724028706669e-06], Loss: 1.274255, Acc:0.574604, Semantic loss: 0.124013, BCE loss: 1.105150, SB loss: 0.045092
+Epoch: [11/20] Iter:[270/292], Time: 1.03, lr: [9.057162026841103e-06], Loss: 1.265467, Acc:0.572048, Semantic loss: 0.123711, BCE loss: 1.096750, SB loss: 0.045006
+Epoch: [11/20] Iter:[280/292], Time: 1.02, lr: [9.022585364483425e-06], Loss: 1.263474, Acc:0.570800, Semantic loss: 0.123636, BCE loss: 1.094827, SB loss: 0.045012
+Epoch: [11/20] Iter:[290/292], Time: 1.02, lr: [8.987993972936562e-06], Loss: 1.257188, Acc:0.570135, Semantic loss: 0.123478, BCE loss: 1.088695, SB loss: 0.045015
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.46525752 0.25934929 0.11847294 0.32715647 0.16801862
+ 0.18879741 0.06304116] 0.2271562023219519
+1 [0.         0.46676338 0.31670187 0.31066688 0.44092325 0.06471774
+ 0.21693188 0.43647813] 0.32188330173043056
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.186, MeanIU:  0.3219, Best_mIoU:  0.3509
+[0.         0.46676338 0.31670187 0.31066688 0.44092325 0.06471774
+ 0.21693188 0.43647813]
+Epoch: [12/20] Iter:[0/292], Time: 0.89, lr: [3.2761614503920024e-06], Loss: 1.944486, Acc:0.617211, Semantic loss: 0.135088, BCE loss: 1.762141, SB loss: 0.047258
+Epoch: [12/20] Iter:[10/292], Time: 1.01, lr: [3.2635365471040507e-06], Loss: 1.293736, Acc:0.599705, Semantic loss: 0.114365, BCE loss: 1.136828, SB loss: 0.042543
+Epoch: [12/20] Iter:[20/292], Time: 1.02, lr: [3.250906214900194e-06], Loss: 1.242632, Acc:0.585299, Semantic loss: 0.116697, BCE loss: 1.082846, SB loss: 0.043088
+Epoch: [12/20] Iter:[30/292], Time: 1.00, lr: [3.238270427989696e-06], Loss: 1.259921, Acc:0.582342, Semantic loss: 0.119161, BCE loss: 1.096847, SB loss: 0.043913
+Epoch: [12/20] Iter:[40/292], Time: 1.01, lr: [3.2256291603469053e-06], Loss: 1.232452, Acc:0.573084, Semantic loss: 0.120687, BCE loss: 1.067357, SB loss: 0.044407
+Epoch: [12/20] Iter:[50/292], Time: 1.00, lr: [3.2129823857080708e-06], Loss: 1.206400, Acc:0.562979, Semantic loss: 0.120027, BCE loss: 1.041634, SB loss: 0.044739
+Epoch: [12/20] Iter:[60/292], Time: 1.01, lr: [3.200330077568121e-06], Loss: 1.206994, Acc:0.561909, Semantic loss: 0.120207, BCE loss: 1.041629, SB loss: 0.045158
+Epoch: [12/20] Iter:[70/292], Time: 1.01, lr: [3.187672209177374e-06], Loss: 1.231730, Acc:0.567017, Semantic loss: 0.122093, BCE loss: 1.064148, SB loss: 0.045490
+Epoch: [12/20] Iter:[80/292], Time: 1.01, lr: [3.1750087535381895e-06], Loss: 1.231221, Acc:0.567862, Semantic loss: 0.121772, BCE loss: 1.063880, SB loss: 0.045568
+Epoch: [12/20] Iter:[90/292], Time: 1.01, lr: [3.1623396834015625e-06], Loss: 1.233404, Acc:0.569606, Semantic loss: 0.122038, BCE loss: 1.066010, SB loss: 0.045356
+Epoch: [12/20] Iter:[100/292], Time: 1.02, lr: [3.149664971263648e-06], Loss: 1.253847, Acc:0.572138, Semantic loss: 0.122564, BCE loss: 1.085812, SB loss: 0.045470
+Epoch: [12/20] Iter:[110/292], Time: 1.02, lr: [3.136984589362236e-06], Loss: 1.263428, Acc:0.576080, Semantic loss: 0.122369, BCE loss: 1.095841, SB loss: 0.045218
+Epoch: [12/20] Iter:[120/292], Time: 1.01, lr: [3.1242985096731433e-06], Loss: 1.251690, Acc:0.574583, Semantic loss: 0.122092, BCE loss: 1.084433, SB loss: 0.045165
+Epoch: [12/20] Iter:[130/292], Time: 1.01, lr: [3.111606703906554e-06], Loss: 1.245915, Acc:0.574037, Semantic loss: 0.122095, BCE loss: 1.078673, SB loss: 0.045146
+Epoch: [12/20] Iter:[140/292], Time: 1.02, lr: [3.0989091435032836e-06], Loss: 1.255202, Acc:0.573688, Semantic loss: 0.122687, BCE loss: 1.087253, SB loss: 0.045262
+Epoch: [12/20] Iter:[150/292], Time: 1.02, lr: [3.086205799630975e-06], Loss: 1.258033, Acc:0.575164, Semantic loss: 0.122444, BCE loss: 1.090367, SB loss: 0.045222
+Epoch: [12/20] Iter:[160/292], Time: 1.02, lr: [3.073496643180226e-06], Loss: 1.254094, Acc:0.576067, Semantic loss: 0.122416, BCE loss: 1.086498, SB loss: 0.045179
+Epoch: [12/20] Iter:[170/292], Time: 1.01, lr: [3.0607816447606363e-06], Loss: 1.252330, Acc:0.575702, Semantic loss: 0.122805, BCE loss: 1.084236, SB loss: 0.045290
+Epoch: [12/20] Iter:[180/292], Time: 1.01, lr: [3.0480607746967933e-06], Loss: 1.255758, Acc:0.577468, Semantic loss: 0.122260, BCE loss: 1.088328, SB loss: 0.045170
+Epoch: [12/20] Iter:[190/292], Time: 1.01, lr: [3.035334003024163e-06], Loss: 1.255662, Acc:0.574957, Semantic loss: 0.122548, BCE loss: 1.087822, SB loss: 0.045291
+Epoch: [12/20] Iter:[200/292], Time: 1.01, lr: [3.022601299484922e-06], Loss: 1.269517, Acc:0.577703, Semantic loss: 0.122581, BCE loss: 1.101637, SB loss: 0.045299
+Epoch: [12/20] Iter:[210/292], Time: 1.01, lr: [3.009862633523693e-06], Loss: 1.255651, Acc:0.575582, Semantic loss: 0.122170, BCE loss: 1.088249, SB loss: 0.045231
+Epoch: [12/20] Iter:[220/292], Time: 1.01, lr: [2.9971179742832057e-06], Loss: 1.260004, Acc:0.575224, Semantic loss: 0.121965, BCE loss: 1.092838, SB loss: 0.045200
+Epoch: [12/20] Iter:[230/292], Time: 1.01, lr: [2.98436729059988e-06], Loss: 1.255280, Acc:0.576933, Semantic loss: 0.121951, BCE loss: 1.088203, SB loss: 0.045126
+Epoch: [12/20] Iter:[240/292], Time: 1.01, lr: [2.9716105509993053e-06], Loss: 1.258220, Acc:0.577763, Semantic loss: 0.122241, BCE loss: 1.090778, SB loss: 0.045202
+Epoch: [12/20] Iter:[250/292], Time: 1.01, lr: [2.9588477236916515e-06], Loss: 1.265312, Acc:0.578455, Semantic loss: 0.122535, BCE loss: 1.097473, SB loss: 0.045304
+Epoch: [12/20] Iter:[260/292], Time: 1.01, lr: [2.946078776566972e-06], Loss: 1.262438, Acc:0.576881, Semantic loss: 0.122414, BCE loss: 1.094705, SB loss: 0.045319
+Epoch: [12/20] Iter:[270/292], Time: 1.01, lr: [2.9333036771904313e-06], Loss: 1.264321, Acc:0.576581, Semantic loss: 0.122290, BCE loss: 1.096813, SB loss: 0.045218
+Epoch: [12/20] Iter:[280/292], Time: 1.01, lr: [2.9205223927974215e-06], Loss: 1.261952, Acc:0.577318, Semantic loss: 0.121797, BCE loss: 1.095150, SB loss: 0.045005
+Epoch: [12/20] Iter:[290/292], Time: 1.01, lr: [2.907734890288591e-06], Loss: 1.260536, Acc:0.576821, Semantic loss: 0.121718, BCE loss: 1.093803, SB loss: 0.045015
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.45810223 0.2693336  0.12512844 0.3141509  0.16188835
+ 0.19507803 0.05454663] 0.22546116872588123
+1 [0.         0.47231012 0.30669191 0.32712039 0.49944208 0.08668448
+ 0.21811007 0.42793169] 0.33404153480850224
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.187, MeanIU:  0.3340, Best_mIoU:  0.3509
+[0.         0.47231012 0.30669191 0.32712039 0.49944208 0.08668448
+ 0.21811007 0.42793169]
+Epoch: [13/20] Iter:[0/292], Time: 0.83, lr: [9.606200234767432e-07], Loss: 1.064826, Acc:0.622902, Semantic loss: 0.102995, BCE loss: 0.919656, SB loss: 0.042175
+Epoch: [13/20] Iter:[10/292], Time: 0.96, lr: [9.563892510291813e-07], Loss: 1.269633, Acc:0.583485, Semantic loss: 0.123436, BCE loss: 1.101720, SB loss: 0.044478
+Epoch: [13/20] Iter:[20/292], Time: 0.97, lr: [9.521563980356329e-07], Loss: 1.274945, Acc:0.586669, Semantic loss: 0.124656, BCE loss: 1.106337, SB loss: 0.043951
+Epoch: [13/20] Iter:[30/292], Time: 0.98, lr: [9.47921453185898e-07], Loss: 1.318943, Acc:0.592396, Semantic loss: 0.125027, BCE loss: 1.149021, SB loss: 0.044895
+Epoch: [13/20] Iter:[40/292], Time: 0.99, lr: [9.436844050518126e-07], Loss: 1.339105, Acc:0.596309, Semantic loss: 0.125088, BCE loss: 1.169160, SB loss: 0.044857
+Epoch: [13/20] Iter:[50/292], Time: 0.99, lr: [9.39445242085427e-07], Loss: 1.332161, Acc:0.595416, Semantic loss: 0.123845, BCE loss: 1.163470, SB loss: 0.044845
+Epoch: [13/20] Iter:[60/292], Time: 0.98, lr: [9.352039526171402e-07], Loss: 1.328919, Acc:0.591883, Semantic loss: 0.123876, BCE loss: 1.160026, SB loss: 0.045018
+Epoch: [13/20] Iter:[70/292], Time: 0.99, lr: [9.30960524853799e-07], Loss: 1.320341, Acc:0.592214, Semantic loss: 0.124120, BCE loss: 1.151228, SB loss: 0.044993
+Epoch: [13/20] Iter:[80/292], Time: 0.99, lr: [9.26714946876759e-07], Loss: 1.304588, Acc:0.587729, Semantic loss: 0.123535, BCE loss: 1.135857, SB loss: 0.045196
+Epoch: [13/20] Iter:[90/292], Time: 1.00, lr: [9.224672066399013e-07], Loss: 1.283526, Acc:0.583782, Semantic loss: 0.122755, BCE loss: 1.115794, SB loss: 0.044976
+Epoch: [13/20] Iter:[100/292], Time: 0.99, lr: [9.182172919676106e-07], Loss: 1.291631, Acc:0.588834, Semantic loss: 0.122555, BCE loss: 1.124153, SB loss: 0.044923
+Epoch: [13/20] Iter:[110/292], Time: 0.99, lr: [9.13965190552709e-07], Loss: 1.301785, Acc:0.589597, Semantic loss: 0.122517, BCE loss: 1.134251, SB loss: 0.045017
+Epoch: [13/20] Iter:[120/292], Time: 1.00, lr: [9.097108899543478e-07], Loss: 1.301021, Acc:0.585735, Semantic loss: 0.123168, BCE loss: 1.132532, SB loss: 0.045322
+Epoch: [13/20] Iter:[130/292], Time: 1.00, lr: [9.054543775958514e-07], Loss: 1.288245, Acc:0.585082, Semantic loss: 0.123131, BCE loss: 1.119782, SB loss: 0.045332
+Epoch: [13/20] Iter:[140/292], Time: 1.00, lr: [9.011956407625178e-07], Loss: 1.284957, Acc:0.583338, Semantic loss: 0.123255, BCE loss: 1.116330, SB loss: 0.045373
+Epoch: [13/20] Iter:[150/292], Time: 1.00, lr: [8.969346665993713e-07], Loss: 1.284422, Acc:0.582716, Semantic loss: 0.122523, BCE loss: 1.116713, SB loss: 0.045186
+Epoch: [13/20] Iter:[160/292], Time: 1.00, lr: [8.926714421088644e-07], Loss: 1.275310, Acc:0.582549, Semantic loss: 0.122543, BCE loss: 1.107420, SB loss: 0.045347
+Epoch: [13/20] Iter:[170/292], Time: 1.00, lr: [8.884059541485327e-07], Loss: 1.272372, Acc:0.579962, Semantic loss: 0.122673, BCE loss: 1.104403, SB loss: 0.045296
+Epoch: [13/20] Iter:[180/292], Time: 1.00, lr: [8.841381894285955e-07], Loss: 1.264298, Acc:0.578527, Semantic loss: 0.122069, BCE loss: 1.097031, SB loss: 0.045198
+Epoch: [13/20] Iter:[190/292], Time: 1.00, lr: [8.79868134509507e-07], Loss: 1.262924, Acc:0.578051, Semantic loss: 0.122246, BCE loss: 1.095516, SB loss: 0.045162
+Epoch: [13/20] Iter:[200/292], Time: 1.00, lr: [8.755957757994491e-07], Loss: 1.267022, Acc:0.580094, Semantic loss: 0.122024, BCE loss: 1.099864, SB loss: 0.045134
+Epoch: [13/20] Iter:[210/292], Time: 1.00, lr: [8.71321099551773e-07], Loss: 1.263698, Acc:0.579933, Semantic loss: 0.122334, BCE loss: 1.096279, SB loss: 0.045086
+Epoch: [13/20] Iter:[220/292], Time: 1.00, lr: [8.670440918623799e-07], Loss: 1.265551, Acc:0.581521, Semantic loss: 0.122266, BCE loss: 1.098222, SB loss: 0.045063
+Epoch: [13/20] Iter:[230/292], Time: 1.00, lr: [8.62764738667044e-07], Loss: 1.258079, Acc:0.579385, Semantic loss: 0.122248, BCE loss: 1.090803, SB loss: 0.045028
+Epoch: [13/20] Iter:[240/292], Time: 1.00, lr: [8.584830257386774e-07], Loss: 1.254346, Acc:0.579154, Semantic loss: 0.121986, BCE loss: 1.087419, SB loss: 0.044941
+Epoch: [13/20] Iter:[250/292], Time: 1.00, lr: [8.541989386845275e-07], Loss: 1.251562, Acc:0.577978, Semantic loss: 0.121857, BCE loss: 1.084808, SB loss: 0.044896
+Epoch: [13/20] Iter:[260/292], Time: 1.00, lr: [8.499124629433169e-07], Loss: 1.254595, Acc:0.580021, Semantic loss: 0.121968, BCE loss: 1.087795, SB loss: 0.044833
+Epoch: [13/20] Iter:[270/292], Time: 1.00, lr: [8.456235837823102e-07], Loss: 1.253563, Acc:0.579027, Semantic loss: 0.122078, BCE loss: 1.086669, SB loss: 0.044815
+Epoch: [13/20] Iter:[280/292], Time: 1.00, lr: [8.413322862943213e-07], Loss: 1.254160, Acc:0.579454, Semantic loss: 0.122028, BCE loss: 1.087223, SB loss: 0.044909
+Epoch: [13/20] Iter:[290/292], Time: 1.00, lr: [8.370385553946427e-07], Loss: 1.250593, Acc:0.578835, Semantic loss: 0.121817, BCE loss: 1.083969, SB loss: 0.044807
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.45865481 0.27669539 0.12696365 0.30986044 0.17881743
+ 0.19363109 0.06144402] 0.2294381176928329
+1 [0.         0.47995338 0.32130297 0.33102094 0.48480305 0.07972536
+ 0.21977999 0.4331875 ] 0.33568188540555405
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.193, MeanIU:  0.3357, Best_mIoU:  0.3509
+[0.         0.47995338 0.32130297 0.33102094 0.48480305 0.07972536
+ 0.21977999 0.4331875 ]
+Epoch: [14/20] Iter:[0/292], Time: 0.82, lr: [2.983761132611032e-07], Loss: 0.815318, Acc:0.474222, Semantic loss: 0.101452, BCE loss: 0.671802, SB loss: 0.042064
+Epoch: [14/20] Iter:[10/292], Time: 1.02, lr: [2.9684292090660213e-07], Loss: 1.183021, Acc:0.572695, Semantic loss: 0.115539, BCE loss: 1.023248, SB loss: 0.044234
+Epoch: [14/20] Iter:[20/292], Time: 1.02, lr: [2.9530884816096894e-07], Loss: 1.224669, Acc:0.590557, Semantic loss: 0.114415, BCE loss: 1.066379, SB loss: 0.043875
+Epoch: [14/20] Iter:[30/292], Time: 1.02, lr: [2.937738894311283e-07], Loss: 1.268496, Acc:0.589867, Semantic loss: 0.116388, BCE loss: 1.107952, SB loss: 0.044155
+Epoch: [14/20] Iter:[40/292], Time: 1.00, lr: [2.9223803905577623e-07], Loss: 1.259382, Acc:0.586966, Semantic loss: 0.118066, BCE loss: 1.096166, SB loss: 0.045150
+Epoch: [14/20] Iter:[50/292], Time: 1.00, lr: [2.907012913041431e-07], Loss: 1.238233, Acc:0.571524, Semantic loss: 0.118195, BCE loss: 1.074413, SB loss: 0.045625
+Epoch: [14/20] Iter:[60/292], Time: 1.01, lr: [2.891636403747294e-07], Loss: 1.219943, Acc:0.568825, Semantic loss: 0.119271, BCE loss: 1.054778, SB loss: 0.045894
+Epoch: [14/20] Iter:[70/292], Time: 1.01, lr: [2.8762508039400805e-07], Loss: 1.197317, Acc:0.564874, Semantic loss: 0.119948, BCE loss: 1.031608, SB loss: 0.045760
+Epoch: [14/20] Iter:[80/292], Time: 1.00, lr: [2.8608560541509727e-07], Loss: 1.190375, Acc:0.563588, Semantic loss: 0.119735, BCE loss: 1.024897, SB loss: 0.045743
+Epoch: [14/20] Iter:[90/292], Time: 1.00, lr: [2.8454520941640015e-07], Loss: 1.206327, Acc:0.566435, Semantic loss: 0.119624, BCE loss: 1.041250, SB loss: 0.045452
+Epoch: [14/20] Iter:[100/292], Time: 1.00, lr: [2.830038863002101e-07], Loss: 1.208303, Acc:0.567859, Semantic loss: 0.119851, BCE loss: 1.042924, SB loss: 0.045528
+Epoch: [14/20] Iter:[110/292], Time: 1.00, lr: [2.814616298912828e-07], Loss: 1.213847, Acc:0.568609, Semantic loss: 0.119703, BCE loss: 1.048653, SB loss: 0.045491
+Epoch: [14/20] Iter:[120/292], Time: 1.00, lr: [2.799184339353711e-07], Loss: 1.229670, Acc:0.570740, Semantic loss: 0.119301, BCE loss: 1.065040, SB loss: 0.045328
+Epoch: [14/20] Iter:[130/292], Time: 1.00, lr: [2.7837429209772455e-07], Loss: 1.222296, Acc:0.567119, Semantic loss: 0.119277, BCE loss: 1.057667, SB loss: 0.045352
+Epoch: [14/20] Iter:[140/292], Time: 1.00, lr: [2.7682919796154987e-07], Loss: 1.228654, Acc:0.569175, Semantic loss: 0.119002, BCE loss: 1.064508, SB loss: 0.045143
+Epoch: [14/20] Iter:[150/292], Time: 1.00, lr: [2.75283145026433e-07], Loss: 1.224855, Acc:0.570781, Semantic loss: 0.118874, BCE loss: 1.060991, SB loss: 0.044989
+Epoch: [14/20] Iter:[160/292], Time: 1.00, lr: [2.7373612670671997e-07], Loss: 1.225696, Acc:0.568729, Semantic loss: 0.119082, BCE loss: 1.061662, SB loss: 0.044952
+Epoch: [14/20] Iter:[170/292], Time: 1.00, lr: [2.721881363298569e-07], Loss: 1.226321, Acc:0.571350, Semantic loss: 0.119166, BCE loss: 1.062303, SB loss: 0.044851
+Epoch: [14/20] Iter:[180/292], Time: 1.00, lr: [2.7063916713468643e-07], Loss: 1.216720, Acc:0.570701, Semantic loss: 0.118933, BCE loss: 1.052956, SB loss: 0.044831
+Epoch: [14/20] Iter:[190/292], Time: 1.00, lr: [2.6908921226970004e-07], Loss: 1.213336, Acc:0.572315, Semantic loss: 0.118769, BCE loss: 1.049868, SB loss: 0.044699
+Epoch: [14/20] Iter:[200/292], Time: 1.00, lr: [2.6753826479124394e-07], Loss: 1.207276, Acc:0.570209, Semantic loss: 0.118547, BCE loss: 1.044058, SB loss: 0.044670
+Epoch: [14/20] Iter:[210/292], Time: 1.00, lr: [2.659863176616781e-07], Loss: 1.206316, Acc:0.568659, Semantic loss: 0.118822, BCE loss: 1.042735, SB loss: 0.044759
+Epoch: [14/20] Iter:[220/292], Time: 1.00, lr: [2.644333637474862e-07], Loss: 1.211063, Acc:0.567919, Semantic loss: 0.119141, BCE loss: 1.047044, SB loss: 0.044878
+Epoch: [14/20] Iter:[230/292], Time: 1.00, lr: [2.628793958173346e-07], Loss: 1.215050, Acc:0.568704, Semantic loss: 0.119213, BCE loss: 1.050972, SB loss: 0.044864
+Epoch: [14/20] Iter:[240/292], Time: 1.00, lr: [2.6132440654007954e-07], Loss: 1.214057, Acc:0.568929, Semantic loss: 0.119499, BCE loss: 1.049627, SB loss: 0.044932
+Epoch: [14/20] Iter:[250/292], Time: 1.00, lr: [2.5976838848272014e-07], Loss: 1.212846, Acc:0.568948, Semantic loss: 0.119433, BCE loss: 1.048581, SB loss: 0.044832
+Epoch: [14/20] Iter:[260/292], Time: 1.00, lr: [2.5821133410829486e-07], Loss: 1.220366, Acc:0.569834, Semantic loss: 0.119391, BCE loss: 1.056157, SB loss: 0.044817
+Epoch: [14/20] Iter:[270/292], Time: 1.00, lr: [2.5665323577372145e-07], Loss: 1.219117, Acc:0.569530, Semantic loss: 0.119242, BCE loss: 1.055142, SB loss: 0.044733
+Epoch: [14/20] Iter:[280/292], Time: 1.00, lr: [2.550940857275755e-07], Loss: 1.217753, Acc:0.569670, Semantic loss: 0.119060, BCE loss: 1.054016, SB loss: 0.044676
+Epoch: [14/20] Iter:[290/292], Time: 1.00, lr: [2.535338761078087e-07], Loss: 1.210644, Acc:0.567977, Semantic loss: 0.118985, BCE loss: 1.046974, SB loss: 0.044685
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.46328425 0.27287862 0.12252201 0.29675906 0.16215779
+ 0.19801224 0.05555271] 0.2244523821303366
+1 [0.         0.46729349 0.31822187 0.32453583 0.48594599 0.07425622
+ 0.21227765 0.43122618] 0.330536747762381
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.177, MeanIU:  0.3305, Best_mIoU:  0.3509
+[0.         0.46729349 0.31822187 0.32453583 0.48594599 0.07425622
+ 0.21227765 0.43122618]
+Epoch: [15/20] Iter:[0/292], Time: 0.84, lr: [1.452905637738451e-07], Loss: 1.613722, Acc:0.713353, Semantic loss: 0.107046, BCE loss: 1.466712, SB loss: 0.039963
+Epoch: [15/20] Iter:[10/292], Time: 1.02, lr: [1.4439462951627465e-07], Loss: 1.272112, Acc:0.621293, Semantic loss: 0.118342, BCE loss: 1.110736, SB loss: 0.043034
+Epoch: [15/20] Iter:[20/292], Time: 1.02, lr: [1.434980771547496e-07], Loss: 1.268960, Acc:0.603024, Semantic loss: 0.119075, BCE loss: 1.105247, SB loss: 0.044639
+Epoch: [15/20] Iter:[30/292], Time: 1.01, lr: [1.4260090196592724e-07], Loss: 1.304828, Acc:0.597457, Semantic loss: 0.119173, BCE loss: 1.140894, SB loss: 0.044761
+Epoch: [15/20] Iter:[40/292], Time: 1.01, lr: [1.417030991570747e-07], Loss: 1.291067, Acc:0.598239, Semantic loss: 0.121528, BCE loss: 1.124957, SB loss: 0.044583
+Epoch: [15/20] Iter:[50/292], Time: 1.00, lr: [1.408046638645544e-07], Loss: 1.264582, Acc:0.593173, Semantic loss: 0.120568, BCE loss: 1.099883, SB loss: 0.044131
+Epoch: [15/20] Iter:[60/292], Time: 1.00, lr: [1.3990559115226376e-07], Loss: 1.267196, Acc:0.585368, Semantic loss: 0.119625, BCE loss: 1.103478, SB loss: 0.044094
+Epoch: [15/20] Iter:[70/292], Time: 1.00, lr: [1.390058760100307e-07], Loss: 1.241524, Acc:0.583151, Semantic loss: 0.119870, BCE loss: 1.077747, SB loss: 0.043906
+Epoch: [15/20] Iter:[80/292], Time: 1.01, lr: [1.3810551335196041e-07], Loss: 1.247329, Acc:0.586501, Semantic loss: 0.120346, BCE loss: 1.082861, SB loss: 0.044122
+Epoch: [15/20] Iter:[90/292], Time: 1.00, lr: [1.3720449801473437e-07], Loss: 1.240856, Acc:0.585962, Semantic loss: 0.119994, BCE loss: 1.076693, SB loss: 0.044169
+Epoch: [15/20] Iter:[100/292], Time: 1.00, lr: [1.3630282475585702e-07], Loss: 1.239015, Acc:0.585062, Semantic loss: 0.119405, BCE loss: 1.075677, SB loss: 0.043933
+Epoch: [15/20] Iter:[110/292], Time: 1.00, lr: [1.3540048825185075e-07], Loss: 1.254670, Acc:0.586266, Semantic loss: 0.119636, BCE loss: 1.090908, SB loss: 0.044125
+Epoch: [15/20] Iter:[120/292], Time: 1.00, lr: [1.3449748309639541e-07], Loss: 1.251171, Acc:0.585921, Semantic loss: 0.119313, BCE loss: 1.087633, SB loss: 0.044226
+Epoch: [15/20] Iter:[130/292], Time: 1.00, lr: [1.335938037984109e-07], Loss: 1.246950, Acc:0.584151, Semantic loss: 0.119586, BCE loss: 1.083157, SB loss: 0.044207
+Epoch: [15/20] Iter:[140/292], Time: 1.00, lr: [1.3268944478008105e-07], Loss: 1.239924, Acc:0.582394, Semantic loss: 0.120501, BCE loss: 1.074963, SB loss: 0.044460
+Epoch: [15/20] Iter:[150/292], Time: 1.00, lr: [1.317844003748154e-07], Loss: 1.256429, Acc:0.584113, Semantic loss: 0.120729, BCE loss: 1.091257, SB loss: 0.044444
+Epoch: [15/20] Iter:[160/292], Time: 1.00, lr: [1.3087866482514788e-07], Loss: 1.262591, Acc:0.582378, Semantic loss: 0.120913, BCE loss: 1.097204, SB loss: 0.044474
+Epoch: [15/20] Iter:[170/292], Time: 1.00, lr: [1.299722322805687e-07], Loss: 1.255906, Acc:0.581166, Semantic loss: 0.120891, BCE loss: 1.090628, SB loss: 0.044387
+Epoch: [15/20] Iter:[180/292], Time: 1.00, lr: [1.2906509679528736e-07], Loss: 1.253758, Acc:0.579542, Semantic loss: 0.121488, BCE loss: 1.087748, SB loss: 0.044522
+Epoch: [15/20] Iter:[190/292], Time: 1.00, lr: [1.2815725232592448e-07], Loss: 1.254876, Acc:0.580712, Semantic loss: 0.121391, BCE loss: 1.088890, SB loss: 0.044596
+Epoch: [15/20] Iter:[200/292], Time: 1.00, lr: [1.2724869272912816e-07], Loss: 1.255916, Acc:0.579624, Semantic loss: 0.121544, BCE loss: 1.089800, SB loss: 0.044572
+Epoch: [15/20] Iter:[210/292], Time: 1.00, lr: [1.2633941175911367e-07], Loss: 1.264034, Acc:0.579825, Semantic loss: 0.121582, BCE loss: 1.097891, SB loss: 0.044562
+Epoch: [15/20] Iter:[220/292], Time: 1.00, lr: [1.2542940306512173e-07], Loss: 1.263743, Acc:0.580076, Semantic loss: 0.121719, BCE loss: 1.097497, SB loss: 0.044527
+Epoch: [15/20] Iter:[230/292], Time: 1.00, lr: [1.245186601887932e-07], Loss: 1.261039, Acc:0.577913, Semantic loss: 0.122478, BCE loss: 1.093742, SB loss: 0.044818
+Epoch: [15/20] Iter:[240/292], Time: 1.00, lr: [1.2360717656145572e-07], Loss: 1.261089, Acc:0.577318, Semantic loss: 0.122376, BCE loss: 1.093908, SB loss: 0.044805
+Epoch: [15/20] Iter:[250/292], Time: 1.00, lr: [1.2269494550131972e-07], Loss: 1.257725, Acc:0.576012, Semantic loss: 0.122487, BCE loss: 1.090429, SB loss: 0.044810
+Epoch: [15/20] Iter:[260/292], Time: 1.00, lr: [1.2178196021057883e-07], Loss: 1.258016, Acc:0.574530, Semantic loss: 0.122711, BCE loss: 1.090349, SB loss: 0.044956
+Epoch: [15/20] Iter:[270/292], Time: 0.99, lr: [1.208682137724113e-07], Loss: 1.256737, Acc:0.574534, Semantic loss: 0.122715, BCE loss: 1.089143, SB loss: 0.044880
+Epoch: [15/20] Iter:[280/292], Time: 0.99, lr: [1.1995369914787865e-07], Loss: 1.253716, Acc:0.573172, Semantic loss: 0.122736, BCE loss: 1.086050, SB loss: 0.044931
+Epoch: [15/20] Iter:[290/292], Time: 1.00, lr: [1.190384091727153e-07], Loss: 1.251584, Acc:0.572902, Semantic loss: 0.122838, BCE loss: 1.083782, SB loss: 0.044964
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+0 [0.         0.47118637 0.26823707 0.12875794 0.3460336  0.18040738
+ 0.20818037 0.05821016] 0.23728755559900824
+1 [0.         0.50069914 0.31856282 0.333427   0.46545526 0.08136427
+ 0.2538383  0.43355164] 0.3409854897361703
+=> saving checkpoint to output/loveDa/pidnet_small_loveda_3b_AUG_CHANCE+AUG2+AUG3checkpoint.pth.tar
+Loss: 1.186, MeanIU:  0.3410, Best_mIoU:  0.3509
+[0.         0.50069914 0.31856282 0.333427   0.46545526 0.08136427
+ 0.2538383  0.43355164]
+Epoch: [16/20] Iter:[0/292], Time: 0.86, lr: [1.1545148465514295e-07], Loss: 1.833087, Acc:0.642478, Semantic loss: 0.131216, BCE loss: 1.662085, SB loss: 0.039786
+Epoch: [16/20] Iter:[10/292], Time: 1.00, lr: [1.145614935857176e-07], Loss: 1.257360, Acc:0.575732, Semantic loss: 0.115714, BCE loss: 1.098844, SB loss: 0.042803
+Epoch: [16/20] Iter:[20/292], Time: 1.00, lr: [1.1367073361552844e-07], Loss: 1.301740, Acc:0.590783, Semantic loss: 0.117584, BCE loss: 1.140571, SB loss: 0.043586
+Epoch: [16/20] Iter:[30/292], Time: 1.00, lr: [1.1277919737366384e-07], Loss: 1.285488, Acc:0.577274, Semantic loss: 0.115893, BCE loss: 1.126775, SB loss: 0.042821
+Epoch: [16/20] Iter:[40/292], Time: 0.99, lr: [1.1188687735312895e-07], Loss: 1.253066, Acc:0.575243, Semantic loss: 0.117560, BCE loss: 1.091825, SB loss: 0.043682
+Epoch: [16/20] Iter:[50/292], Time: 0.99, lr: [1.1099376590710344e-07], Loss: 1.247617, Acc:0.569882, Semantic loss: 0.119504, BCE loss: 1.083589, SB loss: 0.044523
+Epoch: [16/20] Iter:[60/292], Time: 1.00, lr: [1.1009985524506297e-07], Loss: 1.268769, Acc:0.571817, Semantic loss: 0.121759, BCE loss: 1.101763, SB loss: 0.045247

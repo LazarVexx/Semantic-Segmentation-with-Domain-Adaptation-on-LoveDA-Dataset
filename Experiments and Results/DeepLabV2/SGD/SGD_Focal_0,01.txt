@@ -1,0 +1,111 @@
+
+  check_for_updates()
+batch_size = 6
+lr = 0.01
+Downloading: "https://download.pytorch.org/models/resnet101-63fe2227.pth" to /root/.cache/torch/hub/checkpoints/resnet101-63fe2227.pth
+100%|██████████| 171M/171M [00:01<00:00, 150MB/s]
+Optimizer: SGD
+Criterion: FocalLoss
+Scheduler: CosineAnnealingLR
+Epoch 1/20: 100%|██████████| 228/228 [04:32<00:00,  1.19s/it]
+Epoch [1/20] - Loss: 1.0805
+Validation: 100%|██████████| 166/166 [02:11<00:00,  1.26it/s]
+/usr/local/lib/python3.11/dist-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+Validation - Loss: 0.8923, IoU: 0.1456, Latency: 0.038359 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 2/20: 100%|██████████| 228/228 [04:39<00:00,  1.23s/it]
+Epoch [2/20] - Loss: 0.6155
+Validation: 100%|██████████| 166/166 [02:11<00:00,  1.27it/s]
+Validation - Loss: 0.9238, IoU: 0.1706, Latency: 0.031706 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 3/20: 100%|██████████| 228/228 [04:40<00:00,  1.23s/it]
+Epoch [3/20] - Loss: 0.5534
+Validation: 100%|██████████| 166/166 [02:12<00:00,  1.25it/s]
+Validation - Loss: 1.2563, IoU: 0.1572, Latency: 0.033361 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 4/20: 100%|██████████| 228/228 [04:38<00:00,  1.22s/it]
+Epoch [4/20] - Loss: 0.5033
+Validation: 100%|██████████| 166/166 [02:13<00:00,  1.24it/s]
+Validation - Loss: 0.8348, IoU: 0.1833, Latency: 0.033358 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 5/20: 100%|██████████| 228/228 [04:39<00:00,  1.23s/it]
+Epoch [5/20] - Loss: 0.4872
+Validation: 100%|██████████| 166/166 [02:11<00:00,  1.26it/s]
+Validation - Loss: 1.0677, IoU: 0.1925, Latency: 0.032991 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 6/20: 100%|██████████| 228/228 [04:38<00:00,  1.22s/it]
+Epoch [6/20] - Loss: 0.4680
+Validation: 100%|██████████| 166/166 [02:11<00:00,  1.26it/s]
+Validation - Loss: 1.2196, IoU: 0.1700, Latency: 0.032930 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 7/20: 100%|██████████| 228/228 [04:40<00:00,  1.23s/it]
+Epoch [7/20] - Loss: 0.4473
+Validation: 100%|██████████| 166/166 [02:12<00:00,  1.26it/s]
+Validation - Loss: 1.5727, IoU: 0.2149, Latency: 0.032703 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 8/20: 100%|██████████| 228/228 [04:39<00:00,  1.23s/it]
+Epoch [8/20] - Loss: 0.4416
+Validation: 100%|██████████| 166/166 [02:12<00:00,  1.25it/s]
+Validation - Loss: 0.7981, IoU: 0.2305, Latency: 0.032835 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 9/20: 100%|██████████| 228/228 [04:40<00:00,  1.23s/it]
+Epoch [9/20] - Loss: 0.4139
+Validation: 100%|██████████| 166/166 [02:11<00:00,  1.26it/s]
+Validation - Loss: 0.7107, IoU: 0.2308, Latency: 0.032868 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 10/20: 100%|██████████| 228/228 [04:40<00:00,  1.23s/it]
+Epoch [10/20] - Loss: 0.3968
+Validation: 100%|██████████| 166/166 [02:11<00:00,  1.26it/s]
+Validation - Loss: 0.7961, IoU: 0.2385, Latency: 0.032135 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 11/20: 100%|██████████| 228/228 [04:40<00:00,  1.23s/it]
+Epoch [11/20] - Loss: 0.3930
+Validation: 100%|██████████| 166/166 [02:12<00:00,  1.26it/s]
+Validation - Loss: 0.8152, IoU: 0.2365, Latency: 0.032633 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 12/20: 100%|██████████| 228/228 [04:41<00:00,  1.23s/it]
+Epoch [12/20] - Loss: 0.3797
+Validation: 100%|██████████| 166/166 [02:12<00:00,  1.25it/s]
+Validation - Loss: 0.9151, IoU: 0.2246, Latency: 0.034029 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 13/20: 100%|██████████| 228/228 [04:40<00:00,  1.23s/it]
+Epoch [13/20] - Loss: 0.3705
+Validation: 100%|██████████| 166/166 [02:12<00:00,  1.26it/s]
+Validation - Loss: 0.7885, IoU: 0.2483, Latency: 0.032538 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 14/20: 100%|██████████| 228/228 [04:40<00:00,  1.23s/it]
+Epoch [14/20] - Loss: 0.3740
+Validation: 100%|██████████| 166/166 [02:12<00:00,  1.25it/s]
+Validation - Loss: 0.8131, IoU: 0.2330, Latency: 0.033980 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 15/20: 100%|██████████| 228/228 [04:39<00:00,  1.23s/it]
+Epoch [15/20] - Loss: 0.3615
+Validation: 100%|██████████| 166/166 [02:11<00:00,  1.26it/s]
+Validation - Loss: 0.8603, IoU: 0.2355, Latency: 0.031798 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 16/20: 100%|██████████| 228/228 [04:40<00:00,  1.23s/it]
+Epoch [16/20] - Loss: 0.3604
+Validation: 100%|██████████| 166/166 [02:12<00:00,  1.25it/s]
+Validation - Loss: 0.8136, IoU: 0.2413, Latency: 0.031777 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 17/20: 100%|██████████| 228/228 [04:42<00:00,  1.24s/it]
+Epoch [17/20] - Loss: 0.3509
+Validation: 100%|██████████| 166/166 [02:12<00:00,  1.25it/s]
+Validation - Loss: 0.7600, IoU: 0.2532, Latency: 0.031329 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 18/20: 100%|██████████| 228/228 [04:41<00:00,  1.23s/it]
+Epoch [18/20] - Loss: 0.3400
+Validation: 100%|██████████| 166/166 [02:11<00:00,  1.26it/s]
+Validation - Loss: 0.7445, IoU: 0.2761, Latency: 0.030664 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 19/20: 100%|██████████| 228/228 [04:41<00:00,  1.24s/it]
+Epoch [19/20] - Loss: 0.3330
+Validation: 100%|██████████| 166/166 [02:11<00:00,  1.26it/s]
+Validation - Loss: 0.9572, IoU: 0.2675, Latency: 0.030221 sec
+FLOPs: 1.10e+12, Params: 6.14e+07
+Epoch 20/20: 100%|██████████| 228/228 [04:42<00:00,  1.24s/it]
+Epoch [20/20] - Loss: 0.3309
+Validation: 100%|██████████| 166/166 [02:12<00:00,  1.25it/s]
+Validation - Loss: 0.8936, IoU: 0.2466, Latency: 0.030632 sec
+FLOPs: 1.10e+12, Params: 6.14e+07

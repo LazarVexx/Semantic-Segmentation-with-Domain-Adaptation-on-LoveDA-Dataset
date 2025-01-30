@@ -7,9 +7,10 @@ This repository implements and benchmarks advanced semantic segmentation archite
 - **CycleGAN** (Domain translation)
 - **PEM** (Prototype-based segmentation)
 
-In ResultTable.md you will find the result of our experiments. 
+In ResultTable.md and in "Experiments and Results" folders you will find the result of our experiments. 
 
-### For additional information:     [![Paper](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2110.08733) 
+### For additional information:
+In the .pdf file in s327313_s324807_s326811_project4.pdf 
 
 
 

@@ -35,7 +35,6 @@ All the model are on Google Colab, ready-to-run or in locally.
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ywc1VuXIAH3tmSfRn8ev3yvSJDGAvSxF?usp=sharing)
 - Atrous convolutions for dense feature extraction
 - ASPP module for multi-scale context
-- CRF post-processing
 
 ### ⚡ PIDNet 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/126h9tjDoQ4w1jrmareDz9scs8UbT5VMe?usp=sharing)

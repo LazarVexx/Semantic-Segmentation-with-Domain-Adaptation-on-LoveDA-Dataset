@@ -54,6 +54,9 @@ In run.sh  you will find all the commands to start the trainings.
 
 ### 🔄 CycleGAN 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1coAv3KDPPzsrPN3k-t6qIDQ5AKYw-kEP?usp=sharing)
+
+Dataset CycleGAN LoveDa-Urban images: https://zenodo.org/records/14739456
+
 - Unpaired image-to-image translation
 - Cycle-consistency loss
 - Semantic-guided style transfer

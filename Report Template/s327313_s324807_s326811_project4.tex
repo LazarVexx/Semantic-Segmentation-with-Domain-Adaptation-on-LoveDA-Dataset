@@ -305,70 +305,82 @@ PIDNet DACS & 0.2918 & 0.5454 & 0.3345 & 0.2913 & 0.4343 & 0.1016 & 0.2310 & 0.3
 \afterpage{
     \begin{figure*}[t]
         \centering
-        \begin{minipage}{0.48\textwidth} % Left block
+        \begin{minipage}{0.48\textwidth} 
             \centering
             \captionsetup{font=small}
             \begin{subfigure}[b]{0.4\textwidth}
                 \includegraphics[width=\textwidth]{images/1410.png}
                 \caption{Source Image A}
-                \label{fig:image1}
+                \label{fig:image1410}
             \end{subfigure}
             \hspace{2mm}
             \begin{subfigure}[b]{0.4\textwidth}
                 \includegraphics[width=\textwidth]{images/1410_fake.png}
                 \caption{CycleGAN Image A}
-                \label{fig:image2}
+                \label{fig:image1410_fake}
             \end{subfigure}
             \vskip\baselineskip
             \begin{subfigure}[b]{0.4\textwidth}
                 \includegraphics[width=\textwidth]{images/1457.png}
                 \caption{Source Image B}
-                \label{fig:image3}
+                \label{fig:image1457}
             \end{subfigure}
             \hspace{2mm}
             \begin{subfigure}[b]{0.4\textwidth}
                 \includegraphics[width=\textwidth]{images/1457_fake.png}
                 \caption{CycleGAN Image B}
-                \label{fig:image4}
+                \label{fig:image1457_fake}
             \end{subfigure}
-            \caption{Comparison between original images and CycleGAN-generated images (Left Block).}
-            \label{fig:left_block}
+            \vskip\baselineskip
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/1508.png}
+                \caption{Source Image B}
+                \label{fig:image1508}
+            \end{subfigure}
+            \hspace{2mm}
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/1508_fake.png}
+                \caption{CycleGAN Image B}
+                \label{fig:image1508_fake}
+            \end{subfigure}
+            \caption{Comparison between original images and CycleGAN-generated images}
+            \label{fig:CycleGAN}  
         \end{minipage}
         \hfill
-        \begin{minipage}{0.48\textwidth} % Right block
+        \begin{minipage}{0.48\textwidth} 
             \centering
             \captionsetup{font=small}
-            \begin{subfigure}[b]{0.4\textwidth}
+            \begin{subfigure}[b]{0.41\textwidth}
                 \includegraphics[width=\textwidth]{images/dacs_source_im.png}
                 \caption{Source Image}
             \end{subfigure}
             \hspace{2mm}
-            \begin{subfigure}[b]{0.4\textwidth}
+            \begin{subfigure}[b]{0.41\textwidth}
                 \includegraphics[width=\textwidth]{images/dacs_source_lb.png}
                 \caption{Source Label}
             \end{subfigure}
             \vskip\baselineskip
-            \begin{subfigure}[b]{0.4\textwidth}
+            \begin{subfigure}[b]{0.41\textwidth}
                 \includegraphics[width=\textwidth]{images/dacs_target_im.png}
                 \caption{Target Image}
             \end{subfigure}
             \hspace{2mm}
-            \begin{subfigure}[b]{0.4\textwidth}
+            \begin{subfigure}[b]{0.41\textwidth}
                 \includegraphics[width=\textwidth]{images/dacs_target_lb.png}
                 \caption{Target Pseudo-label}
             \end{subfigure}
             \vskip\baselineskip
-            \begin{subfigure}[b]{0.4\textwidth}
+            \begin{subfigure}[b]{0.41\textwidth}
                 \includegraphics[width=\textwidth]{images/dacs_mixed_im.png}
                 \caption{Mixed Image}
             \end{subfigure}
             \hspace{2mm}
-            \begin{subfigure}[b]{0.4\textwidth}
+            \begin{subfigure}[b]{0.41\textwidth}
                 \includegraphics[width=\textwidth]{images/dacs_mixed_lb.png}
                 \caption{Mixed Label}
             \end{subfigure}
-            \caption{Another set of comparisons (Right Block).}
-            \label{fig:right_block}
+            \caption{DACS: Source, Target, and Mixed Images}
+            \label{fig:DACS}
         \end{minipage}
     \end{figure*}
 

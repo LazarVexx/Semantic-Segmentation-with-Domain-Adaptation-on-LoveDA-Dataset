@@ -84,8 +84,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
        
         source_images, source_labels, source_bd_gts = source_images.cuda(), source_labels.long().cuda(), source_bd_gts.float().cuda()
 
-        #visualize_images(source_images[0])
-        #visualize_segmentation(source_labels[0])
+        visualize_images(source_images[0])
+        visualize_segmentation(source_labels[0])
 
         # --- Compute source loss ---
         source_model = model(source_images, source_labels, source_bd_gts)
@@ -100,6 +100,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         target_labels = target_data[1]
         target_bd_gts = target_data[2]
         target_images, target_labels, target_bd_gts = target_images.cuda(), target_labels.long().cuda(), target_bd_gts.float().cuda()
+        
 
         # --- Apply augmentations to target domain ---
         #augmented_target_images = augmentations(target_images)
@@ -122,8 +123,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         avg_bce_loss.update(target_loss.mean().item())
 
 
-        #visualize_images(target_images[0])
-        #visualize_segmentation(pseudo_labels[0])
+        visualize_images(target_images[0])
+        visualize_segmentation(pseudo_labels[0])
 
         # --- Apply MixUp augmentation between source and target images ---
         mixed_images, mixed_labels, mixed_bd_gts = classmix_fn(source_images, source_labels, target_images, pseudo_labels, source_bd_gts, target_bd_gts)
@@ -133,8 +134,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         mixup_loss = mixup_loss.mean()
         
         
-        #visualize_images(mixed_images[0])
-        #isualize_segmentation(mixed_labels[0])
+        visualize_images(mixed_images[0])
+        visualize_segmentation(mixed_labels[0])
 
         # --- Compute total loss ---
         mixup_loss_weight = 0.5

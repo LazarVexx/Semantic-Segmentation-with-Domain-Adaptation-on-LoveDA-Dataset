@@ -61,7 +61,7 @@ In this section, we provide an overview of the state-of-the-art models and techn
 
 \subsection{DeepLabV2}
 
-DeepLab has played a pivotal role in advancing semantic segmentation by overcoming key challenges in traditional deep convolutional neural networks (DCNNs), including resolution loss, scale variability, and poor boundary localization \cite{chen2017deeplab}. DeepLab V2 specifically addresses these issues through three major contributions: atrous convolution, Atrous Spatial Pyramid Pooling (ASPP), and Fully Connected Conditional Random Fields (CRFs).
+DeepLab has played a important role in advancing semantic segmentation by overcoming key challenges in traditional deep convolutional neural networks (DCNNs), including resolution loss, scale variability, and poor boundary localization \cite{chen2017deeplab}. DeepLab V2 specifically addresses these issues through three major contributions: atrous convolution, Atrous Spatial Pyramid Pooling (ASPP), and Fully Connected Conditional Random Fields (CRFs).
 Atrous convolution, or dilated convolution, mitigates resolution loss by expanding the receptive field without increasing computational costs or reducing spatial resolution. This enables accurate pixel-level predictions while preserving fine details. To tackle scale variability, the ASPP module aggregates multi-scale contextual information using parallel atrous convolutions with varying dilation rates, ensuring robustness to objects appearing at different sizes. Finally, Fully Connected CRFs refine segmentation results by modeling pixel relationships based on spatial proximity and color similarity. This post-processing step enhances boundary delineation and recovers intricate object edges.
 By addressing these core challenges, DeepLab V2 has become a benchmark framework in semantic segmentation, achieving high-resolution predictions, robust multi-scale representations, and precise boundary localization. Its innovations have significantly influenced subsequent research, setting a new standard for segmentation methodologies.
 DeepLabv2 was used in our project in the first experiments to evaluate its performance in domain adaptation scenarios and to better understand the behaviour of a classic segmentation network.
@@ -173,7 +173,6 @@ L_{\text{GAN}}(G, D_Y, X, Y) &= \mathbb{E}_{y \sim p_{\text{data}}(y)} \left[ \l
 \end{align}
 where \(G\) aims to generate images \(G(x)\) that resemble real images from domain \(Y\), while \(D_Y\) seeks to distinguish between the translated samples \(G(x)\) and the real samples \(y\). \(G\) attempts to minimize this objective against an adversarial discriminator \(D_Y\) that tries to maximize it.
 Similarly, an adversarial loss is used for the mapping function \(F: Y \rightarrow X\) and its discriminator \(D_X\).
-
 There is also a forward cycle consistency. Similarly, for each image \( y \) from domain \( Y \), the mappings \( G \) and \( F \) should satisfy backward cycle consistency:
 \[
 y \xrightarrow{F} F(y) \xrightarrow{G} G(F(y)) \approx y.
@@ -237,6 +236,7 @@ L_{\text{cyc}}(G, F) &= \mathbb{E}_{x \sim p_{\text{data}}(x)} \left[ \| F(G(x))
 
 \noindent
 
+
 \section{Experiments and results}
 \label{sec:experiments}
 
@@ -247,7 +247,7 @@ For the experiments, we have chosen bottleneck layer with Convolutional Layer th
 
 We evaluated the performance of the DeepLabV2 model on the LoveDA-Urban dataset using both the training and validation splits for 20 epochs. The experiments focused on testing various combinations of optimizers, loss functions, learning rates while maintaining a fixed input image size of 720×720 pixels. The performance metric used for evaluation were the mean Intersection over Union (mIoU), the latency as time (in seconds) required to process a single image during validation, FLOPs to estimate the total number of floating-point operations required for a forward pass through the network, Parameters as the total number of trainable parameters in the model.
 
-The configurations and results are summarized in the Table 1. We conducted experiments using two optimizers: Adam and SGD, with four loss functions: Cross Entropy (CE), Dice Loss, Focal Loss, and Optimized Cross Entropy (OCE). All experiments used a learning rate scheduler to adjust the learning rate dynamically during training. Two learning rates were tested: 0.001 and 0.01.
+The configurations and results are summarized in the Table 1. We conducted experiments using two optimizers: Adam and SGD, with four loss functions: Cross Entropy (CE), Dice Loss, Focal Loss, and Optimized Cross Entropy (OCE). All experiments used Cosine Annealing Learning Rate Scheduler to adjust the learning rate dynamically during training. Two learning rates were tested: 0.001 and 0.01.
 
 For ADAM optimizer, among the loss functions tested, the Cross Entropy loss achieved the highest bestIoU (0.2734). The Dice Loss performed the worst with an mIoU of 0.1323.
 
@@ -305,35 +305,89 @@ PIDNet DACS & 0.2918 & 0.5454 & 0.3345 & 0.2913 & 0.4343 & 0.1016 & 0.2310 & 0.3
 \afterpage{
     \begin{figure*}[t]
         \centering
-        \begin{subfigure}[b]{0.24\textwidth}
-            \includegraphics[width=\textwidth]{images/1410.png}
-            \caption{Source Image 1410}
-            \label{fig:image1}
-        \end{subfigure}
-        \hspace{2mm}
-        \begin{subfigure}[b]{0.24\textwidth}
-            \includegraphics[width=\textwidth]{images/1410_fake.png}
-            \caption{CycleGAN image 1410}
-            \label{fig:image2}
-        \end{subfigure}
-        \vskip\baselineskip
-        \begin{subfigure}[b]{0.24\textwidth}
-            \includegraphics[width=\textwidth]{images/1457.png}
-            \caption{Source Image 1457}
-            \label{fig:image3}
-        \end{subfigure}
-        \hspace{2mm}
-        \begin{subfigure}[b]{0.24\textwidth}
-            \includegraphics[width=\textwidth]{images/1457_fake.png}
-            \caption{CycleGAN image 1457}
-            \label{fig:image4}
-        \end{subfigure}
-        \caption{Comparison between original source images and CycleGAN-generated fake images}
-        \label{fig:four_images}
+        \begin{minipage}{0.48\textwidth} % Left block
+            \centering
+            \captionsetup{font=small}
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/1410.png}
+                \caption{Source Image A}
+                \label{fig:image1}
+            \end{subfigure}
+            \hspace{2mm}
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/1410_fake.png}
+                \caption{CycleGAN Image A}
+                \label{fig:image2}
+            \end{subfigure}
+            \vskip\baselineskip
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/1457.png}
+                \caption{Source Image B}
+                \label{fig:image3}
+            \end{subfigure}
+            \hspace{2mm}
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/1457_fake.png}
+                \caption{CycleGAN Image B}
+                \label{fig:image4}
+            \end{subfigure}
+            \caption{Comparison between original images and CycleGAN-generated images (Left Block).}
+            \label{fig:left_block}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.48\textwidth} % Right block
+            \centering
+            \captionsetup{font=small}
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/dacs_source_im.png}
+                \caption{Source Image}
+            \end{subfigure}
+            \hspace{2mm}
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/dacs_source_lb.png}
+                \caption{Source Label}
+            \end{subfigure}
+            \vskip\baselineskip
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/dacs_target_im.png}
+                \caption{Target Image}
+            \end{subfigure}
+            \hspace{2mm}
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/dacs_target_lb.png}
+                \caption{Target Pseudo-label}
+            \end{subfigure}
+            \vskip\baselineskip
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/dacs_mixed_im.png}
+                \caption{Mixed Image}
+            \end{subfigure}
+            \hspace{2mm}
+            \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{images/dacs_mixed_lb.png}
+                \caption{Mixed Label}
+            \end{subfigure}
+            \caption{Another set of comparisons (Right Block).}
+            \label{fig:right_block}
+        \end{minipage}
     \end{figure*}
+
+    \begin{table*}[t]
+    \centering
+    \resizebox{1\textwidth}{!}{
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    \textbf{Model} & \textbf{Training Set} & \textbf{Target Set} & \textbf{Test Set} & \textbf{mIoU} & \textbf{Building} & \textbf{Road} & \textbf{Water} & \textbf{Barren} & \textbf{Forest} & \textbf{Grassland} & \textbf{Farmland} \\
+    \hline
+    PIDNet & CycleGAN LoveDa-Urban & LoveDa-Rural & CycleGAN LoveDa-Urban & 0.4035 & 0.3508 & 0.4845 & 0.5442 & 0.6434 & 0.0919 & 0.3659 & 0.3440 \\
+    \hline
+    PIDNet & CycleGAN LoveDa-Urban & LoveDa-Rural & LoveDa-Rural & 0.2880 & 0.5127 & 0.1962 & 0.3027 & 0.4716 & 0.0625 & 0.0353 & 0.4349 \\
+    \hline
+    \end{tabular}
+    }
+    \caption{Performance of PIDNet with CycleGAN-generated Fake Images}
+    \end{table*}
 }
-
-
 
 \subsection{Data Augmentation Experiments}
 
@@ -348,7 +402,6 @@ When augmentations are combined, mixed results are observed. AUG1 combined with 
 After analyzing the results, we conclude that AUG2 and AUG3 are the most effective augmentation techniques for enhancing domain adaptation performance in the LoveDA dataset. This configuration will be used for next two experiments, the Adversarial Learning and the DACS.
 
 \subsection{Adversarial Learning Experiments}
-
 The Adversarial Learning technique was implemented to enhance the PIDNet model's performance in domain adaptation scenarios. The model was trained on the LoveDA-Urban domain and tested on the LoveDA-Rural domain to evaluate its ability to generalize across different environments. The results of the experiments are presented in Table 4.
 The experimental results demonstrate that the baseline PIDNet model achieves an mIoU of 0.3509 when tested on the LoveDA-Rural domain, while the adversarial multi-state variant (PIDNet-ADV) shows a decrease in performance with an mIoU of 0.2770. The class-wise analysis reveals that PIDNet maintains superior performance across most categories, with notable advantages in Barren (+10.88\%), Water (+7.28\%), and particularly Grassland (+22.80\%). However, PIDNet-ADV exhibits marginally better performance in Forest class (+2.34\%). This performance degradation in the adversarial variant suggests that while adversarial training might enhance robustness, it could potentially compromise the model's ability to generalize effectively across domain shifts, particularly in the challenging urban-to-rural transfer scenario characteristic of the LoveDA dataset.
 
@@ -361,63 +414,42 @@ The picture 4 show the obtained pseudolabels and the mixing result considering s
 
 
 \subsection{PEM Experiments}
-The PEM model achieves an mIoU of 46.85\% when trained on CycleGAN-transformed LoveDA-Urban data and tested on LoveDA-Rural, outperforming both PIDNet variants in the same cross-domain scenario. Specifically, PIDNet with CycleGAN-transformed training data achieves an mIoU of 28.80\%, while the augmented PIDNet reaches an mIoU of 35.09\%. This suggests that PEM's architecture might be more effective at leveraging CycleGAN-transformed data for domain adaptation compared to PIDNet. For reference, PEM's performance on single-domain scenarios shows an mIoU of 64.44\% for urban and 44.59\% for rural environments, highlighting the inherent challenges in rural scene segmentation regardless of the adaptation strategy employed.
+The PEM model achieves an mIoU of 0.4685 when trained on CycleGAN-transformed LoveDA-Urban data and tested on LoveDA-Rural, outperforming both PIDNet variants in the same cross-domain scenario. Specifically, PIDNet with CycleGAN-transformed training data achieves an mIoU of 0.2880, while the augmented PIDNet reaches an mIoU of 0.3509. This suggests that PEM's architecture might be more effective at leveraging CycleGAN-transformed data for domain adaptation compared to PIDNet. For reference, PEM's performance on single-domain scenarios shows an mIoU of 0.6444 for urban and 0.4459 for rural environments, highlighting the inherent challenges in rural scene segmentation regardless of the adaptation strategy employed.
+
+\begin{table}[H]
+\centering
+\resizebox{1\columnwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{Training Set} & \textbf{Test Set} & \textbf{mIoU} & \textbf{mACC}  \\
+\hline
+PEM-URBAN & LoveDa-Urban & LoveDa-Urban & 0.6444  & 75.1795  \\
+\hline
+PEM-RURAL & LoveDa-Rural & LoveDa-Rural & 0.4458 & 54.6906  \\
+\hline
+PEM-CycleGAN & CycleGAN LoveDa-Urban & LoveDa-Rural & 0.4685 & 62.2863 \\
+\hline
+\end{tabular}
+}
+\caption{Performance of PEM Model with Different Training and Test Sets}
+\end{table}
 
 \subsection{CycleGAN Experiments}
 The Generators model are based on ResNet architecture, to mitigate Vanishing Gradient. The Discriminator Networks are built using a basic CNN architecture. As adversarial loss function the least-squares loss is used. To stabilize the training of the discriminators are used image pools to store previously generated fake images, rather than always using the most recent generated fake image, to prevent the discriminators from overfitting to recent examples. The optimizer used is Adam, the batch size is equal to 1, and learning rate equal to 0.0002. The model was trained for 27 epochs. 
 After training, only the Generator $Urban \Rightarrow Rural$
-it taken and applied on just the Urban train images to obtain the transformed fake dataset.
+is taken and applied on just the Urban train images to obtain the transformed fake dataset.
+We use the fake images dataset to train the PidNet in the case of both training and validation with Urban, and in the case of training with Urban and validation on Rural. Here are the results of the validation.
 
 
-We use the fake images dataset to train the PidNet with the configurations of the (REFERENCE TO CONFIGURATION OF 2b and of 3b). Here are the results of the validation.
-
-
-\begin{table}[ht]
-\centering
-\resizebox{1\columnwidth}{!}{
-\begin{tabular}{|c|c|c|}
-\hline
-\textbf{Model} & \textbf{Epochs} & \textbf{mIoU} \\ \hline
-CycleGAN: 2b Best on Fake Images & 20 & 0.39008033876408 \\ \hline
-CycleGAN: 3b Best on Fake Images & 20 & 0.2850493589319477 \\ \hline
-\end{tabular}
-}
-\caption{Performance of PIDNet on Fake Images}
-\end{table}
-
-\vspace{4cm}
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.3\columnwidth}
-        \includegraphics[width=\columnwidth]{images/1410.png}
-        \caption{Source Image 1410}
-        \label{fig:image1410}
-    \end{subfigure}
-    \hspace{2mm}
-    \begin{subfigure}[b]{0.3\columnwidth}
-        \includegraphics[width=\columnwidth]{images/1410_fake.png}
-        \caption{CycleGAN image 1410}
-        \label{fig:image1410CycleGan}
-    \end{subfigure}
-    \vskip\baselineskip
-    \begin{subfigure}[b]{0.3\columnwidth}
-        \includegraphics[width=\columnwidth]{images/1457.png}
-        \caption{Source Image 1457}
-        \label{fig:image1410CycleGan}
-    \end{subfigure}
-    \hspace{2mm}
-    \begin{subfigure}[b]{0.3\columnwidth}
-        \includegraphics[width=\columnwidth]{images/1457_fake.png}
-        \caption{CycleGAN image 1457}
-        \label{fig:image1410CycleGan}
-    \end{subfigure}
-    \caption{Comparison between original source images and CycleGAN-generated fake images}
-    \label{fig:four_images}
-\end{figure}
 
 \clearpage
+
+When there is a large diversity gap in class distributions between domains, CycleGAN may fail to capture the true variability of the rural domain when transforming urban images (or vice versa). This means that the generated "fake rural" images from urban inputs may not fully resemble the rural domain distribution, leading to unrealistic or biased transformations.
+This could explain why training PIDNet on transformed images does not yield better performance neither for the former configuration nor for the latter: the biased synthetic images seem not to add useful diversity or meaningful domain adaptation.
+
+
+
 \section{Conclusion}
-%%%%%%%%% REFERENCES
 
 In this project, we explored various methodologies to enhance the performance of semantic segmentation models in domain adaptation scenarios. We evaluated the DeepLabV2 and PIDNet models on the LoveDA dataset, focusing on urban-to-rural domain shifts. Our experiments revealed that PIDNet with Adam optimizer, OCE loss, and a learning rate scheduler at 720×720 resolution achieved the best performance, with an mIoU of 0.4368. Data augmentation techniques, particularly AUG2 and AUG3, significantly improved segmentation quality, demonstrating the importance of dataset diversity in domain adaptation. Adversarial learning and DACS, however, did not yield the expected improvements, suggesting that these techniques may not be well-suited for the LoveDA dataset. PEM, a transformer-based architecture, outperformed PIDNet in domain adaptation, achieving an mIoU of 0.4685. Finally, CycleGAN-generated fake images were used to train PIDNet, resulting in an mIoU of 0.3901, showcasing the potential of image-to-image translation for domain adaptation. 
 

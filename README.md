@@ -18,8 +18,8 @@ In the .pdf file in s327313_s324807_s326811_project4.pdf
 
 ### Basic Setup
 ```
-git clone https://github.com/LucaIanniello/AML2024
-cd AML2024
+git clone https://github.com/LazarVexx/Semantic-Segmentation-with-Domain-Adaptation-on-LoveDA-Dataset.git
+cd Semantic-Segmentation-with-Domain-Adaptation-on-LoveDA-Dataset
 ```
 
 **System Requirements**:
